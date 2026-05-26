@@ -1,0 +1,63 @@
+[
+  {
+    "id": "start",
+    "type": "background",
+    "src": "/backgrounds/school.jpg",
+    "next": "intro_1"
+  },
+  {
+    "id": "intro_1",
+    "type": "sprite",
+    "character": "Aria",
+    "src": "/sprites/aria_neutral.png",
+    "position": "center",
+    "next": "intro_2"
+  },
+  {
+    "id": "intro_2",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Oh! I didn't expect to run into you here.",
+    "next": "intro_3"
+  },
+  {
+    "id": "intro_3",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Were you looking for me, or is this just a coincidence?",
+    "next": "choice_1"
+  },
+  {
+    "id": "choice_1",
+    "type": "choice",
+    "choices": [
+      { "label": "I was looking for you.", "goto": "branch_looking" },
+      { "label": "Just a coincidence.", "goto": "branch_coincidence" }
+    ]
+  },
+  {
+    "id": "branch_looking",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Really? That's... kind of sweet, actually.",
+    "next": "ending"
+  },
+  {
+    "id": "branch_coincidence",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Ha, sure. I'll believe that.",
+    "next": "ending"
+  },
+  {
+    "id": "ending",
+    "type": "dialogue",
+    "character": null,
+    "text": "The afternoon light faded as the two walked home together.",
+    "next": "end"
+  },
+  {
+    "id": "end",
+    "type": "end"
+  }
+]
