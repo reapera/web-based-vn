@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 /**
  * Script node types:
@@ -9,13 +9,31 @@ import { useState, useCallback } from 'react';
  *   end       – { id, type:"end" }
  */
 
+const NON_INTERACTIVE = new Set(['background', 'sprite']);
+
 export function useVNEngine(script) {
-  const nodeMap = Object.fromEntries(script.map((n) => [n.id, n]));
+  const nodeMap = useRef(Object.fromEntries(script.map((n) => [n.id, n]))).current;
 
   const [currentId, setCurrentId] = useState(script[0]?.id ?? null);
   const [background, setBackground] = useState(null);
   const [sprites, setSprites] = useState({});
   const [history, setHistory] = useState([]);
+
+  // Auto-process non-interactive nodes so the screen never gets stuck blank
+  useEffect(() => {
+    const node = currentId ? nodeMap[currentId] : null;
+    if (!node || !NON_INTERACTIVE.has(node.type)) return;
+
+    if (node.type === 'background') {
+      setBackground(node.src);
+    } else if (node.type === 'sprite') {
+      setSprites((s) => ({
+        ...s,
+        [node.character]: { src: node.src, position: node.position },
+      }));
+    }
+    setCurrentId(node.next ?? null);
+  }, [currentId, nodeMap]);
 
   const current = currentId ? nodeMap[currentId] : null;
 
@@ -25,7 +43,6 @@ export function useVNEngine(script) {
 
       const nextId = gotoId ?? current.next ?? null;
 
-      // Accumulate history for dialogue nodes
       if (current.type === 'dialogue') {
         setHistory((h) => [
           ...h,
@@ -33,29 +50,9 @@ export function useVNEngine(script) {
         ]);
       }
 
-      if (!nextId) return;
-
-      const next = nodeMap[nextId];
-      if (!next) {
-        console.warn(`[VNEngine] Node "${nextId}" not found.`);
-        return;
-      }
-
-      // Handle non-interactive nodes immediately
-      if (next.type === 'background') {
-        setBackground(next.src);
-        setCurrentId(next.next ?? null);
-      } else if (next.type === 'sprite') {
-        setSprites((s) => ({
-          ...s,
-          [next.character]: { src: next.src, position: next.position },
-        }));
-        setCurrentId(next.next ?? null);
-      } else {
-        setCurrentId(nextId);
-      }
+      setCurrentId(nextId);
     },
-    [current, nodeMap]
+    [current]
   );
 
   const choose = useCallback(
