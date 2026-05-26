@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700" width="400" height="700">
+  <defs>
+    <linearGradient id="k_skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5dfc0"/>
+      <stop offset="100%" stop-color="#e8c898"/>
+    </linearGradient>
+    <linearGradient id="k_hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="k_jacket" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a1e"/>
+      <stop offset="100%" stop-color="#142a14"/>
+    </linearGradient>
+    <linearGradient id="k_shirt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0f0f0"/>
+      <stop offset="100%" stop-color="#e0e0e8"/>
+    </linearGradient>
+    <linearGradient id="k_pants" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a3e"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+    <radialGradient id="k_blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e89090" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#e89090" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Shadow -->
+  <ellipse cx="200" cy="695" rx="76" ry="7" fill="#00000020"/>
+
+  <!-- ── Legs ── -->
+  <rect x="150" y="520" width="44" height="148" rx="10" fill="url(#k_pants)"/>
+  <rect x="206" y="520" width="44" height="148" rx="10" fill="url(#k_pants)"/>
+  <!-- Shoes -->
+  <rect x="140" y="656" width="58" height="22" rx="8" fill="#111"/>
+  <rect x="202" y="656" width="58" height="22" rx="8" fill="#111"/>
+
+  <!-- ── Torso / Jacket ── -->
+  <!-- Shirt base -->
+  <path d="M140,255 L112,395 L288,395 L260,255 Q200,285 200,285 Q200,285 140,255 Z" fill="url(#k_shirt)"/>
+  <!-- Jacket body -->
+  <path d="M140,255 Q115,265 112,395 L152,395 L168,268 Z" fill="url(#k_jacket)"/>
+  <path d="M260,255 Q285,265 288,395 L248,395 L232,268 Z" fill="url(#k_jacket)"/>
+  <!-- Jacket collar -->
+  <path d="M168,268 L200,296 L232,268 L218,254 L200,268 L182,254 Z" fill="url(#k_jacket)"/>
+  <!-- Tie -->
+  <path d="M192,274 L200,295 L208,274 L204,264 L200,270 L196,264 Z" fill="#7a1a1a"/>
+  <path d="M196,285 L200,302 L204,285" fill="#9a2a2a"/>
+  <!-- Jacket trim -->
+  <path d="M140,255 L168,268 L200,296 L232,268 L260,255" fill="none" stroke="#3a6a3a" stroke-width="2"/>
+  <!-- Buttons -->
+  <circle cx="200" cy="325" r="5" fill="#3a6a3a" stroke="#2a5a2a" stroke-width="1"/>
+  <circle cx="200" cy="350" r="5" fill="#3a6a3a" stroke="#2a5a2a" stroke-width="1"/>
+  <circle cx="200" cy="375" r="5" fill="#3a6a3a" stroke="#2a5a2a" stroke-width="1"/>
+
+  <!-- Arms -->
+  <path d="M140,255 Q92,310 90,395 Q104,400 120,395 Q130,328 152,272 Z" fill="url(#k_jacket)"/>
+  <ellipse cx="100" cy="404" rx="17" ry="13" fill="url(#k_skin)"/>
+  <path d="M260,255 Q308,310 310,395 Q296,400 280,395 Q270,328 248,272 Z" fill="url(#k_jacket)"/>
+  <ellipse cx="300" cy="404" rx="17" ry="13" fill="url(#k_skin)"/>
+
+  <!-- Belt -->
+  <rect x="112" y="390" width="176" height="12" rx="3" fill="#1a1a1a"/>
+  <rect x="192" y="390" width="16" height="12" fill="#888" rx="1"/>
+
+  <!-- Neck -->
+  <rect x="185" y="196" width="30" height="62" rx="10" fill="url(#k_skin)"/>
+
+  <!-- ── Head ── -->
+  <!-- Hair back -->
+  <ellipse cx="200" cy="138" rx="88" ry="98" fill="url(#k_hair)"/>
+
+  <!-- Face -->
+  <ellipse cx="200" cy="170" rx="78" ry="86" fill="url(#k_skin)"/>
+
+  <!-- Hair front / top -->
+  <path d="M116,118 Q122,50 200,44 Q278,50 284,118 Q265,80 248,86 Q228,62 200,64 Q172,62 152,86 Q135,80 116,118 Z" fill="url(#k_hair)"/>
+  <!-- Messy side bang left -->
+  <path d="M116,118 Q98,155 106,192" stroke="url(#k_hair)" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <!-- Messy fringe strand -->
+  <path d="M155,76 Q148,100 152,128" stroke="#1a1a1a" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <path d="M174,66 Q170,90 172,114" stroke="#1a1a1a" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- Right side -->
+  <path d="M284,118 Q302,155 294,192" stroke="url(#k_hair)" stroke-width="18" fill="none" stroke-linecap="round"/>
+
+  <!-- Ears -->
+  <ellipse cx="120" cy="182" rx="11" ry="15" fill="url(#k_skin)"/>
+  <ellipse cx="280" cy="182" rx="11" ry="15" fill="url(#k_skin)"/>
+
+  <!-- ── Face details ── -->
+
+  <!-- Eyes -->
+  <ellipse cx="168" cy="178" rx="20" ry="16" fill="white"/>
+  <ellipse cx="232" cy="178" rx="20" ry="16" fill="white"/>
+  <!-- Iris - dark teal/green -->
+  <ellipse cx="168" cy="180" rx="12" ry="13" fill="#1e5c4a"/>
+  <ellipse cx="232" cy="180" rx="12" ry="13" fill="#1e5c4a"/>
+  <ellipse cx="168" cy="179" rx="8" ry="9" fill="#2a7a62"/>
+  <ellipse cx="232" cy="179" rx="8" ry="9" fill="#2a7a62"/>
+  <!-- Pupils -->
+  <ellipse cx="168" cy="181" rx="5" ry="6" fill="#0a1a14"/>
+  <ellipse cx="232" cy="181" rx="5" ry="6" fill="#0a1a14"/>
+  <!-- Shine -->
+  <circle cx="174" cy="175" r="3.5" fill="white" opacity="0.9"/>
+  <circle cx="238" cy="175" r="3.5" fill="white" opacity="0.9"/>
+  <!-- Eyelashes / upper lid -->
+  <path d="M148,168 Q168,162 188,168" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M212,168 Q232,162 252,168" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Lower lid line -->
+  <path d="M150,190 Q168,194 186,190" stroke="#8a6a5a" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M214,190 Q232,194 250,190" stroke="#8a6a5a" stroke-width="1.5" fill="none" opacity="0.5"/>
+
+  <!-- Eyebrows - stronger/straighter -->
+  <path d="M148,156 Q168,150 188,154" stroke="#222" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M212,154 Q232,150 252,156" stroke="#222" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Subtle blush -->
+  <ellipse cx="150" cy="196" rx="22" ry="12" fill="url(#k_blush)"/>
+  <ellipse cx="250" cy="196" rx="22" ry="12" fill="url(#k_blush)"/>
+
+  <!-- Nose -->
+  <path d="M197,206 Q200,214 203,206" stroke="#c8986a" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Mouth - relaxed/neutral -->
+  <path d="M184,228 Q200,236 216,228" stroke="#b87060" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

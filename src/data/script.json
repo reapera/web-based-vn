@@ -4,114 +4,135 @@
     "type": "background",
     "src": "/backgrounds/school.svg",
     "location": "SCHOOL HALLWAY",
-    "next": "intro_sprite"
+    "next": "sprite_aria"
   },
   {
-    "id": "intro_sprite",
+    "id": "sprite_aria",
     "type": "sprite",
     "character": "Aria",
     "src": "/sprites/aria_neutral.svg",
     "position": "right",
-    "next": "intro_1"
+    "next": "sprite_kai"
   },
   {
-    "id": "intro_1",
+    "id": "sprite_kai",
+    "type": "sprite",
+    "character": "Kai",
+    "src": "/sprites/kai_neutral.svg",
+    "position": "left",
+    "next": "narration_1"
+  },
+  {
+    "id": "narration_1",
     "type": "dialogue",
     "character": null,
-    "text": "After school, the hallway grew quiet — save for the soft footsteps of one person rounding the corner.",
-    "next": "intro_2"
+    "text": "After the last bell, the hallway emptied — except for the two of them.",
+    "next": "kai_1"
   },
   {
-    "id": "intro_2",
+    "id": "kai_1",
     "type": "dialogue",
-    "character": "Aria",
-    "text": "Oh! I didn't expect to run into you here.",
-    "next": "intro_3"
+    "character": "Kai",
+    "text": "You're still here? I thought you had club after school.",
+    "next": "aria_1"
   },
   {
-    "id": "intro_3",
+    "id": "aria_1",
     "type": "dialogue",
     "character": "Aria",
-    "text": "Were you looking for me, or is this just a coincidence?",
+    "text": "It got cancelled. Advisor was sick.",
+    "next": "kai_2"
+  },
+  {
+    "id": "kai_2",
+    "type": "dialogue",
+    "character": "Kai",
+    "text": "Huh. So you've just been wandering around?",
+    "next": "aria_2"
+  },
+  {
+    "id": "aria_2",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Maybe. Is that a problem?",
+    "next": "kai_3"
+  },
+  {
+    "id": "kai_3",
+    "type": "dialogue",
+    "character": "Kai",
+    "text": "Not at all. I was just thinking — there's a café near the station. Haven't been in a while.",
+    "next": "aria_3"
+  },
+  {
+    "id": "aria_3",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Is that an invitation?",
+    "next": "kai_4"
+  },
+  {
+    "id": "kai_4",
+    "type": "dialogue",
+    "character": "Kai",
+    "text": "... Take it however you want.",
     "next": "choice_1"
   },
   {
     "id": "choice_1",
     "type": "choice",
     "choices": [
-      { "label": "I was looking for you.", "goto": "branch_looking_1" },
-      { "label": "Just a coincidence.", "goto": "branch_coincidence_1" }
+      { "label": "\"I'd love to.\"", "goto": "accept_1" },
+      { "label": "\"Maybe another time.\"", "goto": "decline_1" }
     ]
   },
   {
-    "id": "branch_looking_1",
+    "id": "accept_1",
     "type": "dialogue",
     "character": "Aria",
-    "text": "Really? That's... kind of sweet, actually.",
-    "next": "branch_looking_2"
+    "text": "Sure. Lead the way, then.",
+    "next": "kai_accept"
   },
   {
-    "id": "branch_looking_2",
+    "id": "kai_accept",
+    "type": "dialogue",
+    "character": "Kai",
+    "text": "... You didn't have to agree so fast.",
+    "next": "aria_accept"
+  },
+  {
+    "id": "aria_accept",
     "type": "dialogue",
     "character": "Aria",
-    "text": "I've been hoping someone would finally say that.",
-    "next": "shared_walk"
+    "text": "Would you have preferred I made you wait?",
+    "next": "narration_good"
   },
   {
-    "id": "branch_coincidence_1",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Ha, sure. I'll believe that.",
-    "next": "branch_coincidence_2"
-  },
-  {
-    "id": "branch_coincidence_2",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Well... since we're both here, want to walk home together?",
-    "next": "shared_walk"
-  },
-  {
-    "id": "shared_walk",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "It's a nice afternoon. I could use the company.",
-    "next": "choice_2"
-  },
-  {
-    "id": "choice_2",
-    "type": "choice",
-    "choices": [
-      { "label": "I'd like that.", "goto": "end_good" },
-      { "label": "Sorry, I'm busy today.", "goto": "end_neutral" }
-    ]
-  },
-  {
-    "id": "end_good",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Great. Try to keep up!",
-    "next": "ending_good"
-  },
-  {
-    "id": "ending_good",
+    "id": "narration_good",
     "type": "dialogue",
     "character": null,
-    "text": "The two walked home through the golden afternoon light. It felt like the beginning of something.",
+    "text": "He didn't answer. But as they walked out together, something about the afternoon felt lighter.",
     "next": "end"
   },
   {
-    "id": "end_neutral",
+    "id": "decline_1",
     "type": "dialogue",
     "character": "Aria",
-    "text": "Oh... that's okay. Maybe next time.",
-    "next": "ending_neutral"
+    "text": "... Maybe another time.",
+    "next": "kai_decline"
   },
   {
-    "id": "ending_neutral",
+    "id": "kai_decline",
+    "type": "dialogue",
+    "character": "Kai",
+    "text": "Right. Sure.",
+    "next": "narration_neutral"
+  },
+  {
+    "id": "narration_neutral",
     "type": "dialogue",
     "character": null,
-    "text": "She smiled and turned away. You watched her go, wondering if you'd made the right call.",
+    "text": "He turned and walked away first. She watched him go, wondering if she'd said the wrong thing.",
     "next": "end"
   },
   {
