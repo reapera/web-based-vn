@@ -23,12 +23,12 @@ export default function App() {
   // Track character switches to play exit animation on the outgoing sprite
   useEffect(() => {
     const prev = prevActiveRef.current;
+    prevActiveRef.current = activeCharacter; // always update first
     if (prev && prev !== activeCharacter && sprites[prev]) {
       setLeavingSprite({ character: prev, src: sprites[prev].src });
       const t = setTimeout(() => setLeavingSprite(null), 320);
       return () => clearTimeout(t);
     }
-    prevActiveRef.current = activeCharacter;
   }, [activeCharacter, sprites]);
 
   return (

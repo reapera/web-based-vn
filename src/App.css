@@ -8,8 +8,8 @@
   to   { opacity: 0; transform: translateX(-50%) translateY(-16px); }
 }
 @keyframes spriteBreathe {
-  0%, 100% { transform: translateX(-50%) scaleY(1)    scaleX(1); }
-  50%       { transform: translateX(-50%) scaleY(1.008) scaleX(0.997); }
+  0%, 100% { transform: translateX(-50%) translateY(0px); }
+  50%       { transform: translateX(-50%) translateY(-10px); }
 }
 @keyframes dialogueEnter {
   from { opacity: 0; transform: translateY(14px); }
@@ -120,7 +120,7 @@
 .vn-sprite--center {
   left: 50%;
   animation:
-    spriteEnter   0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    spriteEnter   0.45s cubic-bezier(0.22, 1, 0.36, 1) both,
     spriteBreathe 5s   ease-in-out 0.45s infinite;
 }
 .vn-sprite--left  { left: 0; }
