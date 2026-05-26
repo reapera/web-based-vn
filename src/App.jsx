@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useVNEngine } from './engine/useVNEngine';
 import { Background } from './components/Background';
 import { CharacterSprite } from './components/CharacterSprite';
@@ -12,16 +12,24 @@ export default function App() {
   const { current, background, location, sprites, advance, choose, reset } = useVNEngine(script);
   const [autoMode, setAutoMode] = useState(false);
   const [skipMode, setSkipMode] = useState(false);
+  const [leavingSprite, setLeavingSprite] = useState(null);
+  const prevActiveRef = useRef(null);
 
   const handleAdvance = useCallback(() => advance(), [advance]);
 
   const activeCharacter = current?.type === 'dialogue' ? current.character : null;
+  const visibleSprite = activeCharacter ? sprites[activeCharacter] : null;
 
-  // Option B: only render the sprite of the speaking character.
-  // During narrator lines or choices, keep the last speaker visible.
-  const visibleSprite = activeCharacter
-    ? sprites[activeCharacter]
-    : null;
+  // Track character switches to play exit animation on the outgoing sprite
+  useEffect(() => {
+    const prev = prevActiveRef.current;
+    if (prev && prev !== activeCharacter && sprites[prev]) {
+      setLeavingSprite({ character: prev, src: sprites[prev].src });
+      const t = setTimeout(() => setLeavingSprite(null), 320);
+      return () => clearTimeout(t);
+    }
+    prevActiveRef.current = activeCharacter;
+  }, [activeCharacter, sprites]);
 
   return (
     <div className="vn-stage">
@@ -36,6 +44,15 @@ export default function App() {
       />
 
       <div className="vn-sprites">
+        {leavingSprite && (
+          <CharacterSprite
+            key={`leaving-${leavingSprite.character}`}
+            character={leavingSprite.character}
+            src={leavingSprite.src}
+            position="center"
+            leaving
+          />
+        )}
         {visibleSprite && (
           <CharacterSprite
             key={activeCharacter}
