@@ -16,7 +16,12 @@ export default function App() {
   const handleAdvance = useCallback(() => advance(), [advance]);
 
   const activeCharacter = current?.type === 'dialogue' ? current.character : null;
-  const spriteEntries = Object.entries(sprites);
+
+  // Option B: only render the sprite of the speaking character.
+  // During narrator lines or choices, keep the last speaker visible.
+  const visibleSprite = activeCharacter
+    ? sprites[activeCharacter]
+    : null;
 
   return (
     <div className="vn-stage">
@@ -31,15 +36,15 @@ export default function App() {
       />
 
       <div className="vn-sprites">
-        {spriteEntries.map(([character, { src, position }]) => (
+        {visibleSprite && (
           <CharacterSprite
-            key={character}
-            character={character}
-            src={src}
-            position={position}
-            active={activeCharacter === null || activeCharacter === character}
+            key={activeCharacter}
+            character={activeCharacter}
+            src={visibleSprite.src}
+            position="center"
+            active
           />
-        ))}
+        )}
       </div>
 
       <div className="vn-ui">
