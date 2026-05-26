@@ -3,6 +3,7 @@
     "id": "start",
     "type": "background",
     "src": "/backgrounds/school.svg",
+    "location": "SCHOOL HALLWAY",
     "next": "intro_sprite"
   },
   {
@@ -10,7 +11,7 @@
     "type": "sprite",
     "character": "Aria",
     "src": "/sprites/aria_neutral.svg",
-    "position": "center",
+    "position": "right",
     "next": "intro_1"
   },
   {
