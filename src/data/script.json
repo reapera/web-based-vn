@@ -2,15 +2,22 @@
   {
     "id": "start",
     "type": "background",
-    "src": "/backgrounds/school.jpg",
+    "src": "/backgrounds/school.svg",
+    "next": "intro_sprite"
+  },
+  {
+    "id": "intro_sprite",
+    "type": "sprite",
+    "character": "Aria",
+    "src": "/sprites/aria_neutral.svg",
+    "position": "center",
     "next": "intro_1"
   },
   {
     "id": "intro_1",
-    "type": "sprite",
-    "character": "Aria",
-    "src": "/sprites/aria_neutral.png",
-    "position": "center",
+    "type": "dialogue",
+    "character": null,
+    "text": "After school, the hallway grew quiet — save for the soft footsteps of one person rounding the corner.",
     "next": "intro_2"
   },
   {
@@ -31,29 +38,79 @@
     "id": "choice_1",
     "type": "choice",
     "choices": [
-      { "label": "I was looking for you.", "goto": "branch_looking" },
-      { "label": "Just a coincidence.", "goto": "branch_coincidence" }
+      { "label": "I was looking for you.", "goto": "branch_looking_1" },
+      { "label": "Just a coincidence.", "goto": "branch_coincidence_1" }
     ]
   },
   {
-    "id": "branch_looking",
+    "id": "branch_looking_1",
     "type": "dialogue",
     "character": "Aria",
     "text": "Really? That's... kind of sweet, actually.",
-    "next": "ending"
+    "next": "branch_looking_2"
   },
   {
-    "id": "branch_coincidence",
+    "id": "branch_looking_2",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "I've been hoping someone would finally say that.",
+    "next": "shared_walk"
+  },
+  {
+    "id": "branch_coincidence_1",
     "type": "dialogue",
     "character": "Aria",
     "text": "Ha, sure. I'll believe that.",
-    "next": "ending"
+    "next": "branch_coincidence_2"
   },
   {
-    "id": "ending",
+    "id": "branch_coincidence_2",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Well... since we're both here, want to walk home together?",
+    "next": "shared_walk"
+  },
+  {
+    "id": "shared_walk",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "It's a nice afternoon. I could use the company.",
+    "next": "choice_2"
+  },
+  {
+    "id": "choice_2",
+    "type": "choice",
+    "choices": [
+      { "label": "I'd like that.", "goto": "end_good" },
+      { "label": "Sorry, I'm busy today.", "goto": "end_neutral" }
+    ]
+  },
+  {
+    "id": "end_good",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Great. Try to keep up!",
+    "next": "ending_good"
+  },
+  {
+    "id": "ending_good",
     "type": "dialogue",
     "character": null,
-    "text": "The afternoon light faded as the two walked home together.",
+    "text": "The two walked home through the golden afternoon light. It felt like the beginning of something.",
+    "next": "end"
+  },
+  {
+    "id": "end_neutral",
+    "type": "dialogue",
+    "character": "Aria",
+    "text": "Oh... that's okay. Maybe next time.",
+    "next": "ending_neutral"
+  },
+  {
+    "id": "ending_neutral",
+    "type": "dialogue",
+    "character": null,
+    "text": "She smiled and turned away. You watched her go, wondering if you'd made the right call.",
     "next": "end"
   },
   {
