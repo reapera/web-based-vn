@@ -1,12 +1,12 @@
 /* ── Keyframes ──────────────────────────────────────────────────────── */
-/* Wrapper enter/leave */
+/* Wrapper enter/leave — opacity only, transform stays on the class untouched */
 @keyframes spriteEnter {
-  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 @keyframes spriteLeave {
-  from { opacity: 1; transform: translateX(-50%) translateY(0); }
-  to   { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 /* Emotion loops */
