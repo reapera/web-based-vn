@@ -4,21 +4,21 @@
     "type": "background",
     "src": "/backgrounds/school.svg",
     "location": "SCHOOL HALLWAY",
-    "next": "sprite_aria"
+    "next": "sprite_eve"
   },
   {
-    "id": "sprite_aria",
+    "id": "sprite_eve",
     "type": "sprite",
-    "character": "Aria",
-    "src": "/sprites/aria_neutral.svg",
+    "character": "Eve",
+    "src": "/sprites/eve.png",
     "position": "right",
-    "next": "sprite_kai"
+    "next": "sprite_lyrel"
   },
   {
-    "id": "sprite_kai",
+    "id": "sprite_lyrel",
     "type": "sprite",
-    "character": "Kai",
-    "src": "/sprites/kai_neutral.svg",
+    "character": "Lyrel",
+    "src": "/sprites/lyrel.png",
     "position": "left",
     "next": "narration_1"
   },
@@ -27,112 +27,105 @@
     "type": "dialogue",
     "character": null,
     "text": "After the last bell, the hallway emptied — except for the two of them.",
-    "next": "kai_1"
+    "next": "lyrel_1"
   },
   {
-    "id": "kai_1",
+    "id": "lyrel_1",
     "type": "dialogue",
-    "character": "Kai",
-    "text": "You're still here? I thought you had club after school.",
-    "next": "aria_1"
+    "character": "Lyrel",
+    "text": "You're still here? I thought you had somewhere to be.",
+    "next": "eve_1"
   },
   {
-    "id": "aria_1",
+    "id": "eve_1",
     "type": "dialogue",
-    "character": "Aria",
-    "text": "It got cancelled. Advisor was sick.",
-    "next": "kai_2"
+    "character": "Eve",
+    "text": "Plans changed. Got a problem with that?",
+    "next": "lyrel_2"
   },
   {
-    "id": "kai_2",
+    "id": "lyrel_2",
     "type": "dialogue",
-    "character": "Kai",
-    "text": "Huh. So you've just been wandering around?",
-    "next": "aria_2"
+    "character": "Lyrel",
+    "text": "Not at all. I just figured you'd be long gone by now.",
+    "next": "eve_2"
   },
   {
-    "id": "aria_2",
+    "id": "eve_2",
     "type": "dialogue",
-    "character": "Aria",
-    "text": "Maybe. Is that a problem?",
-    "next": "kai_3"
+    "character": "Eve",
+    "text": "Well. I'm still here.",
+    "next": "lyrel_3"
   },
   {
-    "id": "kai_3",
+    "id": "lyrel_3",
     "type": "dialogue",
-    "character": "Kai",
-    "text": "Not at all. I was just thinking — there's a café near the station. Haven't been in a while.",
-    "next": "aria_3"
+    "character": "Lyrel",
+    "text": "There's a café near the station. I was heading there. You could... come along. If you wanted.",
+    "next": "eve_3"
   },
   {
-    "id": "aria_3",
+    "id": "eve_3",
     "type": "dialogue",
-    "character": "Aria",
-    "text": "Is that an invitation?",
-    "next": "kai_4"
+    "character": "Eve",
+    "text": "Is that actually an invitation or are you just thinking out loud?",
+    "next": "lyrel_4"
   },
   {
-    "id": "kai_4",
+    "id": "lyrel_4",
     "type": "dialogue",
-    "character": "Kai",
-    "text": "... Take it however you want.",
+    "character": "Lyrel",
+    "text": "Take it however you want.",
     "next": "choice_1"
   },
   {
     "id": "choice_1",
     "type": "choice",
     "choices": [
-      { "label": "\"I'd love to.\"", "goto": "accept_1" },
+      { "label": "\"Fine. Let's go.\"", "goto": "accept_1" },
       { "label": "\"Maybe another time.\"", "goto": "decline_1" }
     ]
   },
   {
     "id": "accept_1",
     "type": "dialogue",
-    "character": "Aria",
-    "text": "Sure. Lead the way, then.",
-    "next": "kai_accept"
+    "character": "Eve",
+    "text": "Don't make it weird. I just don't want to go home yet.",
+    "next": "lyrel_accept"
   },
   {
-    "id": "kai_accept",
+    "id": "lyrel_accept",
     "type": "dialogue",
-    "character": "Kai",
-    "text": "... You didn't have to agree so fast.",
-    "next": "aria_accept"
-  },
-  {
-    "id": "aria_accept",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Would you have preferred I made you wait?",
+    "character": "Lyrel",
+    "text": "Sure. That's definitely the reason.",
     "next": "narration_good"
   },
   {
     "id": "narration_good",
     "type": "dialogue",
     "character": null,
-    "text": "He didn't answer. But as they walked out together, something about the afternoon felt lighter.",
+    "text": "They walked out together into the afternoon light. Neither of them said much — but neither of them minded.",
     "next": "end"
   },
   {
     "id": "decline_1",
     "type": "dialogue",
-    "character": "Aria",
-    "text": "... Maybe another time.",
-    "next": "kai_decline"
+    "character": "Eve",
+    "text": "Maybe another time.",
+    "next": "lyrel_decline"
   },
   {
-    "id": "kai_decline",
+    "id": "lyrel_decline",
     "type": "dialogue",
-    "character": "Kai",
-    "text": "Right. Sure.",
+    "character": "Lyrel",
+    "text": "Right. See you around then.",
     "next": "narration_neutral"
   },
   {
     "id": "narration_neutral",
     "type": "dialogue",
     "character": null,
-    "text": "He turned and walked away first. She watched him go, wondering if she'd said the wrong thing.",
+    "text": "She watched him disappear around the corner, wondering if she'd made the wrong call.",
     "next": "end"
   },
   {
