@@ -76,21 +76,21 @@
 .vn-sprites {
   position: absolute;
   top: 42px;
-  bottom: 196px;
+  bottom: 0;        /* extend into dialogue area */
   left: 0;
   right: 0;
   pointer-events: none;
-  z-index: 5;
-  overflow: hidden;
+  z-index: 5;       /* below dialogue box (z-index: 10) */
 }
 
 .vn-sprite {
   position: absolute;
-  top: 0;
-  height: 100%;
+  bottom: 0;        /* anchor feet to bottom */
+  top: auto;
+  height: 90%;
   width: 42%;
   object-fit: cover;
-  object-position: top center;
+  object-position: top center;  /* show face, crop legs */
   transition: opacity 0.35s ease, filter 0.35s ease;
 }
 
