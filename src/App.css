@@ -1,15 +1,52 @@
 /* ── Keyframes ──────────────────────────────────────────────────────── */
+/* Wrapper enter/leave — handles position + opacity transition */
 @keyframes spriteEnter {
-  from { opacity: 0; transform: translateX(-50%) translateY(28px); }
+  from { opacity: 0; transform: translateX(-50%) translateY(32px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 @keyframes spriteLeave {
   from { opacity: 1; transform: translateX(-50%) translateY(0); }
-  to   { opacity: 0; transform: translateX(-50%) translateY(-16px); }
+  to   { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
-@keyframes spriteBreathe {
-  0%, 100% { transform: translateX(-50%) translateY(0px); }
-  50%       { transform: translateX(-50%) translateY(-10px); }
+
+/* Emotion loops — applied to the <img>, independent of wrapper */
+@keyframes emotionIdle {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-20px); }
+}
+@keyframes emotionHappy {
+  0%, 20%, 100% { transform: translateY(0)    rotate(0deg); }
+  10%            { transform: translateY(-24px) rotate(-2deg); }
+  30%            { transform: translateY(-10px) rotate(2deg); }
+  40%            { transform: translateY(-18px) rotate(-1deg); }
+  50%            { transform: translateY(0); }
+}
+@keyframes emotionSad {
+  0%, 100% { transform: translateY(0); }
+  60%       { transform: translateY(10px); }
+}
+@keyframes emotionShocked {
+  0%   { transform: translateY(0)    scale(1); }
+  8%   { transform: translateY(-30px) scale(1.06); }
+  16%  { transform: translateY(6px)  scale(0.96); }
+  24%  { transform: translateY(-14px) scale(1.02); }
+  32%  { transform: translateY(0)    scale(1); }
+  100% { transform: translateY(0)    scale(1); }
+}
+@keyframes emotionAngry {
+  0%, 100%  { transform: translateX(0)   rotate(0deg); }
+  15%        { transform: translateX(-8px) rotate(-1deg); }
+  30%        { transform: translateX(8px)  rotate(1deg); }
+  45%        { transform: translateX(-6px) rotate(-0.5deg); }
+  60%        { transform: translateX(6px)  rotate(0.5deg); }
+  75%        { transform: translateX(-4px); }
+  90%        { transform: translateX(4px); }
+}
+@keyframes emotionNervous {
+  0%, 100% { transform: translateX(0)   translateY(0); }
+  25%       { transform: translateX(-4px) translateY(-2px); }
+  50%       { transform: translateX(4px)  translateY(0); }
+  75%       { transform: translateX(-3px) translateY(-2px); }
 }
 @keyframes dialogueEnter {
   from { opacity: 0; transform: translateY(14px); }
@@ -108,35 +145,42 @@
   z-index: 5;
 }
 
-.vn-sprite {
+/* Wrapper: positioning + enter/leave animation */
+.vn-sprite-wrap {
   position: absolute;
   bottom: 0;
   height: 90%;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom center;
 }
-
-.vn-sprite--center {
+.vn-sprite-wrap--center {
   left: 50%;
-  animation:
-    spriteEnter   0.45s cubic-bezier(0.22, 1, 0.36, 1) both,
-    spriteBreathe 5s   ease-in-out 0.45s infinite;
+  animation: spriteEnter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.vn-sprite--left  { left: 0; }
-.vn-sprite--right { right: 0; }
-
-.vn-sprite--leaving {
+.vn-sprite-wrap--left  { left: 0; }
+.vn-sprite-wrap--right { right: 0; }
+.vn-sprite-wrap--leaving {
   left: 50%;
   animation: spriteLeave 0.32s ease-in forwards;
   pointer-events: none;
 }
-
-.vn-sprite--dim {
+.vn-sprite-wrap--dim {
   opacity: 0.45;
   filter: brightness(0.6) saturate(0.5);
-  animation: none;
 }
+
+/* Image: emotion loop animation */
+.vn-sprite {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+}
+.vn-sprite--idle    { animation: emotionIdle    2.5s ease-in-out infinite; }
+.vn-sprite--happy   { animation: emotionHappy   0.7s ease-in-out infinite; }
+.vn-sprite--sad     { animation: emotionSad     4s   ease-in-out infinite; }
+.vn-sprite--shocked { animation: emotionShocked 2s   ease-out     infinite; }
+.vn-sprite--angry   { animation: emotionAngry   0.4s ease-in-out infinite; }
+.vn-sprite--nervous { animation: emotionNervous 0.35s ease-in-out infinite; }
 
 /* ── Bottom UI ──────────────────────────────────────────────────────── */
 .vn-ui {

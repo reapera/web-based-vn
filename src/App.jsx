@@ -18,6 +18,7 @@ export default function App() {
   const handleAdvance = useCallback(() => advance(), [advance]);
 
   const activeCharacter = current?.type === 'dialogue' ? current.character : null;
+  const activeEmotion   = current?.type === 'dialogue' ? (current.emotion ?? 'idle') : 'idle';
   const visibleSprite = activeCharacter ? sprites[activeCharacter] : null;
 
   // Track character switches to play exit animation on the outgoing sprite
@@ -59,6 +60,7 @@ export default function App() {
             character={activeCharacter}
             src={visibleSprite.src}
             position="center"
+            emotion={activeEmotion}
             active
           />
         )}

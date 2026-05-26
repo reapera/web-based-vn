@@ -26,106 +26,133 @@
     "id": "narration_1",
     "type": "dialogue",
     "character": null,
-    "text": "After the last bell, the hallway emptied — except for the two of them.",
-    "next": "lyrel_1"
+    "text": "The hallway was empty. Lyrel had been waiting for nearly ten minutes.",
+    "next": "lyrel_nervous"
   },
   {
-    "id": "lyrel_1",
+    "id": "lyrel_nervous",
     "type": "dialogue",
     "character": "Lyrel",
-    "text": "You're still here? I thought you had somewhere to be.",
-    "next": "eve_1"
+    "emotion": "nervous",
+    "text": "She's late... Did I get the time wrong? Did I get the day wrong?",
+    "next": "eve_shocked"
   },
   {
-    "id": "eve_1",
+    "id": "eve_shocked",
     "type": "dialogue",
     "character": "Eve",
-    "text": "Plans changed. Got a problem with that?",
-    "next": "lyrel_2"
+    "emotion": "shocked",
+    "text": "Lyrel?! You're actually here. I thought you'd have left by now.",
+    "next": "lyrel_shocked"
   },
   {
-    "id": "lyrel_2",
+    "id": "lyrel_shocked",
     "type": "dialogue",
     "character": "Lyrel",
-    "text": "Not at all. I just figured you'd be long gone by now.",
-    "next": "eve_2"
+    "emotion": "shocked",
+    "text": "I — what? You're the one who's late!",
+    "next": "eve_angry"
   },
   {
-    "id": "eve_2",
+    "id": "eve_angry",
     "type": "dialogue",
     "character": "Eve",
-    "text": "Well. I'm still here.",
-    "next": "lyrel_3"
+    "emotion": "angry",
+    "text": "I am not late. You were just early. There's a difference.",
+    "next": "lyrel_sad"
   },
   {
-    "id": "lyrel_3",
+    "id": "lyrel_sad",
     "type": "dialogue",
     "character": "Lyrel",
-    "text": "There's a café near the station. I was heading there. You could... come along. If you wanted.",
-    "next": "eve_3"
+    "emotion": "sad",
+    "text": "I waited for you. I thought maybe you weren't coming.",
+    "next": "eve_idle"
   },
   {
-    "id": "eve_3",
+    "id": "eve_idle",
     "type": "dialogue",
     "character": "Eve",
-    "text": "Is that actually an invitation or are you just thinking out loud?",
-    "next": "lyrel_4"
+    "emotion": "idle",
+    "text": "...",
+    "next": "eve_sad"
   },
   {
-    "id": "lyrel_4",
+    "id": "eve_sad",
+    "type": "dialogue",
+    "character": "Eve",
+    "emotion": "sad",
+    "text": "I almost didn't. I had a rough day.",
+    "next": "lyrel_nervous_2"
+  },
+  {
+    "id": "lyrel_nervous_2",
     "type": "dialogue",
     "character": "Lyrel",
-    "text": "Take it however you want.",
+    "emotion": "nervous",
+    "text": "Do you... want to talk about it? Or we could just go somewhere quiet.",
     "next": "choice_1"
   },
   {
     "id": "choice_1",
     "type": "choice",
     "choices": [
-      { "label": "\"Fine. Let's go.\"", "goto": "accept_1" },
-      { "label": "\"Maybe another time.\"", "goto": "decline_1" }
+      { "label": "\"Let's go somewhere.\"", "goto": "accept_1" },
+      { "label": "\"I'd rather be alone.\"", "goto": "decline_1" }
     ]
   },
   {
     "id": "accept_1",
     "type": "dialogue",
     "character": "Eve",
-    "text": "Don't make it weird. I just don't want to go home yet.",
-    "next": "lyrel_accept"
+    "emotion": "happy",
+    "text": "Yeah. That actually sounds good.",
+    "next": "lyrel_happy"
   },
   {
-    "id": "lyrel_accept",
+    "id": "lyrel_happy",
     "type": "dialogue",
     "character": "Lyrel",
-    "text": "Sure. That's definitely the reason.",
+    "emotion": "happy",
+    "text": "There's a place near the station. Hot drinks. Nobody talks too loudly.",
+    "next": "eve_happy"
+  },
+  {
+    "id": "eve_happy",
+    "type": "dialogue",
+    "character": "Eve",
+    "emotion": "happy",
+    "text": "Perfect. Lead the way.",
     "next": "narration_good"
   },
   {
     "id": "narration_good",
     "type": "dialogue",
     "character": null,
-    "text": "They walked out together into the afternoon light. Neither of them said much — but neither of them minded.",
+    "text": "For once, neither of them said anything difficult. It was enough.",
     "next": "end"
   },
   {
     "id": "decline_1",
     "type": "dialogue",
     "character": "Eve",
-    "text": "Maybe another time.",
-    "next": "lyrel_decline"
+    "emotion": "angry",
+    "text": "Actually — don't take this wrong — I need to be alone right now.",
+    "next": "lyrel_sad_2"
   },
   {
-    "id": "lyrel_decline",
+    "id": "lyrel_sad_2",
     "type": "dialogue",
     "character": "Lyrel",
-    "text": "Right. See you around then.",
+    "emotion": "sad",
+    "text": "Oh. Okay. I understand.",
     "next": "narration_neutral"
   },
   {
     "id": "narration_neutral",
     "type": "dialogue",
     "character": null,
-    "text": "She watched him disappear around the corner, wondering if she'd made the wrong call.",
+    "text": "She didn't understand. But she let her go anyway.",
     "next": "end"
   },
   {

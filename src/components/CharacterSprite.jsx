@@ -1,17 +1,25 @@
-export function CharacterSprite({ character, src, position = 'center', active = true, leaving = false }) {
-  const classes = [
-    'vn-sprite',
-    `vn-sprite--${position}`,
-    leaving ? 'vn-sprite--leaving' : '',
-    !active && !leaving ? 'vn-sprite--dim' : '',
+const EMOTION_CLASS = {
+  idle:    'vn-sprite--idle',
+  happy:   'vn-sprite--happy',
+  sad:     'vn-sprite--sad',
+  shocked: 'vn-sprite--shocked',
+  angry:   'vn-sprite--angry',
+  nervous: 'vn-sprite--nervous',
+};
+
+export function CharacterSprite({ character, src, position = 'center', active = true, leaving = false, emotion = 'idle' }) {
+  const wrapClass = [
+    'vn-sprite-wrap',
+    `vn-sprite-wrap--${position}`,
+    leaving          ? 'vn-sprite-wrap--leaving' : '',
+    !active && !leaving ? 'vn-sprite-wrap--dim' : '',
   ].filter(Boolean).join(' ');
 
+  const imgClass = ['vn-sprite', EMOTION_CLASS[emotion] ?? EMOTION_CLASS.idle].join(' ');
+
   return (
-    <img
-      className={classes}
-      src={src}
-      alt={character}
-      draggable={false}
-    />
+    <div className={wrapClass}>
+      <img className={imgClass} src={src} alt={character} draggable={false} />
+    </div>
   );
 }
