@@ -162,7 +162,7 @@
 .vn-sprite-wrap--leaving {
   left: 50%;
   transform: translateX(-50%);
-  animation: spriteLeave 0.32s ease-in forwards;
+  animation: spriteLeave 0.32s ease-in both; /* 'both' so from{opacity:1} overrides --center's opacity:0 */
   pointer-events: none;
 }
 .vn-sprite-wrap--dim {
