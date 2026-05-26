@@ -81,21 +81,22 @@
   right: 0;
   pointer-events: none;
   z-index: 5;
+  overflow: hidden;
 }
 
 .vn-sprite {
   position: absolute;
-  bottom: 0;
-  height: 100%;
-  max-height: 100%;
+  /* Anchor to top so the bottom (legs) gets cropped — upper body only */
+  top: 0;
+  height: 160%;
   width: auto;
   object-fit: contain;
-  object-position: bottom;
+  object-position: top center;
   transition: opacity 0.35s ease, filter 0.35s ease;
 }
 
-.vn-sprite--left   { left: 6%; }
-.vn-sprite--right  { right: 6%; }
+.vn-sprite--left   { left: -8%; }
+.vn-sprite--right  { right: -8%; }
 .vn-sprite--center { left: 50%; transform: translateX(-50%); }
 
 .vn-sprite--dim {
