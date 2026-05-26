@@ -86,18 +86,17 @@
 
 .vn-sprite {
   position: absolute;
-  /* Anchor to top so the bottom (legs) gets cropped — upper body only */
   top: 0;
-  height: 160%;
-  width: auto;
-  object-fit: contain;
+  height: 100%;
+  width: 42%;
+  object-fit: cover;
   object-position: top center;
   transition: opacity 0.35s ease, filter 0.35s ease;
 }
 
-.vn-sprite--left   { left: -8%; }
-.vn-sprite--right  { right: -8%; }
-.vn-sprite--center { left: 50%; transform: translateX(-50%); }
+.vn-sprite--left   { left: 0; }
+.vn-sprite--right  { right: 0; }
+.vn-sprite--center { left: 50%; transform: translateX(-50%); width: 60%; }
 
 .vn-sprite--dim {
   opacity: 0.45;
