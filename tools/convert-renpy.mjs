@@ -703,10 +703,15 @@ for (const scene of Object.values(scenes)) {
   }
 }
 
+// Non-humanoid sprites where head-based size normalization (see
+// tools/measure-sprites.mjs) doesn't apply: explicit stage height in %.
+const FIXED_HEIGHT = { anne: 26, worm: 80, worm_sunset: 80 };
+
 const charactersOut = {};
 for (const actor of [...usedActors].sort()) {
   const def = defines[actor] ?? { name: actor.charAt(0).toUpperCase() + actor.slice(1), color: "#9a9ab0" };
   charactersOut[actor] = { name: def.name === "{player_name}" ? "{player_name}" : def.name, color: def.color };
+  if (FIXED_HEIGHT[actor]) charactersOut[actor].fixedHeight = FIXED_HEIGHT[actor];
   if (actorSprites[actor]) {
     const sprites = {};
     for (const [emotion, src] of Object.entries(actorSprites[actor])) {

@@ -98,6 +98,7 @@
  "anne": {
   "name": "Anne",
   "color": "#9a9ab0",
+  "fixedHeight": 26,
   "sprites": {
    "normal_injured": "/assets/cyan/sprites/anne/anne-hurt-sprites.png",
    "normal_hissed": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
@@ -338,6 +339,7 @@
  "worm": {
   "name": "Worm",
   "color": "#9a9ab0",
+  "fixedHeight": 80,
   "sprites": {
    "default": "/assets/cyan/sprites/worm/worm-sprites.png",
    "neutral": "/assets/cyan/sprites/worm/worm-sprites.png"
@@ -346,6 +348,7 @@
  "worm_sunset": {
   "name": "Worm_sunset",
   "color": "#9a9ab0",
+  "fixedHeight": 80,
   "sprites": {
    "default": "/assets/cyan/sprites/worm_sunset/worm-sunset-sprites.png",
    "neutral": "/assets/cyan/sprites/worm_sunset/worm-sunset-sprites.png"

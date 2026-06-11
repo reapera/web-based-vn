@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import characters from "../data/characters.json";
+import metrics from "../data/sprite-metrics.json";
 import { playAnimation } from "../engine/animations";
 
 const POSITIONS = {
@@ -9,6 +10,30 @@ const POSITIONS = {
   centerRight: "68%",
   right: "88%",
 };
+
+// Sprite size normalization: the source art is framed inconsistently
+// (full body, knee-up, varying padding), so we scale each image so the
+// character's head is HEAD_PCT of the stage height with its top at
+// HEAD_TOP_PCT. Bodies that extend past the stage bottom are clipped —
+// the dialogue box covers that zone, so it reads as a natural medium shot.
+const HEAD_PCT = 16.5;
+const HEAD_TOP_PCT = 15;
+
+function spriteLayout(def, src) {
+  if (def.fixedHeight) {
+    // Non-humanoids (cat, worm): head heuristics don't apply; use an
+    // explicit height, anchored to the stage floor.
+    return { wrapper: { height: `${def.fixedHeight}%`, bottom: 0 }, imgShift: 0 };
+  }
+  const m = metrics[src];
+  if (!m) return { wrapper: { height: "78%", bottom: 0 }, imgShift: 0 }; // unmeasured art
+  const heightPct = (m.imgH / m.headWidth) * HEAD_PCT;
+  const topPct = HEAD_TOP_PCT - (m.top / m.imgH) * heightPct;
+  // Content can sit off-center in the canvas; nudge the image so the
+  // character (not the canvas) is centered on the position slot.
+  const imgShift = (0.5 - (m.left + m.right) / 2 / m.imgW) * 100;
+  return { wrapper: { height: `${heightPct}%`, top: `${topPct}%` }, imgShift };
+}
 
 /**
  * One character on stage. The outer div handles position (so `move` glides
@@ -39,15 +64,19 @@ export function CharacterSprite({ actor, sprite, bus, onExited }) {
   }, [actor, bus]);
 
   // Exit: play the leave animation, then tell the engine to unmount us.
+  // If a re-enter aborts the exit (exiting → null), cancel the animation
+  // too — otherwise its fill:both end state (opacity 0) sticks forever.
   const exiting = sprite.exiting;
   useEffect(() => {
     if (!exiting) return;
     let cancelled = false;
-    playAnimation(animTarget.current, exiting).then(() => {
+    const done = playAnimation(animTarget.current, exiting);
+    done.then(() => {
       if (!cancelled) onExited(actor);
     });
     return () => {
       cancelled = true;
+      done.animation?.cancel();
     };
   }, [exiting, actor, onExited]);
 
@@ -57,11 +86,17 @@ export function CharacterSprite({ actor, sprite, bus, onExited }) {
   }
   const src = def.sprites[sprite.emotion] ?? def.sprites.neutral ?? Object.values(def.sprites)[0];
   if (!src) return null;
+  const layout = spriteLayout(def, src);
 
   return (
-    <div className="vn-sprite" style={{ left: POSITIONS[sprite.pos] ?? POSITIONS.center }}>
+    <div className="vn-sprite" style={{ left: POSITIONS[sprite.pos] ?? POSITIONS.center, ...layout.wrapper }}>
       <div ref={animTarget} className="vn-sprite-anim">
-        <img src={src} alt={def.name} draggable={false} />
+        <img
+          src={src}
+          alt={def.name}
+          draggable={false}
+          style={layout.imgShift ? { transform: `translateX(${layout.imgShift}%)` } : undefined}
+        />
       </div>
     </div>
   );

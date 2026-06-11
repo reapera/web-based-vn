@@ -161,6 +161,23 @@ assets. Drop real files in `public/audio/` and switch the type when ready.
 Six save slots stored in `localStorage`, with preview text and timestamps,
 available from the in-game toolbar and the title screen.
 
+## Sprite size normalization
+
+Sprite art is often framed inconsistently (full body vs knee-up, different
+canvas sizes and padding). `tools/measure-sprites.mjs` measures every sprite's
+content box and head width (run it with the dev server up):
+
+```bash
+node tools/measure-sprites.mjs
+```
+
+`CharacterSprite` uses the generated `src/data/sprite-metrics.json` to render
+every character with the same head size at the same height — a consistent
+medium shot, with longer bodies clipped behind the dialogue box. Re-run the
+tool whenever sprite images change. Non-humanoid characters can opt out with
+`"fixedHeight": <percent>` in `characters.json` (the converter sets this for
+the cat and the worm).
+
 ## Ren'Py converter
 
 `tools/convert-renpy.mjs` ports a Ren'Py game into this engine:
