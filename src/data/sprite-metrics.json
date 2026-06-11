@@ -1,0 +1,299 @@
+{
+ "/assets/cyan/sprites/anne/anne-hissed-sprites.png": {
+  "imgW": 1201,
+  "imgH": 890,
+  "top": 0,
+  "bottom": 888,
+  "left": 1,
+  "right": 1197,
+  "headWidth": 180
+ },
+ "/assets/cyan/sprites/anne/anne-hurt-sprites.png": {
+  "imgW": 1315,
+  "imgH": 618,
+  "top": 3,
+  "bottom": 615,
+  "left": 2,
+  "right": 1311,
+  "headWidth": 508
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-battle-ready-sprites.png": {
+  "imgW": 468,
+  "imgH": 789,
+  "top": 1,
+  "bottom": 788,
+  "left": 1,
+  "right": 465,
+  "headWidth": 171
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-battle-rivira-sprites.png": {
+  "imgW": 503,
+  "imgH": 788,
+  "top": 1,
+  "bottom": 787,
+  "left": 1,
+  "right": 501,
+  "headWidth": 169
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-battle-sprites.png": {
+  "imgW": 725,
+  "imgH": 886,
+  "top": 1,
+  "bottom": 885,
+  "left": 1,
+  "right": 723,
+  "headWidth": 182
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-happy-sprites.png": {
+  "imgW": 637,
+  "imgH": 756,
+  "top": 1,
+  "bottom": 755,
+  "left": 1,
+  "right": 634,
+  "headWidth": 164
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png": {
+  "imgW": 464,
+  "imgH": 788,
+  "top": 0,
+  "bottom": 787,
+  "left": 1,
+  "right": 462,
+  "headWidth": 170
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-serious-sprites.png": {
+  "imgW": 472,
+  "imgH": 788,
+  "top": 1,
+  "bottom": 787,
+  "left": 2,
+  "right": 470,
+  "headWidth": 172
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-sigh-sprites.png": {
+  "imgW": 481,
+  "imgH": 775,
+  "top": 0,
+  "bottom": 774,
+  "left": 1,
+  "right": 479,
+  "headWidth": 175
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-smile-sprites.png": {
+  "imgW": 685,
+  "imgH": 800,
+  "top": 0,
+  "bottom": 799,
+  "left": 2,
+  "right": 683,
+  "headWidth": 168
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-startled-sprites.png": {
+  "imgW": 701,
+  "imgH": 788,
+  "top": 1,
+  "bottom": 787,
+  "left": 1,
+  "right": 700,
+  "headWidth": 164
+ },
+ "/assets/cyan/sprites/cyan/cyan-male-surprised-scared-sprites.png": {
+  "imgW": 496,
+  "imgH": 800,
+  "top": 0,
+  "bottom": 799,
+  "left": 1,
+  "right": 494,
+  "headWidth": 188
+ },
+ "/assets/cyan/sprites/eve/1.png": {
+  "imgW": 422,
+  "imgH": 886,
+  "top": 1,
+  "bottom": 885,
+  "left": 0,
+  "right": 421,
+  "headWidth": 175
+ },
+ "/assets/cyan/sprites/eve/2.png": {
+  "imgW": 561,
+  "imgH": 893,
+  "top": 1,
+  "bottom": 892,
+  "left": 1,
+  "right": 559,
+  "headWidth": 188
+ },
+ "/assets/cyan/sprites/eve/3.png": {
+  "imgW": 719,
+  "imgH": 892,
+  "top": 1,
+  "bottom": 891,
+  "left": 0,
+  "right": 717,
+  "headWidth": 203
+ },
+ "/assets/cyan/sprites/eve/4.png": {
+  "imgW": 433,
+  "imgH": 879,
+  "top": 0,
+  "bottom": 878,
+  "left": 0,
+  "right": 432,
+  "headWidth": 201
+ },
+ "/assets/cyan/sprites/eve/5.png": {
+  "imgW": 540,
+  "imgH": 900,
+  "top": 0,
+  "bottom": 899,
+  "left": 0,
+  "right": 539,
+  "headWidth": 172
+ },
+ "/assets/cyan/sprites/eve/6.png": {
+  "imgW": 468,
+  "imgH": 873,
+  "top": 0,
+  "bottom": 872,
+  "left": 1,
+  "right": 466,
+  "headWidth": 188
+ },
+ "/assets/cyan/sprites/eve/eve-battle-sad2-sprites.png": {
+  "imgW": 275,
+  "imgH": 1000,
+  "top": 0,
+  "bottom": 999,
+  "left": 1,
+  "right": 273,
+  "headWidth": 153
+ },
+ "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png": {
+  "imgW": 311,
+  "imgH": 996,
+  "top": 1,
+  "bottom": 995,
+  "left": 2,
+  "right": 309,
+  "headWidth": 116
+ },
+ "/assets/cyan/sprites/eve/eve-battle-smug-sprites.png": {
+  "imgW": 404,
+  "imgH": 997,
+  "top": 1,
+  "bottom": 996,
+  "left": 0,
+  "right": 402,
+  "headWidth": 131
+ },
+ "/assets/cyan/sprites/eve/eve-halfsmile-sprites.png": {
+  "imgW": 354,
+  "imgH": 1003,
+  "top": 1,
+  "bottom": 868,
+  "left": 0,
+  "right": 352,
+  "headWidth": 133
+ },
+ "/assets/cyan/sprites/eve/eve-sad-sprites.png": {
+  "imgW": 468,
+  "imgH": 969,
+  "top": 1,
+  "bottom": 968,
+  "left": 1,
+  "right": 466,
+  "headWidth": 209
+ },
+ "/assets/cyan/sprites/eve/eve-sigh-sprites.png": {
+  "imgW": 354,
+  "imgH": 983,
+  "top": 1,
+  "bottom": 893,
+  "left": 1,
+  "right": 353,
+  "headWidth": 133
+ },
+ "/assets/cyan/sprites/gabe/gabe-amazed-sprites.png": {
+  "imgW": 530,
+  "imgH": 983,
+  "top": 2,
+  "bottom": 982,
+  "left": 1,
+  "right": 529,
+  "headWidth": 207
+ },
+ "/assets/cyan/sprites/gabe/gabe-battle-sprites.png": {
+  "imgW": 653,
+  "imgH": 902,
+  "top": 1,
+  "bottom": 901,
+  "left": 1,
+  "right": 651,
+  "headWidth": 181
+ },
+ "/assets/cyan/sprites/gabe/gabe-happy-sprites.png": {
+  "imgW": 528,
+  "imgH": 981,
+  "top": 2,
+  "bottom": 980,
+  "left": 1,
+  "right": 527,
+  "headWidth": 207
+ },
+ "/assets/cyan/sprites/gabe/gabe-idle-sprites.png": {
+  "imgW": 526,
+  "imgH": 987,
+  "top": 2,
+  "bottom": 986,
+  "left": 1,
+  "right": 525,
+  "headWidth": 203
+ },
+ "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png": {
+  "imgW": 516,
+  "imgH": 971,
+  "top": 1,
+  "bottom": 970,
+  "left": 1,
+  "right": 515,
+  "headWidth": 202
+ },
+ "/assets/cyan/sprites/gabe/gabe-smug-sprites.png": {
+  "imgW": 530,
+  "imgH": 990,
+  "top": 1,
+  "bottom": 989,
+  "left": 1,
+  "right": 528,
+  "headWidth": 180
+ },
+ "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png": {
+  "imgW": 433,
+  "imgH": 976,
+  "top": 2,
+  "bottom": 975,
+  "left": 1,
+  "right": 431,
+  "headWidth": 169
+ },
+ "/assets/cyan/sprites/worm/worm-sprites.png": {
+  "imgW": 555,
+  "imgH": 881,
+  "top": 1,
+  "bottom": 880,
+  "left": 3,
+  "right": 553,
+  "headWidth": 306
+ },
+ "/assets/cyan/sprites/worm_sunset/worm-sunset-sprites.png": {
+  "imgW": 618,
+  "imgH": 706,
+  "top": 1,
+  "bottom": 704,
+  "left": 1,
+  "right": 615,
+  "headWidth": 376
+ }
+}
