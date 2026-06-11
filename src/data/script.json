@@ -1,162 +1,78 @@
-[
-  {
-    "id": "start",
-    "type": "background",
-    "src": "/backgrounds/school.svg",
-    "location": "SCHOOL HALLWAY",
-    "next": "sprite_eve"
-  },
-  {
-    "id": "sprite_eve",
-    "type": "sprite",
-    "character": "Eve",
-    "src": "/sprites/eve.png",
-    "position": "right",
-    "next": "sprite_lyrel"
-  },
-  {
-    "id": "sprite_lyrel",
-    "type": "sprite",
-    "character": "Lyrel",
-    "src": "/sprites/lyrel.png",
-    "position": "left",
-    "next": "narration_1"
-  },
-  {
-    "id": "narration_1",
-    "type": "dialogue",
-    "character": null,
-    "text": "The hallway was empty. Lyrel had been waiting for nearly ten minutes.",
-    "next": "lyrel_nervous"
-  },
-  {
-    "id": "lyrel_nervous",
-    "type": "dialogue",
-    "character": "Lyrel",
-    "emotion": "nervous",
-    "text": "She's late... Did I get the time wrong? Did I get the day wrong?",
-    "next": "eve_shocked"
-  },
-  {
-    "id": "eve_shocked",
-    "type": "dialogue",
-    "character": "Eve",
-    "emotion": "shocked",
-    "text": "Lyrel?! You're actually here. I thought you'd have left by now.",
-    "next": "lyrel_shocked"
-  },
-  {
-    "id": "lyrel_shocked",
-    "type": "dialogue",
-    "character": "Lyrel",
-    "emotion": "shocked",
-    "text": "I — what? You're the one who's late!",
-    "next": "eve_angry"
-  },
-  {
-    "id": "eve_angry",
-    "type": "dialogue",
-    "character": "Eve",
-    "emotion": "angry",
-    "text": "I am not late. You were just early. There's a difference.",
-    "next": "lyrel_sad"
-  },
-  {
-    "id": "lyrel_sad",
-    "type": "dialogue",
-    "character": "Lyrel",
-    "emotion": "sad",
-    "text": "I waited for you. I thought maybe you weren't coming.",
-    "next": "eve_idle"
-  },
-  {
-    "id": "eve_idle",
-    "type": "dialogue",
-    "character": "Eve",
-    "emotion": "idle",
-    "text": "...",
-    "next": "eve_sad"
-  },
-  {
-    "id": "eve_sad",
-    "type": "dialogue",
-    "character": "Eve",
-    "emotion": "sad",
-    "text": "I almost didn't. I had a rough day.",
-    "next": "lyrel_nervous_2"
-  },
-  {
-    "id": "lyrel_nervous_2",
-    "type": "dialogue",
-    "character": "Lyrel",
-    "emotion": "nervous",
-    "text": "Do you... want to talk about it? Or we could just go somewhere quiet.",
-    "next": "choice_1"
-  },
-  {
-    "id": "choice_1",
-    "type": "choice",
-    "choices": [
-      { "label": "\"Let's go somewhere.\"", "goto": "accept_1" },
-      { "label": "\"I'd rather be alone.\"", "goto": "decline_1" }
-    ]
-  },
-  {
-    "id": "accept_1",
-    "type": "dialogue",
-    "character": "Eve",
-    "emotion": "happy",
-    "text": "Yeah. That actually sounds good.",
-    "next": "lyrel_happy"
-  },
-  {
-    "id": "lyrel_happy",
-    "type": "dialogue",
-    "character": "Lyrel",
-    "emotion": "happy",
-    "text": "There's a place near the station. Hot drinks. Nobody talks too loudly.",
-    "next": "eve_happy"
-  },
-  {
-    "id": "eve_happy",
-    "type": "dialogue",
-    "character": "Eve",
-    "emotion": "happy",
-    "text": "Perfect. Lead the way.",
-    "next": "narration_good"
-  },
-  {
-    "id": "narration_good",
-    "type": "dialogue",
-    "character": null,
-    "text": "For once, neither of them said anything difficult. It was enough.",
-    "next": "end"
-  },
-  {
-    "id": "decline_1",
-    "type": "dialogue",
-    "character": "Eve",
-    "emotion": "angry",
-    "text": "Actually — don't take this wrong — I need to be alone right now.",
-    "next": "lyrel_sad_2"
-  },
-  {
-    "id": "lyrel_sad_2",
-    "type": "dialogue",
-    "character": "Lyrel",
-    "emotion": "sad",
-    "text": "Oh. Okay. I understand.",
-    "next": "narration_neutral"
-  },
-  {
-    "id": "narration_neutral",
-    "type": "dialogue",
-    "character": null,
-    "text": "She didn't understand. But she let her go anyway.",
-    "next": "end"
-  },
-  {
-    "id": "end",
-    "type": "end"
+{
+  "title": "After School",
+  "start": "intro",
+  "scenes": {
+    "intro": {
+      "background": "classroom",
+      "music": "daytime",
+      "steps": [
+        { "type": "say", "text": "The last lecture ended ten minutes ago, but the hall isn't empty yet." },
+        { "type": "enter", "actor": "eileen", "pos": "centerLeft", "emotion": "neutral", "anim": "slideInLeft" },
+        { "type": "say", "actor": "eileen", "text": "I knew I'd find you here. You always stay late on Fridays." },
+        { "type": "enter", "actor": "sylvie", "pos": "centerRight", "emotion": "happy", "anim": "slideInRight" },
+        { "type": "say", "actor": "sylvie", "text": "Guilty. The library closes early and this is the quietest spot left." },
+        { "type": "play", "actor": "eileen", "anim": "hop" },
+        { "type": "say", "actor": "eileen", "emotion": "happy", "text": "Then you're free! Come on, the summer festival starts tonight." },
+        { "type": "sfx", "name": "knock" },
+        { "type": "play", "actor": "sylvie", "anim": "shake", "intensity": 6, "wait": true },
+        { "type": "say", "actor": "sylvie", "emotion": "surprised", "text": "Tonight?! I haven't finished the physics assignment..." },
+        {
+          "type": "choice",
+          "prompt": "What should Eileen say?",
+          "options": [
+            { "text": "\"Homework can wait. Fireworks can't.\"", "goto": "festival" },
+            { "text": "\"Then let's finish it together, fast.\"", "goto": "study" }
+          ]
+        }
+      ]
+    },
+    "festival": {
+      "steps": [
+        { "type": "play", "actor": "eileen", "anim": "bounce" },
+        { "type": "say", "actor": "eileen", "emotion": "happy", "text": "Homework can wait. Fireworks can't!" },
+        { "type": "say", "actor": "sylvie", "emotion": "smile", "text": "If I fail this class, I'm telling Professor Tanaka it was your idea." },
+        { "type": "say", "actor": "eileen", "text": "Deal. Now let's go before the food stalls sell out." },
+        { "type": "exit", "actor": "eileen", "anim": "slideOutLeft" },
+        { "type": "exit", "actor": "sylvie", "anim": "slideOutLeft" },
+        { "type": "sfx", "name": "whoosh" },
+        { "type": "bg", "name": "campus", "transition": "fade", "duration": 1200 },
+        { "type": "say", "text": "They cut across the empty campus, past festival posters fluttering on every lamppost." },
+        { "type": "enter", "actor": "sylvie", "pos": "center", "emotion": "happy", "anim": "fadeIn" },
+        { "type": "say", "actor": "sylvie", "text": "Okay. Okay, fine. This was worth it." },
+        { "type": "jump", "goto": "ending" }
+      ]
+    },
+    "study": {
+      "steps": [
+        { "type": "say", "actor": "eileen", "emotion": "neutral", "text": "Then let's finish it together, fast. Two brains, one assignment." },
+        { "type": "play", "actor": "sylvie", "anim": "nod", "wait": true },
+        { "type": "say", "actor": "sylvie", "emotion": "smile", "text": "...You hate physics. You really want to go to this festival, huh?" },
+        { "type": "say", "actor": "eileen", "emotion": "happy", "text": "More than anything. Page forty-two, problem one. Go." },
+        { "type": "say", "text": "Forty minutes of frantic scribbling later..." },
+        { "type": "sfx", "name": "chime" },
+        { "type": "play", "actor": "sylvie", "anim": "bounce" },
+        { "type": "say", "actor": "sylvie", "emotion": "happy", "text": "Done! Last one to the meadow buys the takoyaki!" },
+        { "type": "exit", "actor": "sylvie", "anim": "slideOutRight" },
+        { "type": "exit", "actor": "eileen", "anim": "slideOutRight" },
+        { "type": "bg", "name": "campus", "transition": "wipe", "duration": 1000 },
+        { "type": "say", "text": "The sun is low by the time they cross the campus gates, but they made it." },
+        { "type": "jump", "goto": "ending" }
+      ]
+    },
+    "ending": {
+      "steps": [
+        { "type": "bg", "name": "meadowNight", "transition": "fade", "duration": 1600 },
+        { "type": "music", "name": "nighttime", "fade": 1500 },
+        { "type": "enter", "actor": "eileen", "pos": "centerLeft", "emotion": "happy", "anim": "fadeIn" },
+        { "type": "enter", "actor": "sylvie", "pos": "centerRight", "emotion": "happy", "anim": "fadeIn" },
+        { "type": "sfx", "name": "thud" },
+        { "type": "play", "actor": "eileen", "anim": "pulse" },
+        { "type": "play", "actor": "sylvie", "anim": "pulse" },
+        { "type": "say", "text": "The first firework blooms over the hills, gold against the dark." },
+        { "type": "say", "actor": "sylvie", "emotion": "smile", "text": "Same time next year?" },
+        { "type": "say", "actor": "eileen", "text": "Same time every year." },
+        { "type": "end" }
+      ]
+    }
   }
-]
+}

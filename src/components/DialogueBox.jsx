@@ -1,44 +1,29 @@
-import { useEffect } from 'react';
-import { useTypewriter } from '../engine/useTypewriter';
+import characters from "../data/characters.json";
+import { useTypewriter } from "../engine/useTypewriter";
 
-export function DialogueBox({ character, text, onAdvance, autoMode, skipMode }) {
-  const { displayed, done, skip } = useTypewriter(text, 30);
+export function DialogueBox({ dialogue, onAdvance }) {
+  const { visible, done, skip } = useTypewriter(dialogue?.text);
+  if (!dialogue) return null;
 
-  // When skip mode is active, instantly complete the current line
-  useEffect(() => {
-    if (skipMode) skip();
-  });
+  const speaker = dialogue.actor ? characters[dialogue.actor] : null;
 
-  // Auto mode: advance 1.8s after line finishes
-  useEffect(() => {
-    if (!autoMode || !done) return;
-    const t = setTimeout(onAdvance, 1800);
-    return () => clearTimeout(t);
-  }, [autoMode, done, onAdvance]);
-
-  // Skip mode: advance immediately after line finishes
-  useEffect(() => {
-    if (!skipMode || !done) return;
-    const t = setTimeout(onAdvance, 80);
-    return () => clearTimeout(t);
-  }, [skipMode, done, onAdvance]);
-
-  function handleClick() {
-    if (!done) skip();
-    else onAdvance();
-  }
+  const handleClick = (e) => {
+    e.stopPropagation();
+    if (done) onAdvance();
+    else skip();
+  };
 
   return (
-    <div className="vn-dialogue" onClick={handleClick} role="button" tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClick()}>
-      {character && <div className="vn-namebox">{character}</div>}
-      <p className="vn-dialogue__text">{displayed}</p>
-      {done && !autoMode && (
-        <span className="vn-dialogue__continue" aria-hidden="true">▼ continue</span>
+    <div className="vn-dialogue" onClick={handleClick}>
+      {speaker && (
+        <div className="vn-nametag" style={{ background: speaker.color }}>
+          {speaker.name}
+        </div>
       )}
-      {autoMode && done && (
-        <span className="vn-dialogue__continue" aria-hidden="true">AUTO</span>
-      )}
+      <p className={speaker ? "" : "vn-narration"}>
+        {visible}
+        {done && <span className="vn-continue">▾</span>}
+      </p>
     </div>
   );
 }

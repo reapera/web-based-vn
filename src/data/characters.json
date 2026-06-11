@@ -1,0 +1,21 @@
+{
+  "eileen": {
+    "name": "Eileen",
+    "color": "#d96a7e",
+    "sprites": {
+      "neutral": "/assets/characters/eileen/happy.png",
+      "happy": "/assets/characters/eileen/vhappy.png",
+      "sad": "/assets/characters/eileen/concerned.png"
+    }
+  },
+  "sylvie": {
+    "name": "Sylvie",
+    "color": "#4aa56f",
+    "sprites": {
+      "neutral": "/assets/characters/sylvie/normal.png",
+      "happy": "/assets/characters/sylvie/giggle.png",
+      "smile": "/assets/characters/sylvie/smile.png",
+      "surprised": "/assets/characters/sylvie/surprised.png"
+    }
+  }
+}

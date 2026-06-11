@@ -1,16 +1,155 @@
-# React + Vite
+# Web-Based Visual Novel Engine
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A data-driven visual novel engine built with React + Vite. The whole game — story,
+characters, backgrounds, animations, audio — is defined in JSON files under
+`src/data/`, so adding content never requires touching engine code.
 
-Currently, two official plugins are available:
+## Run it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev      # dev server
+npm run build    # production build to dist/
+```
 
-## React Compiler
+## How it's organized
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/data/          ← ALL game content lives here
+  script.json        scenes, dialogue, choices, stage directions
+  characters.json    character roster (name, color, sprite per emotion)
+  backgrounds.json   background name → image path
+  animations.json    reusable, parameterized animation presets
+  audio.json         music tracks and sound effects
+src/engine/        ← script interpreter, animation player, audio, saves
+src/components/    ← stage, sprites, dialogue box, choice menu, save menu
+public/assets/     ← sprite & background images (SVG/PNG/WebP all work)
+```
 
-## Expanding the ESLint configuration
+## Writing the story (`script.json`)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+A story is a set of named **scenes**, each a list of **steps**. Steps run
+automatically until a blocking step (`say` or `choice`) waits for the player.
+
+```jsonc
+{
+  "title": "After School",
+  "start": "intro",                  // scene to begin at
+  "scenes": {
+    "intro": {
+      "background": "classroom",     // optional: set on scene entry
+      "music": "daytime",            // optional: play on scene entry
+      "steps": [ ... ]
+    }
+  }
+}
+```
+
+### Step reference
+
+| Step | Example | Notes |
+|---|---|---|
+| `say` | `{ "type": "say", "actor": "rin", "emotion": "happy", "text": "Hi!", "anim": "hop" }` | Omit `actor` for narration. `emotion`/`anim` are optional. |
+| `choice` | `{ "type": "choice", "prompt": "?", "options": [{ "text": "...", "goto": "sceneA" }] }` | Each option jumps to a scene. |
+| `enter` | `{ "type": "enter", "actor": "akira", "pos": "centerLeft", "emotion": "neutral", "anim": "slideInLeft" }` | Positions: `left`, `centerLeft`, `center`, `centerRight`, `right`. |
+| `exit` | `{ "type": "exit", "actor": "akira", "anim": "slideOutLeft" }` | Sprite is removed after the animation. |
+| `move` | `{ "type": "move", "actor": "rin", "pos": "right" }` | Glides to the new position. |
+| `emotion` | `{ "type": "emotion", "actor": "rin", "emotion": "sad" }` | Swap sprite without dialogue. |
+| `play` | `{ "type": "play", "actor": "rin", "anim": "shake", "intensity": 14, "wait": true }` | Run any preset; extra keys override preset vars. `wait` pauses the script until it finishes. |
+| `bg` | `{ "type": "bg", "name": "night", "transition": "fade", "duration": 1500 }` | Transitions: `fade`, `wipe`, `none`. |
+| `music` | `{ "type": "music", "name": "nighttime", "fade": 1000 }` | `"name": null` stops music. |
+| `sfx` | `{ "type": "sfx", "name": "knock" }` | |
+| `wait` | `{ "type": "wait", "ms": 800 }` | |
+| `jump` | `{ "type": "jump", "goto": "ending" }` | |
+| `end` | `{ "type": "end" }` | Shows the end screen. |
+
+## Adding a character
+
+1. Drop sprite images into `public/assets/characters/<id>/` (one per emotion).
+2. Register it in `characters.json`:
+
+```json
+"mika": {
+  "name": "Mika",
+  "color": "#8a5ae6",
+  "sprites": {
+    "neutral": "/assets/characters/mika/neutral.png",
+    "happy": "/assets/characters/mika/happy.png"
+  }
+}
+```
+
+That's it — `"actor": "mika"` now works in any step.
+
+## Adding a background
+
+Drop an image in `public/assets/backgrounds/` and add one line to
+`backgrounds.json`:
+
+```json
+"beach": "/assets/backgrounds/beach.jpg"
+```
+
+An entry can also be an object with a CSS `filter`, so one image serves
+several moods without a second file:
+
+```json
+"beachNight": {
+  "src": "/assets/backgrounds/beach.jpg",
+  "filter": "brightness(0.4) saturate(0.65) hue-rotate(185deg)"
+}
+```
+
+## Reusable animations (`animations.json`)
+
+Presets are Web Animations API keyframes with **named variables** (`{var}`),
+so one definition serves every sprite and every intensity:
+
+```json
+"shake": {
+  "keyframes": [
+    { "transform": "translateX(0)" },
+    { "transform": "translateX(-{intensity}px)" },
+    { "transform": "translateX({intensity}px)" },
+    { "transform": "translateX(0)" }
+  ],
+  "vars": { "intensity": 10 },
+  "options": { "duration": 420, "easing": "ease-in-out" }
+}
+```
+
+From the script, any var plus `duration`/`easing`/`iterations` can be
+overridden per use:
+
+```json
+{ "type": "play", "actor": "rin", "anim": "shake", "intensity": 20, "duration": 300 }
+```
+
+Built-in presets: `fadeIn`, `fadeOut`, `slideInLeft`, `slideInRight`,
+`slideOutLeft`, `slideOutRight`, `bounce`, `hop`, `shake`, `nod`, `sway`,
+`pulse`, `jumpBack`, `talk`. Add your own by adding an entry to the JSON.
+
+## Audio (`audio.json`)
+
+Two source types:
+
+```jsonc
+"theme":  { "type": "file", "src": "/audio/theme.mp3", "volume": 0.5 },  // your files
+"knock":  { "type": "synth", "preset": "knock" }                          // built-in synth
+```
+
+The demo uses the built-in WebAudio synth (music = note patterns, sfx =
+`knock`/`chime`/`whoosh`/`thud` presets) so it makes sound with zero audio
+assets. Drop real files in `public/audio/` and switch the type when ready.
+
+## Saves
+
+Six save slots stored in `localStorage`, with preview text and timestamps,
+available from the in-game toolbar and the title screen.
+
+## Demo art credits
+
+The placeholder sprites (Sylvie, Eileen) and backgrounds come from the
+[Ren'Py](https://github.com/renpy/renpy) demo games *The Question* and the
+Ren'Py tutorial; they are used here as stand-in assets for testing. Replace
+them with your own art via `characters.json` / `backgrounds.json`.

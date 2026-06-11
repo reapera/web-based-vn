@@ -1,0 +1,10 @@
+{
+  "classroom": "/assets/backgrounds/lecturehall.jpg",
+  "campus": "/assets/backgrounds/uni.jpg",
+  "meadow": "/assets/backgrounds/meadow.jpg",
+  "club": "/assets/backgrounds/club.jpg",
+  "meadowNight": {
+    "src": "/assets/backgrounds/meadow.jpg",
+    "filter": "brightness(0.38) sepia(0.3) hue-rotate(175deg) saturate(1.2)"
+  }
+}
