@@ -116,5 +116,100 @@
     ],
     "vars": { "height": 6 },
     "options": { "duration": 260, "easing": "ease-out" }
+  },
+  "popFromTop": {
+    "keyframes": [
+      { "transform": "translateY(-{drop}px)", "opacity": 0 },
+      { "transform": "translateY({overshoot}px)", "opacity": 1, "offset": 0.45 },
+      { "transform": "translateY(0)", "offset": 0.65 },
+      { "transform": "translateY(-{hop}px)", "offset": 0.8 },
+      { "transform": "translateY(0)" }
+    ],
+    "vars": { "drop": 420, "overshoot": 14, "hop": 8 },
+    "options": { "duration": 550, "easing": "ease-out", "fill": "both" }
+  },
+  "popFromLeft": {
+    "keyframes": [
+      { "transform": "translateX(-{distance}px)", "opacity": 0 },
+      { "transform": "translateX({overshoot}px) translateY(10px)", "opacity": 1, "offset": 0.4 },
+      { "transform": "translateX(0) translateY(0)", "offset": 0.6 },
+      { "transform": "translateY(-{hop}px)", "offset": 0.78 },
+      { "transform": "translateY(0)" }
+    ],
+    "vars": { "distance": 480, "overshoot": 26, "hop": 8 },
+    "options": { "duration": 550, "easing": "ease-out", "fill": "both" }
+  },
+  "popFromRight": {
+    "keyframes": [
+      { "transform": "translateX({distance}px)", "opacity": 0 },
+      { "transform": "translateX(-{overshoot}px) translateY(10px)", "opacity": 1, "offset": 0.4 },
+      { "transform": "translateX(0) translateY(0)", "offset": 0.6 },
+      { "transform": "translateY(-{hop}px)", "offset": 0.78 },
+      { "transform": "translateY(0)" }
+    ],
+    "vars": { "distance": 480, "overshoot": 26, "hop": 8 },
+    "options": { "duration": 550, "easing": "ease-out", "fill": "both" }
+  },
+  "startled": {
+    "keyframes": [
+      { "transform": "translateY(0) scale(1)" },
+      { "transform": "translateY(-{height}px) scale(1)", "offset": 0.3 },
+      { "transform": "translateY(0) scale(1)", "offset": 0.55 },
+      { "transform": "translateY(0) scale({scale})", "offset": 0.75 },
+      { "transform": "translateY(0) scale(1)" }
+    ],
+    "vars": { "height": 28, "scale": 1.06 },
+    "options": { "duration": 420, "easing": "ease-out" }
+  },
+  "smallShake": {
+    "keyframes": [
+      { "transform": "translateX(0)" },
+      { "transform": "translateX(-{intensity}px)" },
+      { "transform": "translateX({intensity}px)" },
+      { "transform": "translateX(-{intensity2}px)" },
+      { "transform": "translateX(0)" }
+    ],
+    "vars": { "intensity": 6, "intensity2": 4 },
+    "options": { "duration": 240, "easing": "linear" }
+  },
+  "moderateShake": {
+    "keyframes": [
+      { "transform": "translate(-{x}px, {y}px)" },
+      { "transform": "translate({x}px, -{y}px)" },
+      { "transform": "translate(-{x}px, {y}px)" },
+      { "transform": "translate({x}px, -{y}px)" },
+      { "transform": "translate(0, 0)" }
+    ],
+    "vars": { "x": 10, "y": 8 },
+    "options": { "duration": 400, "easing": "linear" }
+  },
+  "constantShake": {
+    "keyframes": [
+      { "transform": "translate(-{x}px, 1px)" },
+      { "transform": "translate({x}px, -1px)" },
+      { "transform": "translate(-{x}px, 1px)" },
+      { "transform": "translate(0, 0)" }
+    ],
+    "vars": { "x": 2 },
+    "options": { "duration": 900, "easing": "linear", "iterations": "infinite" }
+  },
+  "breathe": {
+    "keyframes": [
+      { "transform": "translateY(0)" },
+      { "transform": "translateY(-{height}px)" },
+      { "transform": "translateY(0)" }
+    ],
+    "vars": { "height": 5 },
+    "options": { "duration": 4000, "easing": "ease-in-out", "iterations": "infinite" }
+  },
+  "tilt": {
+    "keyframes": [
+      { "transform": "rotate(0deg) scale(1)" },
+      { "transform": "rotate(-{angle}deg) scale({zoom})", "offset": 0.25 },
+      { "transform": "rotate({angle}deg) scale({zoom})", "offset": 0.6 },
+      { "transform": "rotate(0deg) scale(1)" }
+    ],
+    "vars": { "angle": 3, "zoom": 1.08 },
+    "options": { "duration": 300, "easing": "linear" }
   }
 }

@@ -3,6 +3,7 @@ import script from "../data/script.json";
 import { createAnimationBus } from "./animations";
 import { audio } from "./audio";
 import { loadFromSlot, saveToSlot } from "./saves";
+import { evalCond, interpolate } from "./vars";
 
 const initialState = {
   status: "title", // "title" | "playing" | "ended"
@@ -13,6 +14,9 @@ const initialState = {
   sprites: {}, // actor -> { emotion, pos, enterAnim, exiting }
   dialogue: null, // { actor, text }
   choice: null, // { prompt, options }
+  input: null, // { var, prompt, default }
+  vars: {}, // script variables (player_name, affection points, ...)
+  callStack: [], // [{ sceneId, stepIndex }] for call/return
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -34,13 +38,19 @@ export function useVNEngine() {
   }, []);
 
   // Process steps from (sceneId, stepIndex) until a blocking step (say,
-  // choice) hands control back to the player, or the scene jumps/ends.
+  // choice, input) hands control back to the player, or the scene jumps/ends.
   async function run(sceneId, stepIndex) {
     const token = ++runToken.current;
     const alive = () => runToken.current === token;
     const scene = script.scenes[sceneId];
     if (!scene) {
       console.error(`Unknown scene: "${sceneId}"`);
+      // Pop the call stack if possible so a missing scene doesn't dead-end.
+      const frame = stateRef.current.callStack[stateRef.current.callStack.length - 1];
+      if (frame) {
+        commit((s) => void s.callStack.pop());
+        run(frame.sceneId, frame.stepIndex);
+      }
       return;
     }
 
@@ -60,7 +70,15 @@ export function useVNEngine() {
     let i = stepIndex;
     while (alive()) {
       const step = scene.steps[i];
-      if (!step) return; // scene ran out without jump/end; stop quietly
+      if (!step) {
+        // Scene ran out of steps: behave like an implicit `return`.
+        const frame = stateRef.current.callStack[stateRef.current.callStack.length - 1];
+        if (frame) {
+          commit((s) => void s.callStack.pop());
+          run(frame.sceneId, frame.stepIndex);
+        }
+        return;
+      }
 
       switch (step.type) {
         case "bg":
@@ -80,12 +98,20 @@ export function useVNEngine() {
 
         case "enter":
           commit((s) => {
-            s.sprites[step.actor] = {
-              emotion: step.emotion ?? "neutral",
-              pos: step.pos ?? "center",
-              enterAnim: step.anim ?? "fadeIn",
-              exiting: null,
-            };
+            const existing = s.sprites[step.actor];
+            if (existing) {
+              // Already on stage: act like move/emotion, don't re-run entrance.
+              if (step.pos) existing.pos = step.pos;
+              if (step.emotion) existing.emotion = step.emotion;
+              existing.exiting = null;
+            } else {
+              s.sprites[step.actor] = {
+                emotion: step.emotion ?? "neutral",
+                pos: step.pos ?? "center",
+                enterAnim: step.anim ?? "fadeIn",
+                exiting: null,
+              };
+            }
           });
           break;
 
@@ -93,6 +119,10 @@ export function useVNEngine() {
           commit((s) => {
             if (s.sprites[step.actor]) s.sprites[step.actor].exiting = step.anim ?? "fadeOut";
           });
+          break;
+
+        case "clearAll":
+          commit((s) => void (s.sprites = {}));
           break;
 
         case "move":
@@ -119,13 +149,56 @@ export function useVNEngine() {
           await sleep(step.ms ?? 500);
           break;
 
+        case "set":
+          commit((s) => {
+            if (step.add != null) s.vars[step.var] = (s.vars[step.var] ?? 0) + step.add;
+            else s.vars[step.var] = step.value;
+          });
+          break;
+
+        case "if": {
+          const target = evalCond(step, stateRef.current.vars) ? step.goto : step.elseGoto;
+          if (target) {
+            run(target, 0);
+            return;
+          }
+          break; // condition false and no elseGoto: fall through
+        }
+
+        case "call":
+          commit((s) => void s.callStack.push({ sceneId, stepIndex: i + 1 }));
+          run(step.goto, 0);
+          return;
+
+        case "return": {
+          const frame = stateRef.current.callStack[stateRef.current.callStack.length - 1];
+          if (frame) {
+            commit((s) => void s.callStack.pop());
+            run(frame.sceneId, frame.stepIndex);
+          } else {
+            audio.stopMusic({ fade: 1500 });
+            commit((s) => {
+              s.status = "ended";
+              s.dialogue = null;
+            });
+          }
+          return;
+        }
+
+        case "input":
+          commit((s) => {
+            s.stepIndex = i;
+            s.input = { var: step.var, prompt: step.prompt ?? "", default: step.default ?? "" };
+          });
+          return; // blocking: resumes via submitInput()
+
         case "say":
           commit((s) => {
             if (step.actor && step.emotion && s.sprites[step.actor]) {
               s.sprites[step.actor].emotion = step.emotion;
             }
             s.stepIndex = i;
-            s.dialogue = { actor: step.actor ?? null, text: step.text };
+            s.dialogue = { actor: step.actor ?? null, text: interpolate(step.text, s.vars) };
           });
           if (step.anim && step.actor) bus.play(step.actor, step.anim, {});
           return; // blocking: resumes via advance()
@@ -133,7 +206,10 @@ export function useVNEngine() {
         case "choice":
           commit((s) => {
             s.stepIndex = i;
-            s.choice = { prompt: step.prompt ?? null, options: step.options };
+            s.choice = {
+              prompt: step.prompt ? interpolate(step.prompt, s.vars) : null,
+              options: step.options.map((o) => ({ ...o, text: interpolate(o.text, s.vars) })),
+            };
           });
           return; // blocking: resumes via choose()
 
@@ -167,7 +243,7 @@ export function useVNEngine() {
   function advance() {
     const s = stateRef.current;
     audio.unlock();
-    if (s.status !== "playing" || s.choice || !s.dialogue) return;
+    if (s.status !== "playing" || s.choice || s.input || !s.dialogue) return;
     // Scene music may have been skipped if audio wasn't unlocked when the
     // scene started; this is a no-op when the track is already playing.
     if (s.music) audio.playMusic(s.music);
@@ -181,6 +257,17 @@ export function useVNEngine() {
     if (!option) return;
     commit((st) => void (st.choice = null));
     run(option.goto, 0);
+  }
+
+  function submitInput(value) {
+    const s = stateRef.current;
+    if (!s.input) return;
+    const trimmed = String(value ?? "").trim();
+    commit((st) => {
+      st.vars[st.input.var] = trimmed || st.input.default;
+      st.input = null;
+    });
+    run(s.sceneId, s.stepIndex + 1);
   }
 
   const notifyExited = useCallback(
@@ -205,7 +292,10 @@ export function useVNEngine() {
       sprites,
       dialogue: s.dialogue,
       choice: s.choice,
-      preview: s.dialogue?.text ?? s.choice?.prompt ?? "...",
+      input: s.input,
+      vars: s.vars,
+      callStack: s.callStack,
+      preview: s.dialogue?.text ?? s.choice?.prompt ?? s.input?.prompt ?? "...",
     });
   }
 
@@ -224,5 +314,5 @@ export function useVNEngine() {
     return true;
   }
 
-  return { state, bus, start, advance, choose, notifyExited, save, load, title: script.title };
+  return { state, bus, start, advance, choose, submitInput, notifyExited, save, load, title: script.title };
 }

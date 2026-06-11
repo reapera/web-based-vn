@@ -32,9 +32,13 @@ export function playAnimation(el, name, params = {}) {
   if (params.duration != null) options.duration = params.duration;
   if (params.easing != null) options.easing = params.easing;
   if (params.iterations != null) options.iterations = params.iterations;
+  // JSON can't express Infinity; presets/steps use "infinite" instead.
+  if (options.iterations === "infinite") options.iterations = Infinity;
 
   const animation = el.animate(keyframes, options);
-  return animation.finished.catch(() => {}); // cancelled animations are fine
+  const done = animation.finished.catch(() => {}); // cancelled animations are fine
+  done.animation = animation;
+  return done;
 }
 
 export const animationNames = Object.keys(presets);

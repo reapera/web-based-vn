@@ -17,6 +17,7 @@ const POSITIONS = {
  */
 export function CharacterSprite({ actor, sprite, bus, onExited }) {
   const animTarget = useRef(null);
+  const lastAnim = useRef(null);
   const def = characters[actor];
 
   // Entrance animation on mount.
@@ -25,9 +26,16 @@ export function CharacterSprite({ actor, sprite, bus, onExited }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Receive `play` commands from the engine.
+  // Receive `play` commands from the engine. Starting a new animation cancels
+  // the previous one so looping presets (breathe, constantShake) can be
+  // replaced instead of fighting the newcomer over the transform.
   useEffect(() => {
-    return bus.subscribe(actor, (anim, params) => playAnimation(animTarget.current, anim, params));
+    return bus.subscribe(actor, (anim, params) => {
+      lastAnim.current?.animation?.cancel();
+      const done = playAnimation(animTarget.current, anim, params);
+      lastAnim.current = done;
+      return done;
+    });
   }, [actor, bus]);
 
   // Exit: play the leave animation, then tell the engine to unmount us.
@@ -43,11 +51,12 @@ export function CharacterSprite({ actor, sprite, bus, onExited }) {
     };
   }, [exiting, actor, onExited]);
 
-  if (!def) {
-    console.warn(`Unknown character: "${actor}"`);
+  if (!def || !def.sprites) {
+    if (!def) console.warn(`Unknown character: "${actor}"`);
     return null;
   }
-  const src = def.sprites[sprite.emotion] ?? def.sprites.neutral;
+  const src = def.sprites[sprite.emotion] ?? def.sprites.neutral ?? Object.values(def.sprites)[0];
+  if (!src) return null;
 
   return (
     <div className="vn-sprite" style={{ left: POSITIONS[sprite.pos] ?? POSITIONS.center }}>

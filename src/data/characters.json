@@ -1,21 +1,354 @@
 {
-  "eileen": {
-    "name": "Eileen",
-    "color": "#d96a7e",
-    "sprites": {
-      "neutral": "/assets/characters/eileen/happy.png",
-      "happy": "/assets/characters/eileen/vhappy.png",
-      "sad": "/assets/characters/eileen/concerned.png"
-    }
-  },
-  "sylvie": {
-    "name": "Sylvie",
-    "color": "#4aa56f",
-    "sprites": {
-      "neutral": "/assets/characters/sylvie/normal.png",
-      "happy": "/assets/characters/sylvie/giggle.png",
-      "smile": "/assets/characters/sylvie/smile.png",
-      "surprised": "/assets/characters/sylvie/surprised.png"
-    }
+ "Announcer": {
+  "name": "Announcer",
+  "color": "#9a9ab0"
+ },
+ "Beastman_Commander": {
+  "name": "Beastman Commander",
+  "color": "#9a9ab0"
+ },
+ "Beastman_Guard": {
+  "name": "Beastman Guard",
+  "color": "#9a9ab0"
+ },
+ "Bookie": {
+  "name": "Bookie",
+  "color": "#9a9ab0"
+ },
+ "Brandt": {
+  "name": "Brandt",
+  "color": "#9a9ab0"
+ },
+ "Corvin": {
+  "name": "Corvin",
+  "color": "#9a9ab0"
+ },
+ "Corvin_Voice": {
+  "name": "Corvin Voice",
+  "color": "#9a9ab0"
+ },
+ "Crowd": {
+  "name": "Crowd",
+  "color": "#9a9ab0"
+ },
+ "Fan": {
+  "name": "Fan",
+  "color": "#9a9ab0"
+ },
+ "Fenrir": {
+  "name": "Fenrir",
+  "color": "#9a9ab0"
+ },
+ "Guard": {
+  "name": "Guard",
+  "color": "#9a9ab0"
+ },
+ "Human_Smuggler": {
+  "name": "Human Smuggler",
+  "color": "#9a9ab0"
+ },
+ "Mother": {
+  "name": "Mother",
+  "color": "#9a9ab0"
+ },
+ "Saboteur": {
+  "name": "Saboteur",
+  "color": "#9a9ab0"
+ },
+ "Shopkeeper": {
+  "name": "Shopkeeper",
+  "color": "#9a9ab0"
+ },
+ "Smith": {
+  "name": "Smith",
+  "color": "#9a9ab0"
+ },
+ "Smuggler": {
+  "name": "Smuggler",
+  "color": "#9a9ab0"
+ },
+ "Town_Crier": {
+  "name": "Town Crier",
+  "color": "#9a9ab0"
+ },
+ "Unknown_Voice": {
+  "name": "Unknown Voice",
+  "color": "#9a9ab0"
+ },
+ "Unknown_Woman": {
+  "name": "Unknown Woman",
+  "color": "#9a9ab0"
+ },
+ "Vance": {
+  "name": "Vance",
+  "color": "#9a9ab0"
+ },
+ "Vendor": {
+  "name": "Vendor",
+  "color": "#9a9ab0"
+ },
+ "Wolf_Leader": {
+  "name": "Wolf Leader",
+  "color": "#9a9ab0"
+ },
+ "agent": {
+  "name": "Agent",
+  "color": "#9a9ab0"
+ },
+ "anne": {
+  "name": "Anne",
+  "color": "#9a9ab0",
+  "sprites": {
+   "normal_injured": "/assets/cyan/sprites/anne/anne-hurt-sprites.png",
+   "normal_hissed": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
+   "normal_neutral": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
+   "normal_sleep": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
+   "normal": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
+   "cute": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
+   "neutral": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
+   "injured": "/assets/cyan/sprites/anne/anne-hurt-sprites.png",
+   "hissed": "/assets/cyan/sprites/anne/anne-hissed-sprites.png",
+   "sleep": "/assets/cyan/sprites/anne/anne-hissed-sprites.png"
   }
+ },
+ "anne_hero": {
+  "name": "Anne",
+  "color": "#ffffff"
+ },
+ "anne_hesitation": {
+  "name": "Anne hesitation",
+  "color": "#9a9ab0"
+ },
+ "bandit_thrower": {
+  "name": "Bandit thrower",
+  "color": "#ff0000"
+ },
+ "baron": {
+  "name": "Baron",
+  "color": "#9a9ab0"
+ },
+ "borin": {
+  "name": "Borin",
+  "color": "#9a9ab0"
+ },
+ "corin": {
+  "name": "Corin",
+  "color": "#585858"
+ },
+ "cyan": {
+  "name": "{player_name}",
+  "color": "#4DA6FF",
+  "sprites": {
+   "normal": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_neutral": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_smile": "/assets/cyan/sprites/cyan/cyan-male-smile-sprites.png",
+   "normal_happy": "/assets/cyan/sprites/cyan/cyan-male-happy-sprites.png",
+   "normal_sigh": "/assets/cyan/sprites/cyan/cyan-male-sigh-sprites.png",
+   "normal_startled": "/assets/cyan/sprites/cyan/cyan-male-startled-sprites.png",
+   "normal_woah": "/assets/cyan/sprites/cyan/cyan-male-sigh-sprites.png",
+   "normal_serious": "/assets/cyan/sprites/cyan/cyan-male-serious-sprites.png",
+   "normal_surprised": "/assets/cyan/sprites/cyan/cyan-male-surprised-scared-sprites.png",
+   "normal_surprised_scared": "/assets/cyan/sprites/cyan/cyan-male-surprised-scared-sprites.png",
+   "battle_ready": "/assets/cyan/sprites/cyan/cyan-male-battle-ready-sprites.png",
+   "battle_rivira": "/assets/cyan/sprites/cyan/cyan-male-battle-rivira-sprites.png",
+   "battle_form": "/assets/cyan/sprites/cyan/cyan-male-battle-sprites.png",
+   "normal_confused": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_thinking": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_nervous": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_embarrassed": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_annoyed": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_pout": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_frustrated": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_determined": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "normal_excited": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "neutral": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "startled": "/assets/cyan/sprites/cyan/cyan-male-startled-sprites.png",
+   "happy": "/assets/cyan/sprites/cyan/cyan-male-happy-sprites.png",
+   "smile": "/assets/cyan/sprites/cyan/cyan-male-smile-sprites.png",
+   "sigh": "/assets/cyan/sprites/cyan/cyan-male-sigh-sprites.png",
+   "woah": "/assets/cyan/sprites/cyan/cyan-male-sigh-sprites.png",
+   "serious": "/assets/cyan/sprites/cyan/cyan-male-serious-sprites.png",
+   "surprised": "/assets/cyan/sprites/cyan/cyan-male-surprised-scared-sprites.png",
+   "surprised_scared": "/assets/cyan/sprites/cyan/cyan-male-surprised-scared-sprites.png",
+   "confused": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "thinking": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "nervous": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "embarrassed": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "annoyed": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "pout": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "frustrated": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "determined": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "excited": "/assets/cyan/sprites/cyan/cyan-male-neutral-sprites.png",
+   "ready": "/assets/cyan/sprites/cyan/cyan-male-battle-ready-sprites.png",
+   "rivira": "/assets/cyan/sprites/cyan/cyan-male-battle-rivira-sprites.png",
+   "form": "/assets/cyan/sprites/cyan/cyan-male-battle-sprites.png"
+  }
+ },
+ "drunk1": {
+  "name": "Drunkards",
+  "color": "#d81ab8"
+ },
+ "drunk2": {
+  "name": "Drunkard's friend",
+  "color": "#d4b500"
+ },
+ "elder_whisper": {
+  "name": "Elder whisper",
+  "color": "#9a9ab0"
+ },
+ "elven_captain": {
+  "name": "Elven captain",
+  "color": "#9a9ab0"
+ },
+ "elven_captain_voice": {
+  "name": "Elven captain voice",
+  "color": "#9a9ab0"
+ },
+ "eve": {
+  "name": "Eve",
+  "color": "#fbff00",
+  "sprites": {
+   "broom": "/assets/cyan/sprites/eve/1.png",
+   "broom_neutral": "/assets/cyan/sprites/eve/1.png",
+   "broom_smile": "/assets/cyan/sprites/eve/2.png",
+   "broom_ask": "/assets/cyan/sprites/eve/3.png",
+   "broom_sad": "/assets/cyan/sprites/eve/4.png",
+   "broom_angryfire": "/assets/cyan/sprites/eve/5.png",
+   "broom_laugh": "/assets/cyan/sprites/eve/6.png",
+   "broom_serious": "/assets/cyan/sprites/eve/eve-sad-sprites.png",
+   "normal": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "normal_neutral": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "normal_serious": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "normal_sad": "/assets/cyan/sprites/eve/eve-battle-sad2-sprites.png",
+   "normal_smug": "/assets/cyan/sprites/eve/eve-battle-smug-sprites.png",
+   "normal_sigh": "/assets/cyan/sprites/eve/eve-sigh-sprites.png",
+   "normal_halfsmile": "/assets/cyan/sprites/eve/eve-halfsmile-sprites.png",
+   "normal_angry": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "normal_shocked": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "normal_annoyed": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "normal_blank": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "normal_point": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "neutral": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "serious": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "sad": "/assets/cyan/sprites/eve/eve-battle-sad2-sprites.png",
+   "smug": "/assets/cyan/sprites/eve/eve-battle-smug-sprites.png",
+   "sigh": "/assets/cyan/sprites/eve/eve-sigh-sprites.png",
+   "halfsmile": "/assets/cyan/sprites/eve/eve-halfsmile-sprites.png",
+   "angry": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "shocked": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "annoyed": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "blank": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "point": "/assets/cyan/sprites/eve/eve-battle-serious-sprites.png",
+   "smile": "/assets/cyan/sprites/eve/2.png",
+   "ask": "/assets/cyan/sprites/eve/3.png",
+   "angryfire": "/assets/cyan/sprites/eve/5.png",
+   "laugh": "/assets/cyan/sprites/eve/6.png"
+  }
+ },
+ "gabe": {
+  "name": "Gabe",
+  "color": "#8B4513",
+  "sprites": {
+   "normal": "/assets/cyan/sprites/gabe/gabe-idle-sprites.png",
+   "normal_idle": "/assets/cyan/sprites/gabe/gabe-idle-sprites.png",
+   "normal_neutral": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_smug": "/assets/cyan/sprites/gabe/gabe-smug-sprites.png",
+   "normal_smirk": "/assets/cyan/sprites/gabe/gabe-smug-sprites.png",
+   "normal_happy": "/assets/cyan/sprites/gabe/gabe-happy-sprites.png",
+   "normal_serious": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_amazed": "/assets/cyan/sprites/gabe/gabe-amazed-sprites.png",
+   "normal_annoyed": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_confused": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_whine": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_startled": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_tired": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_deadpan": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_protective": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "normal_sigh": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "battle_ready": "/assets/cyan/sprites/gabe/gabe-battle-sprites.png",
+   "neutral": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "idle": "/assets/cyan/sprites/gabe/gabe-idle-sprites.png",
+   "smug": "/assets/cyan/sprites/gabe/gabe-smug-sprites.png",
+   "smirk": "/assets/cyan/sprites/gabe/gabe-smug-sprites.png",
+   "happy": "/assets/cyan/sprites/gabe/gabe-happy-sprites.png",
+   "serious": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "amazed": "/assets/cyan/sprites/gabe/gabe-amazed-sprites.png",
+   "annoyed": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "confused": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "whine": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "startled": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "tired": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "deadpan": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "protective": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "sigh": "/assets/cyan/sprites/gabe/gabe-neutral-sprites.png",
+   "ready": "/assets/cyan/sprites/gabe/gabe-battle-sprites.png"
+  }
+ },
+ "general": {
+  "name": "Northern General",
+  "color": "#ff0000"
+ },
+ "lyrel": {
+  "name": "Lyrel",
+  "color": "#138b3b",
+  "sprites": {
+   "hood": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "hood_neutral": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "hood_serious": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "hood_suspicious": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "hood_smirk": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "neutral": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "serious": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "suspicious": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png",
+   "smirk": "/assets/cyan/sprites/lyrel/lyrel-hood-sprites.png"
+  }
+ },
+ "lyrel_possessed": {
+  "name": "Lyrel possessed",
+  "color": "#9a9ab0"
+ },
+ "maerin": {
+  "name": "Maerin",
+  "color": "#9a9ab0"
+ },
+ "maerin_voice": {
+  "name": "Maerin voice",
+  "color": "#9a9ab0"
+ },
+ "narrator": {
+  "name": "Narrator",
+  "color": "#9a9ab0"
+ },
+ "roland": {
+  "name": "Roland",
+  "color": "#880000"
+ },
+ "unknown": {
+  "name": "???",
+  "color": "#5e5e5e"
+ },
+ "valerius": {
+  "name": "Valerius",
+  "color": "#91191985"
+ },
+ "whisper_voice": {
+  "name": "Whisper voice",
+  "color": "#9a9ab0"
+ },
+ "worm": {
+  "name": "Worm",
+  "color": "#9a9ab0",
+  "sprites": {
+   "default": "/assets/cyan/sprites/worm/worm-sprites.png",
+   "neutral": "/assets/cyan/sprites/worm/worm-sprites.png"
+  }
+ },
+ "worm_sunset": {
+  "name": "Worm_sunset",
+  "color": "#9a9ab0",
+  "sprites": {
+   "default": "/assets/cyan/sprites/worm_sunset/worm-sunset-sprites.png",
+   "neutral": "/assets/cyan/sprites/worm_sunset/worm-sunset-sprites.png"
+  }
+ }
 }

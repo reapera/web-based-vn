@@ -3,6 +3,7 @@ import { Background } from "./components/Background";
 import { CharacterSprite } from "./components/CharacterSprite";
 import { ChoiceMenu } from "./components/ChoiceMenu";
 import { DialogueBox } from "./components/DialogueBox";
+import { InputPrompt } from "./components/InputPrompt";
 import { SaveLoadMenu } from "./components/SaveLoadMenu";
 import { audio } from "./engine/audio";
 import { useVNEngine } from "./engine/useVNEngine";
@@ -30,7 +31,8 @@ export default function App() {
         {state.status === "playing" && (
           <>
             <ChoiceMenu choice={state.choice} onChoose={engine.choose} />
-            <DialogueBox dialogue={state.dialogue} onAdvance={engine.advance} />
+            <DialogueBox dialogue={state.dialogue} vars={state.vars} onAdvance={engine.advance} />
+            <InputPrompt input={state.input} onSubmit={engine.submitInput} />
             <div className="vn-toolbar" onClick={(e) => e.stopPropagation()}>
               <button className="vn-button" onClick={() => setMenu("save")}>Save</button>
               <button className="vn-button" onClick={() => setMenu("load")}>Load</button>
@@ -40,7 +42,7 @@ export default function App() {
         )}
 
         {state.status === "title" && (
-          <div className="vn-overlay vn-title">
+          <div className="vn-overlay vn-title" onClick={(e) => e.stopPropagation()}>
             <h1>{engine.title}</h1>
             <div className="vn-title-buttons">
               <button className="vn-button vn-button-big" onClick={engine.start}>New Game</button>
@@ -50,7 +52,7 @@ export default function App() {
         )}
 
         {state.status === "ended" && (
-          <div className="vn-overlay vn-title">
+          <div className="vn-overlay vn-title" onClick={(e) => e.stopPropagation()}>
             <h1>The End</h1>
             <div className="vn-title-buttons">
               <button className="vn-button vn-button-big" onClick={engine.start}>Play Again</button>

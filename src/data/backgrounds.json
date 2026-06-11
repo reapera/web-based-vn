@@ -1,10 +1,17 @@
 {
-  "classroom": "/assets/backgrounds/lecturehall.jpg",
-  "campus": "/assets/backgrounds/uni.jpg",
-  "meadow": "/assets/backgrounds/meadow.jpg",
-  "club": "/assets/backgrounds/club.jpg",
-  "meadowNight": {
-    "src": "/assets/backgrounds/meadow.jpg",
-    "filter": "brightness(0.38) sepia(0.3) hue-rotate(175deg) saturate(1.2)"
-  }
+ "black": {
+  "color": "#000000"
+ },
+ "cave_entrance_dark": "/assets/cyan/backgrounds/cave_entrance_dark.png",
+ "cg_worm_burst": "/assets/cyan/cg/cg_worm_burst.png",
+ "cg_worm_defeat": "/assets/cyan/cg/cg_worm_defeat.png",
+ "forest_camp_night": "/assets/cyan/backgrounds/forest_camp_fire.png",
+ "forest_deep": "/assets/cyan/backgrounds/forest_deep.png",
+ "forest_path": "/assets/cyan/backgrounds/forest_path.png",
+ "forest_path_sunset": "/assets/cyan/backgrounds/forest_path_sunset.png",
+ "gate_porthumming": "/assets/cyan/backgrounds/gate_porthumming.png",
+ "guild_interior": "/assets/cyan/backgrounds/guild_interior.png",
+ "inn_exterior": "/assets/cyan/backgrounds/inn_exterior.png",
+ "inn_room_day": "/assets/cyan/backgrounds/inn_room_day.png",
+ "porthumming": "/assets/cyan/backgrounds/porthumming.png"
 }

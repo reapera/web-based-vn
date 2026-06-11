@@ -11,21 +11,22 @@ export function Background({ background }) {
 
   useEffect(() => {
     if (!background) return;
-    // Entries are either a plain URL string or { src, filter } so one image
-    // can be reused as e.g. a night variant via a CSS filter.
+    // Entries are a plain URL string, { src, filter } (one image reused as
+    // e.g. a night variant), or { color } for solid backgrounds.
     const def = backgrounds[background.name];
     if (!def) {
       console.warn(`Unknown background: "${background.name}"`);
       return;
     }
-    const url = typeof def === "string" ? def : def.src;
+    const url = typeof def === "string" ? def : (def.src ?? null);
     const filter = typeof def === "string" ? null : (def.filter ?? null);
+    const color = typeof def === "string" ? null : (def.color ?? null);
     setLayers((prev) => {
       const last = prev[prev.length - 1];
-      if (last?.url === url && last?.filter === filter) return prev;
+      if (last?.url === url && last?.filter === filter && last?.color === color) return prev;
       return [
         ...prev.slice(-1), // keep only the outgoing layer beneath the new one
-        { key: ++keyRef.current, url, filter, transition: background.transition, duration: background.duration },
+        { key: ++keyRef.current, url, filter, color, transition: background.transition, duration: background.duration },
       ];
     });
   }, [background]);
@@ -45,7 +46,8 @@ export function Background({ background }) {
           key={layer.key}
           className={`vn-bg-layer ${idx > 0 || layers.length === 1 ? `vn-bg-${layer.transition ?? "fade"}` : ""}`}
           style={{
-            backgroundImage: `url(${layer.url})`,
+            backgroundImage: layer.url ? `url(${layer.url})` : undefined,
+            backgroundColor: layer.color ?? undefined,
             filter: layer.filter ?? undefined,
             animationDuration: `${layer.duration ?? 800}ms`,
           }}
