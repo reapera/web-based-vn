@@ -21,6 +21,30 @@ const initialState = {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Stage collision avoidance: source scripts (and Ren'Py's default) put
+// everyone at center, which stacks sprites. Never land on an occupied slot;
+// a lone center occupant is nudged aside so a conversation pairs up
+// left/right. May mutate other sprites' pos (call from within commit()).
+function resolvePos(sprites, selfActor, desired) {
+  const others = Object.entries(sprites)
+    .filter(([actor, sp]) => actor !== selfActor && !sp.exiting)
+    .map(([, sp]) => sp);
+  const occupied = () => new Set(others.map((sp) => sp.pos));
+  const pos = desired ?? "center";
+  if (!occupied().has(pos)) return pos;
+  if (pos === "center" && others.length === 1) {
+    others[0].pos = "centerLeft";
+    return "centerRight";
+  }
+  const order =
+    pos === "centerLeft" || pos === "left"
+      ? ["centerLeft", "left", "center", "centerRight", "right"]
+      : pos === "centerRight" || pos === "right"
+        ? ["centerRight", "right", "center", "centerLeft", "left"]
+        : ["center", "centerRight", "centerLeft", "right", "left"];
+  return order.find((p) => !occupied().has(p)) ?? pos;
+}
+
 export function useVNEngine() {
   const [state, setState] = useState(initialState);
   const stateRef = useRef(state);
@@ -101,13 +125,13 @@ export function useVNEngine() {
             const existing = s.sprites[step.actor];
             if (existing) {
               // Already on stage: act like move/emotion, don't re-run entrance.
-              if (step.pos) existing.pos = step.pos;
+              if (step.pos) existing.pos = resolvePos(s.sprites, step.actor, step.pos);
               if (step.emotion) existing.emotion = step.emotion;
               existing.exiting = null;
             } else {
               s.sprites[step.actor] = {
                 emotion: step.emotion ?? "neutral",
-                pos: step.pos ?? "center",
+                pos: resolvePos(s.sprites, step.actor, step.pos),
                 enterAnim: step.anim ?? "fadeIn",
                 exiting: null,
               };
@@ -127,7 +151,7 @@ export function useVNEngine() {
 
         case "move":
           commit((s) => {
-            if (s.sprites[step.actor]) s.sprites[step.actor].pos = step.pos;
+            if (s.sprites[step.actor]) s.sprites[step.actor].pos = resolvePos(s.sprites, step.actor, step.pos);
           });
           break;
 
