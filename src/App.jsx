@@ -1,47 +1,65 @@
-import { useVNEngine } from './engine/useVNEngine';
-import { Background } from './components/Background';
-import { CharacterSprite } from './components/CharacterSprite';
-import { DialogueBox } from './components/DialogueBox';
-import { ChoiceMenu } from './components/ChoiceMenu';
-import script from './data/script.json';
-import './App.css';
+import { useState } from "react";
+import { Background } from "./components/Background";
+import { CharacterSprite } from "./components/CharacterSprite";
+import { ChoiceMenu } from "./components/ChoiceMenu";
+import { DialogueBox } from "./components/DialogueBox";
+import { SaveLoadMenu } from "./components/SaveLoadMenu";
+import { audio } from "./engine/audio";
+import { useVNEngine } from "./engine/useVNEngine";
 
 export default function App() {
-  const { current, background, sprites, advance, choose, reset } = useVNEngine(script);
+  const engine = useVNEngine();
+  const { state } = engine;
+  const [menu, setMenu] = useState(null); // "save" | "load" | null
+  const [muted, setMuted] = useState(false);
+
+  const toggleMute = () => {
+    audio.setMuted(!muted);
+    setMuted(!muted);
+  };
 
   return (
-    <div className="vn-stage">
-      <Background src={background} />
+    <div className="vn-app">
+      <div className="vn-stage" onClick={engine.advance}>
+        <Background background={state.background} />
 
-      <div className="vn-sprites">
-        {Object.entries(sprites).map(([character, { src, position }]) => (
-          <CharacterSprite
-            key={character}
-            character={character}
-            src={src}
-            position={position}
-          />
+        {Object.entries(state.sprites).map(([actor, sprite]) => (
+          <CharacterSprite key={actor} actor={actor} sprite={sprite} bus={engine.bus} onExited={engine.notifyExited} />
         ))}
-      </div>
 
-      <div className="vn-ui">
-        {current?.type === 'dialogue' && (
-          <DialogueBox
-            character={current.character}
-            text={current.text}
-            onAdvance={() => advance()}
-          />
+        {state.status === "playing" && (
+          <>
+            <ChoiceMenu choice={state.choice} onChoose={engine.choose} />
+            <DialogueBox dialogue={state.dialogue} onAdvance={engine.advance} />
+            <div className="vn-toolbar" onClick={(e) => e.stopPropagation()}>
+              <button className="vn-button" onClick={() => setMenu("save")}>Save</button>
+              <button className="vn-button" onClick={() => setMenu("load")}>Load</button>
+              <button className="vn-button" onClick={toggleMute}>{muted ? "Unmute" : "Mute"}</button>
+            </div>
+          </>
         )}
 
-        {current?.type === 'choice' && (
-          <ChoiceMenu choices={current.choices} onChoose={choose} />
-        )}
-
-        {current?.type === 'end' && (
-          <div className="vn-end">
-            <p>— End —</p>
-            <button onClick={reset}>Play Again</button>
+        {state.status === "title" && (
+          <div className="vn-overlay vn-title">
+            <h1>{engine.title}</h1>
+            <div className="vn-title-buttons">
+              <button className="vn-button vn-button-big" onClick={engine.start}>New Game</button>
+              <button className="vn-button vn-button-big" onClick={() => setMenu("load")}>Load Game</button>
+            </div>
           </div>
+        )}
+
+        {state.status === "ended" && (
+          <div className="vn-overlay vn-title">
+            <h1>The End</h1>
+            <div className="vn-title-buttons">
+              <button className="vn-button vn-button-big" onClick={engine.start}>Play Again</button>
+            </div>
+          </div>
+        )}
+
+        {menu && (
+          <SaveLoadMenu mode={menu} onSave={engine.save} onLoad={engine.load} onClose={() => setMenu(null)} />
         )}
       </div>
     </div>

@@ -1,14 +1,11 @@
-export function ChoiceMenu({ choices, onChoose }) {
+export function ChoiceMenu({ choice, onChoose }) {
+  if (!choice) return null;
   return (
-    <div className="vn-choices" role="menu">
-      {choices.map(({ label, goto }) => (
-        <button
-          key={goto}
-          className="vn-choices__btn"
-          role="menuitem"
-          onClick={() => onChoose(goto)}
-        >
-          {label}
+    <div className="vn-choices" onClick={(e) => e.stopPropagation()}>
+      {choice.prompt && <div className="vn-choice-prompt">{choice.prompt}</div>}
+      {choice.options.map((option, i) => (
+        <button key={i} className="vn-choice" onClick={() => onChoose(i)}>
+          {option.text}
         </button>
       ))}
     </div>

@@ -1,0 +1,22 @@
+{
+  "akira": {
+    "name": "Akira",
+    "color": "#5aa9e6",
+    "sprites": {
+      "neutral": "/assets/characters/akira/neutral.svg",
+      "happy": "/assets/characters/akira/happy.svg",
+      "sad": "/assets/characters/akira/sad.svg",
+      "surprised": "/assets/characters/akira/surprised.svg"
+    }
+  },
+  "rin": {
+    "name": "Rin",
+    "color": "#e66a8a",
+    "sprites": {
+      "neutral": "/assets/characters/rin/neutral.svg",
+      "happy": "/assets/characters/rin/happy.svg",
+      "sad": "/assets/characters/rin/sad.svg",
+      "surprised": "/assets/characters/rin/surprised.svg"
+    }
+  }
+}

@@ -1,63 +1,78 @@
-[
-  {
-    "id": "start",
-    "type": "background",
-    "src": "/backgrounds/school.jpg",
-    "next": "intro_1"
-  },
-  {
-    "id": "intro_1",
-    "type": "sprite",
-    "character": "Aria",
-    "src": "/sprites/aria_neutral.png",
-    "position": "center",
-    "next": "intro_2"
-  },
-  {
-    "id": "intro_2",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Oh! I didn't expect to run into you here.",
-    "next": "intro_3"
-  },
-  {
-    "id": "intro_3",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Were you looking for me, or is this just a coincidence?",
-    "next": "choice_1"
-  },
-  {
-    "id": "choice_1",
-    "type": "choice",
-    "choices": [
-      { "label": "I was looking for you.", "goto": "branch_looking" },
-      { "label": "Just a coincidence.", "goto": "branch_coincidence" }
-    ]
-  },
-  {
-    "id": "branch_looking",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Really? That's... kind of sweet, actually.",
-    "next": "ending"
-  },
-  {
-    "id": "branch_coincidence",
-    "type": "dialogue",
-    "character": "Aria",
-    "text": "Ha, sure. I'll believe that.",
-    "next": "ending"
-  },
-  {
-    "id": "ending",
-    "type": "dialogue",
-    "character": null,
-    "text": "The afternoon light faded as the two walked home together.",
-    "next": "end"
-  },
-  {
-    "id": "end",
-    "type": "end"
+{
+  "title": "After School",
+  "start": "intro",
+  "scenes": {
+    "intro": {
+      "background": "classroom",
+      "music": "daytime",
+      "steps": [
+        { "type": "say", "text": "The last bell rang ten minutes ago, but the classroom isn't empty yet." },
+        { "type": "enter", "actor": "akira", "pos": "centerLeft", "emotion": "neutral", "anim": "slideInLeft" },
+        { "type": "say", "actor": "akira", "text": "I knew I'd find you here. You always stay late on Fridays." },
+        { "type": "enter", "actor": "rin", "pos": "centerRight", "emotion": "happy", "anim": "slideInRight" },
+        { "type": "say", "actor": "rin", "text": "Guilty. The library closes early and this is the quietest spot left." },
+        { "type": "play", "actor": "akira", "anim": "hop" },
+        { "type": "say", "actor": "akira", "emotion": "happy", "text": "Then you're free! Come on, the summer festival starts tonight." },
+        { "type": "sfx", "name": "knock" },
+        { "type": "play", "actor": "rin", "anim": "shake", "intensity": 6, "wait": true },
+        { "type": "say", "actor": "rin", "emotion": "surprised", "text": "Tonight?! I haven't finished the physics assignment..." },
+        {
+          "type": "choice",
+          "prompt": "What should Akira say?",
+          "options": [
+            { "text": "\"Homework can wait. Fireworks can't.\"", "goto": "festival" },
+            { "text": "\"Then let's finish it together, fast.\"", "goto": "study" }
+          ]
+        }
+      ]
+    },
+    "festival": {
+      "steps": [
+        { "type": "play", "actor": "akira", "anim": "bounce" },
+        { "type": "say", "actor": "akira", "emotion": "happy", "text": "Homework can wait. Fireworks can't!" },
+        { "type": "say", "actor": "rin", "emotion": "sad", "text": "If I fail this class, I'm telling Mr. Tanaka it was your idea." },
+        { "type": "say", "actor": "akira", "text": "Deal. Now let's go before the food stalls sell out." },
+        { "type": "exit", "actor": "akira", "anim": "slideOutLeft" },
+        { "type": "exit", "actor": "rin", "anim": "slideOutLeft" },
+        { "type": "sfx", "name": "whoosh" },
+        { "type": "bg", "name": "street", "transition": "fade", "duration": 1200 },
+        { "type": "say", "text": "They run through streets washed in orange. Paper lanterns are already being strung between the poles." },
+        { "type": "enter", "actor": "rin", "pos": "center", "emotion": "happy", "anim": "fadeIn" },
+        { "type": "say", "actor": "rin", "text": "Okay. Okay, fine. This was worth it." },
+        { "type": "jump", "goto": "ending" }
+      ]
+    },
+    "study": {
+      "steps": [
+        { "type": "say", "actor": "akira", "emotion": "neutral", "text": "Then let's finish it together, fast. Two brains, one assignment." },
+        { "type": "play", "actor": "rin", "anim": "nod", "wait": true },
+        { "type": "say", "actor": "rin", "emotion": "happy", "text": "...You hate physics. You really want to go to this festival, huh?" },
+        { "type": "say", "actor": "akira", "emotion": "happy", "text": "More than anything. Page forty-two, problem one. Go." },
+        { "type": "say", "text": "Forty minutes of frantic scribbling later..." },
+        { "type": "sfx", "name": "chime" },
+        { "type": "play", "actor": "rin", "anim": "bounce" },
+        { "type": "say", "actor": "rin", "emotion": "happy", "text": "Done! Last one to the gate buys the takoyaki!" },
+        { "type": "exit", "actor": "rin", "anim": "slideOutRight" },
+        { "type": "exit", "actor": "akira", "anim": "slideOutRight" },
+        { "type": "bg", "name": "street", "transition": "wipe", "duration": 1000 },
+        { "type": "say", "text": "The sun is low by the time they reach the festival street, but they made it." },
+        { "type": "jump", "goto": "ending" }
+      ]
+    },
+    "ending": {
+      "steps": [
+        { "type": "bg", "name": "night", "transition": "fade", "duration": 1600 },
+        { "type": "music", "name": "nighttime", "fade": 1500 },
+        { "type": "enter", "actor": "akira", "pos": "centerLeft", "emotion": "happy", "anim": "fadeIn" },
+        { "type": "enter", "actor": "rin", "pos": "centerRight", "emotion": "happy", "anim": "fadeIn" },
+        { "type": "sfx", "name": "thud" },
+        { "type": "play", "actor": "akira", "anim": "pulse" },
+        { "type": "play", "actor": "rin", "anim": "pulse" },
+        { "type": "say", "text": "The first firework blooms over the rooftops, gold against the dark." },
+        { "type": "say", "actor": "rin", "text": "Same time next year?" },
+        { "type": "say", "actor": "akira", "text": "Same time every year." },
+        { "type": "end" }
+      ]
+    }
   }
-]
+}

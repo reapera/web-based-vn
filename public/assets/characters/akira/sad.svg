@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 420">
+  <!-- legs -->
+  <rect x="80" y="320" width="16" height="90" rx="8" fill="#4a4a5c"/>
+  <rect x="104" y="320" width="16" height="90" rx="8" fill="#4a4a5c"/>
+  <!-- body -->
+  <path d="M62 180 q38 -26 76 0 l10 130 q-48 18 -96 0 Z" fill="#5aa9e6"/>
+  <path d="M62 180 q38 -26 76 0 l3 40 q-41 16 -82 0 Z" fill="#3d7fb5"/>
+  <!-- arms -->
+  <path d="M62 186 q-18 40 -10 96 q8 8 16 2 q-4 -50 6 -88 Z" fill="#5aa9e6"/>
+  <path d="M138 186 q18 40 10 96 q-8 8 -16 2 q4 -50 -6 -88 Z" fill="#5aa9e6"/>
+  <circle cx="56" cy="288" r="9" fill="#f3d3b3"/>
+  <circle cx="144" cy="288" r="9" fill="#f3d3b3"/>
+  <!-- neck & head -->
+  <rect x="90" y="142" width="20" height="28" fill="#f3d3b3"/>
+  <circle cx="100" cy="96" r="46" fill="#f3d3b3"/>
+  
+    <path d="M58 86 q-6 -52 42 -54 q48 2 42 54 q-4 -10 -10 -16 q-30 14 -64 0 q-6 6 -10 16 Z" fill="#3b4a6b"/>
+  <path d="M74 80 q9 2 18 6" stroke="#2b2b35" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M108 86 q9 -4 18 -6" stroke="#2b2b35" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <ellipse cx="83" cy="94" rx="5.5" ry="7" fill="#2b2b35"/><ellipse cx="117" cy="94" rx="5.5" ry="7" fill="#2b2b35"/>
+  <path d="M90 120 q10 -7 20 0" stroke="#a05050" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <ellipse cx="74" cy="108" rx="6" ry="4" fill="#f0a0a0" opacity="0.55"/>
+  <ellipse cx="126" cy="108" rx="6" ry="4" fill="#f0a0a0" opacity="0.55"/>
+</svg>
