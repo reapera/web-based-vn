@@ -1,22 +1,21 @@
 {
-  "akira": {
-    "name": "Akira",
-    "color": "#5aa9e6",
+  "eileen": {
+    "name": "Eileen",
+    "color": "#d96a7e",
     "sprites": {
-      "neutral": "/assets/characters/akira/neutral.svg",
-      "happy": "/assets/characters/akira/happy.svg",
-      "sad": "/assets/characters/akira/sad.svg",
-      "surprised": "/assets/characters/akira/surprised.svg"
+      "neutral": "/assets/characters/eileen/happy.png",
+      "happy": "/assets/characters/eileen/vhappy.png",
+      "sad": "/assets/characters/eileen/concerned.png"
     }
   },
-  "rin": {
-    "name": "Rin",
-    "color": "#e66a8a",
+  "sylvie": {
+    "name": "Sylvie",
+    "color": "#4aa56f",
     "sprites": {
-      "neutral": "/assets/characters/rin/neutral.svg",
-      "happy": "/assets/characters/rin/happy.svg",
-      "sad": "/assets/characters/rin/sad.svg",
-      "surprised": "/assets/characters/rin/surprised.svg"
+      "neutral": "/assets/characters/sylvie/normal.png",
+      "happy": "/assets/characters/sylvie/giggle.png",
+      "smile": "/assets/characters/sylvie/smile.png",
+      "surprised": "/assets/characters/sylvie/surprised.png"
     }
   }
 }

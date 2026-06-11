@@ -90,6 +90,16 @@ Drop an image in `public/assets/backgrounds/` and add one line to
 "beach": "/assets/backgrounds/beach.jpg"
 ```
 
+An entry can also be an object with a CSS `filter`, so one image serves
+several moods without a second file:
+
+```json
+"beachNight": {
+  "src": "/assets/backgrounds/beach.jpg",
+  "filter": "brightness(0.4) saturate(0.65) hue-rotate(185deg)"
+}
+```
+
 ## Reusable animations (`animations.json`)
 
 Presets are Web Animations API keyframes with **named variables** (`{var}`),
@@ -136,3 +146,10 @@ assets. Drop real files in `public/audio/` and switch the type when ready.
 
 Six save slots stored in `localStorage`, with preview text and timestamps,
 available from the in-game toolbar and the title screen.
+
+## Demo art credits
+
+The placeholder sprites (Sylvie, Eileen) and backgrounds come from the
+[Ren'Py](https://github.com/renpy/renpy) demo games *The Question* and the
+Ren'Py tutorial; they are used here as stand-in assets for testing. Replace
+them with your own art via `characters.json` / `backgrounds.json`.
