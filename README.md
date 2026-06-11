@@ -4,6 +4,11 @@ A data-driven visual novel engine built with React + Vite. The whole game — st
 characters, backgrounds, animations, audio — is defined in JSON files under
 `src/data/`, so adding content never requires touching engine code.
 
+The repo currently ships **Cyan Adventure**, ported from the Ren'Py project
+[reapera/vn-cyan](https://github.com/reapera/vn-cyan) via the included
+converter (see below): 252 scenes, ~4,400 dialogue lines, branching routes,
+player name/gender selection, and affection-point tracking.
+
 ## Run it
 
 ```bash
@@ -61,6 +66,11 @@ automatically until a blocking step (`say` or `choice`) waits for the player.
 | `sfx` | `{ "type": "sfx", "name": "knock" }` | |
 | `wait` | `{ "type": "wait", "ms": 800 }` | |
 | `jump` | `{ "type": "jump", "goto": "ending" }` | |
+| `call` / `return` | `{ "type": "call", "goto": "side_scene" }` | Like jump, but `return` resumes after the call. A `return` with no caller ends the game. |
+| `set` | `{ "type": "set", "var": "eve_heart", "add": 1 }` | Or `"value": ...` to assign. Variables interpolate into text as `{eve_heart}`. |
+| `if` | `{ "type": "if", "var": "eve_heart", "op": ">=", "value": 3, "goto": "good_end", "elseGoto": "bad_end" }` | Ops: `==` `!=` `>` `<` `>=` `<=` `truthy` `falsy`. `elseGoto` optional (falls through). |
+| `input` | `{ "type": "input", "var": "player_name", "prompt": "Your name?", "default": "Cyan" }` | Blocking text input. |
+| `clearAll` | `{ "type": "clearAll" }` | Removes all sprites (Ren'Py `scene`). |
 | `end` | `{ "type": "end" }` | Shows the end screen. |
 
 ## Adding a character
@@ -127,7 +137,11 @@ overridden per use:
 
 Built-in presets: `fadeIn`, `fadeOut`, `slideInLeft`, `slideInRight`,
 `slideOutLeft`, `slideOutRight`, `bounce`, `hop`, `shake`, `nod`, `sway`,
-`pulse`, `jumpBack`, `talk`. Add your own by adding an entry to the JSON.
+`pulse`, `jumpBack`, `talk`, `popFromTop`, `popFromLeft`, `popFromRight`,
+`startled`, `smallShake`, `moderateShake`, `constantShake`, `breathe`,
+`tilt`. Add your own by adding an entry to the JSON. Presets with
+`"iterations": "infinite"` loop until the next animation on that sprite
+replaces them.
 
 ## Audio (`audio.json`)
 
@@ -147,9 +161,23 @@ assets. Drop real files in `public/audio/` and switch the type when ready.
 Six save slots stored in `localStorage`, with preview text and timestamps,
 available from the in-game toolbar and the title screen.
 
-## Demo art credits
+## Ren'Py converter
 
-The placeholder sprites (Sylvie, Eileen) and backgrounds come from the
-[Ren'Py](https://github.com/renpy/renpy) demo games *The Question* and the
-Ren'Py tutorial; they are used here as stand-in assets for testing. Replace
-them with your own art via `characters.json` / `backgrounds.json`.
+`tools/convert-renpy.mjs` ports a Ren'Py game into this engine:
+
+```bash
+node tools/convert-renpy.mjs /path/to/renpy/game
+```
+
+It parses `script.rpy` + `arcs/**/*.rpy`, translates labels into scenes
+(menus with inline bodies and if/elif/else chains become synthesized branch
+scenes), maps `image`/`define` statements into `characters.json` /
+`backgrounds.json`, remaps ATL transforms onto the engine's animation
+presets, copies only the referenced images/audio into `public/assets/cyan/`,
+and prints a warning report for anything it had to skip or stub (missing
+labels become non-crashing placeholder scenes).
+
+## Art credits
+
+Sprites, backgrounds, and music come from
+[reapera/vn-cyan](https://github.com/reapera/vn-cyan).
