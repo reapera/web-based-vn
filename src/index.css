@@ -31,6 +31,18 @@ body {
   user-select: none;
 }
 
+/* Fullscreen: fill the screen, drop the chrome */
+.vn-app:fullscreen {
+  padding: 0;
+  background: #000;
+}
+
+.vn-app:fullscreen .vn-stage {
+  width: min(100%, calc(100vh * 16 / 9));
+  border-radius: 0;
+  box-shadow: none;
+}
+
 /* ---- Background layers & transitions ---- */
 .vn-background,
 .vn-bg-layer {
@@ -223,6 +235,11 @@ body {
 .vn-title-buttons {
   display: flex;
   gap: 16px;
+}
+
+.vn-title-fullscreen {
+  margin-top: 18px;
+  opacity: 0.85;
 }
 
 /* ---- Input prompt ---- */

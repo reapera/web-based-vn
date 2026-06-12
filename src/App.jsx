@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Background } from "./components/Background";
 import { ChapterMenu } from "./components/ChapterMenu";
 import { CharacterSprite } from "./components/CharacterSprite";
@@ -12,8 +12,30 @@ import { useVNEngine } from "./engine/useVNEngine";
 export default function App() {
   const engine = useVNEngine();
   const { state } = engine;
-  const [menu, setMenu] = useState(null); // "save" | "load" | null
+  const [menu, setMenu] = useState(null); // "save" | "load" | "chapters" | null
   const [muted, setMuted] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const appRef = useRef(null);
+
+  useEffect(() => {
+    const onChange = () => setFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await appRef.current.requestFullscreen();
+        // Phones: rotate into landscape. Not supported on desktop; ignore.
+        await screen.orientation?.lock?.("landscape").catch(() => {});
+      }
+    } catch {
+      /* fullscreen unavailable (e.g. iframe without allowfullscreen) */
+    }
+  };
 
   const toggleMute = () => {
     audio.setMuted(!muted);
@@ -21,7 +43,7 @@ export default function App() {
   };
 
   return (
-    <div className="vn-app">
+    <div className="vn-app" ref={appRef}>
       <div className="vn-stage" onClick={engine.advance}>
         <Background background={state.background} />
 
@@ -39,6 +61,9 @@ export default function App() {
               <button className="vn-button" onClick={() => setMenu("load")}>Load</button>
               <button className="vn-button" onClick={() => setMenu("chapters")}>Scenes</button>
               <button className="vn-button" onClick={toggleMute}>{muted ? "Unmute" : "Mute"}</button>
+              <button className="vn-button" onClick={toggleFullscreen} title={fullscreen ? "Exit fullscreen" : "Fullscreen"}>
+                {fullscreen ? "🡼" : "⛶"}
+              </button>
             </div>
           </>
         )}
@@ -51,6 +76,9 @@ export default function App() {
               <button className="vn-button vn-button-big" onClick={() => setMenu("load")}>Load Game</button>
               <button className="vn-button vn-button-big" onClick={() => setMenu("chapters")}>Scenes</button>
             </div>
+            <button className="vn-button vn-title-fullscreen" onClick={toggleFullscreen}>
+              {fullscreen ? "Exit Fullscreen" : "⛶ Fullscreen"}
+            </button>
           </div>
         )}
 
