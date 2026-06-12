@@ -349,3 +349,53 @@ body {
 .vn-slot-delete:hover {
   background: rgba(200, 60, 80, 0.45);
 }
+
+/* ---- Chapter / scene browser ---- */
+.vn-chapters {
+  max-height: 86%;
+}
+
+.vn-chapter-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vn-chapter-group {
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #cfcfff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.vn-chapter-group:hover {
+  background: rgba(100, 100, 170, 0.3);
+}
+
+.vn-chapter-count {
+  font-weight: 400;
+  color: #9a9ab0;
+}
+
+.vn-chapter {
+  width: 100%;
+  text-align: left;
+  padding: 7px 14px 7px 30px;
+  font-size: 14px;
+  color: #ddd;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vn-chapter:hover {
+  background: rgba(100, 100, 170, 0.35);
+}

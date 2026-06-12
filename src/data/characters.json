@@ -1,4 +1,8 @@
 {
+ "Anne": {
+  "name": "Anne",
+  "color": "#9a9ab0"
+ },
  "Announcer": {
   "name": "Announcer",
   "color": "#9a9ab0"
@@ -9,6 +13,10 @@
  },
  "Beastman_Guard": {
   "name": "Beastman Guard",
+  "color": "#9a9ab0"
+ },
+ "Beastman_Soldier": {
+  "name": "Beastman Soldier",
   "color": "#9a9ab0"
  },
  "Bookie": {
@@ -39,16 +47,16 @@
   "name": "Fenrir",
   "color": "#9a9ab0"
  },
- "Guard": {
-  "name": "Guard",
-  "color": "#9a9ab0"
- },
- "Human_Smuggler": {
-  "name": "Human Smuggler",
+ "General_Bastion": {
+  "name": "General Bastion",
   "color": "#9a9ab0"
  },
  "Mother": {
   "name": "Mother",
+  "color": "#9a9ab0"
+ },
+ "Random_Adventurer": {
+  "name": "Random Adventurer",
   "color": "#9a9ab0"
  },
  "Saboteur": {
@@ -65,6 +73,18 @@
  },
  "Smuggler": {
   "name": "Smuggler",
+  "color": "#9a9ab0"
+ },
+ "Soldier": {
+  "name": "Soldier",
+  "color": "#9a9ab0"
+ },
+ "Soldier_A": {
+  "name": "Soldier A",
+  "color": "#9a9ab0"
+ },
+ "Soldier_B": {
+  "name": "Soldier B",
   "color": "#9a9ab0"
  },
  "Town_Crier": {
@@ -95,6 +115,22 @@
   "name": "Agent",
   "color": "#9a9ab0"
  },
+ "agent_cloaked": {
+  "name": "Agent_cloaked",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-agent_cloaked.svg"
+  },
+  "fixedHeight": 78
+ },
+ "agent_revealed": {
+  "name": "Agent_revealed",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-agent_revealed.svg"
+  },
+  "fixedHeight": 78
+ },
  "anne": {
   "name": "Anne",
   "color": "#9a9ab0",
@@ -112,13 +148,45 @@
    "sleep": "/assets/cyan/sprites/anne/anne-hissed-sprites.png"
   }
  },
+ "anne_berserk": {
+  "name": "Anne_berserk",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-anne_berserk.svg"
+  },
+  "fixedHeight": 78
+ },
+ "anne_cat": {
+  "name": "Anne_cat",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-anne_cat.svg"
+  },
+  "fixedHeight": 78
+ },
  "anne_hero": {
   "name": "Anne",
-  "color": "#ffffff"
+  "color": "#ffffff",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-anne_hero.svg"
+  },
+  "fixedHeight": 78
+ },
+ "anne_hero_weak": {
+  "name": "Anne_hero_weak",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-anne_hero_weak.svg"
+  },
+  "fixedHeight": 78
  },
  "anne_hesitation": {
-  "name": "Anne hesitation",
-  "color": "#9a9ab0"
+  "name": "Anne_hesitation",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-anne_hesitation.svg"
+  },
+  "fixedHeight": 78
  },
  "bandit_thrower": {
   "name": "Bandit thrower",
@@ -126,15 +194,39 @@
  },
  "baron": {
   "name": "Baron",
-  "color": "#9a9ab0"
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-baron.svg"
+  },
+  "fixedHeight": 78
  },
  "borin": {
   "name": "Borin",
   "color": "#9a9ab0"
  },
+ "brandt": {
+  "name": "Brandt",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-brandt.svg"
+  },
+  "fixedHeight": 78
+ },
  "corin": {
   "name": "Corin",
-  "color": "#585858"
+  "color": "#585858",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-corin.svg"
+  },
+  "fixedHeight": 78
+ },
+ "corvin": {
+  "name": "Corvin",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-corvin.svg"
+  },
+  "fixedHeight": 78
  },
  "cyan": {
   "name": "{player_name}",
@@ -193,17 +285,57 @@
   "name": "Drunkard's friend",
   "color": "#d4b500"
  },
+ "drunk_adventurer": {
+  "name": "Drunk adventurer",
+  "color": "#9a9ab0"
+ },
+ "eclia": {
+  "name": "Eclia",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-eclia.svg"
+  },
+  "fixedHeight": 78
+ },
+ "elder_maerin": {
+  "name": "Elder_maerin",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-elder_maerin.svg"
+  },
+  "fixedHeight": 78
+ },
+ "elder_smiling": {
+  "name": "Elder_smiling",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-elder_smiling.svg"
+  },
+  "fixedHeight": 78
+ },
  "elder_whisper": {
   "name": "Elder whisper",
   "color": "#9a9ab0"
  },
  "elven_captain": {
-  "name": "Elven captain",
-  "color": "#9a9ab0"
+  "name": "Elven_captain",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-elven_captain.svg"
+  },
+  "fixedHeight": 78
  },
  "elven_captain_voice": {
   "name": "Elven captain voice",
   "color": "#9a9ab0"
+ },
+ "energy_beam_red": {
+  "name": "Energy_beam_red",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-energy_beam_red.svg"
+  },
+  "fixedHeight": 78
  },
  "eve": {
   "name": "Eve",
@@ -245,6 +377,14 @@
    "angryfire": "/assets/cyan/sprites/eve/5.png",
    "laugh": "/assets/cyan/sprites/eve/6.png"
   }
+ },
+ "fenrir": {
+  "name": "Fenrir",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-fenrir.svg"
+  },
+  "fixedHeight": 78
  },
  "gabe": {
   "name": "Gabe",
@@ -289,6 +429,54 @@
   "name": "Northern General",
   "color": "#ff0000"
  },
+ "golem_left_crumble": {
+  "name": "Golem_left_crumble",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-golem_left_crumble.svg"
+  },
+  "fixedHeight": 78
+ },
+ "golem_left_deactivated": {
+  "name": "Golem_left_deactivated",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-golem_left_deactivated.svg"
+  },
+  "fixedHeight": 78
+ },
+ "golem_left_sleep": {
+  "name": "Golem_left_sleep",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-golem_left_sleep.svg"
+  },
+  "fixedHeight": 78
+ },
+ "golem_right_sleep": {
+  "name": "Golem_right_sleep",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-golem_right_sleep.svg"
+  },
+  "fixedHeight": 78
+ },
+ "guard": {
+  "name": "Guard",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-guard.svg"
+  },
+  "fixedHeight": 78
+ },
+ "hologram_roland": {
+  "name": "Hologram_roland",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-hologram_roland.svg"
+  },
+  "fixedHeight": 78
+ },
  "lyrel": {
   "name": "Lyrel",
   "color": "#138b3b",
@@ -320,9 +508,73 @@
   "name": "Narrator",
   "color": "#9a9ab0"
  },
+ "northern_general": {
+  "name": "Northern_general",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-northern_general.svg"
+  },
+  "fixedHeight": 78
+ },
  "roland": {
   "name": "Roland",
-  "color": "#880000"
+  "color": "#880000",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-roland.svg"
+  },
+  "fixedHeight": 78
+ },
+ "root_strike": {
+  "name": "Root_strike",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-root_strike.svg"
+  },
+  "fixedHeight": 78
+ },
+ "runes_glow": {
+  "name": "Runes_glow",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-runes_glow.svg"
+  },
+  "fixedHeight": 78
+ },
+ "saboteur": {
+  "name": "Saboteur",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-saboteur.svg"
+  },
+  "fixedHeight": 78
+ },
+ "sound": {
+  "name": "Sound",
+  "color": "#9a9ab0"
+ },
+ "stasis_cylinder_bright_light": {
+  "name": "Stasis_cylinder_bright_light",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-stasis_cylinder_bright_light.svg"
+  },
+  "fixedHeight": 78
+ },
+ "stasis_cylinder_whiteout": {
+  "name": "Stasis_cylinder_whiteout",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-stasis_cylinder_whiteout.svg"
+  },
+  "fixedHeight": 78
+ },
+ "stasis_tube": {
+  "name": "Stasis_tube",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-stasis_tube.svg"
+  },
+  "fixedHeight": 78
  },
  "unknown": {
   "name": "???",
@@ -330,7 +582,35 @@
  },
  "valerius": {
   "name": "Valerius",
-  "color": "#91191985"
+  "color": "#91191985",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-valerius.svg"
+  },
+  "fixedHeight": 78
+ },
+ "vance": {
+  "name": "Vance",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-vance.svg"
+  },
+  "fixedHeight": 78
+ },
+ "vendor_rabbit": {
+  "name": "Vendor_rabbit",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-vendor_rabbit.svg"
+  },
+  "fixedHeight": 78
+ },
+ "vera": {
+  "name": "Vera",
+  "color": "#9a9ab0",
+  "sprites": {
+   "neutral": "/assets/cyan/placeholders/sprite-vera.svg"
+  },
+  "fixedHeight": 78
  },
  "whisper_voice": {
   "name": "Whisper voice",

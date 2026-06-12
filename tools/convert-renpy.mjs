@@ -20,8 +20,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SRC = process.argv[2];
+const STORY = process.argv[3]; // optional: story repo dir (markdown with ```renpy blocks + prose scenes)
 if (!SRC || !fs.existsSync(SRC)) {
-  console.error("Usage: node tools/convert-renpy.mjs <renpy-game-dir>");
+  console.error("Usage: node tools/convert-renpy.mjs <renpy-game-dir> [story-repo-dir]");
   process.exit(1);
 }
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -33,6 +34,11 @@ const warn = (kind, detail) => {
   (warnings[kind] ??= []).push(detail);
 };
 
+// Missing-asset tracking → placeholder art + TODO-ASSETS.md
+const placeholderActors = new Set();
+const placeholderBgs = new Set();
+const missingEmotions = new Set();
+
 // ---------------------------------------------------------------- helpers
 
 const listRpy = (dir) =>
@@ -42,6 +48,36 @@ const listRpy = (dir) =>
   });
 
 const files = [path.join(SRC, "script.rpy"), ...listRpy(path.join(SRC, "arcs"))].filter((f) => fs.existsSync(f));
+
+// Story repo: markdown files. ```renpy blocks become virtual .rpy sources;
+// prose scene files are converted to narration further down.
+const storyMd = [];
+if (STORY) {
+  (function walkMd(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory() && !e.name.startsWith(".")) walkMd(p);
+      else if (e.name.endsWith(".md")) storyMd.push(p);
+    }
+  })(STORY);
+}
+
+/** Markdown path → chapter group label, e.g. "05_Scenes/Cyan's Past/code/x.md" → "Cyan's Past". */
+function storyGroup(file) {
+  const rel = path.relative(STORY, file).split(path.sep);
+  const seg = rel.length > 2 && /^(code|story)$/i.test(rel[rel.length - 2]) ? rel.slice(0, -2) : rel.slice(0, -1);
+  const last = seg[seg.length - 1] ?? "Story";
+  return last.replace(/^\d+_/, "");
+}
+
+const virtualSources = []; // { name, content, group }
+for (const md of storyMd) {
+  const text = fs.readFileSync(md, "utf8");
+  const blocks = [...text.matchAll(/```renpy\n([\s\S]*?)```/g)].map((m) => m[1]);
+  if (blocks.length) {
+    virtualSources.push({ name: path.basename(md), content: blocks.join("\n"), group: storyGroup(md) });
+  }
+}
 
 /** Strip a trailing comment that is not inside a string. */
 function stripComment(line) {
@@ -73,8 +109,13 @@ const imageMap = {}; // "char_eve broom ask" -> "images/sprites/eve/3.png"
 const condSwitch = {}; // "char_cyan neutral" -> "char_cyan normal neutral"
 const defines = {}; // speaker id -> { name, color }
 
-for (const file of files) {
-  const lines = fs.readFileSync(file, "utf8").split("\n");
+const allSources = [
+  ...files.map((f) => ({ name: f, content: fs.readFileSync(f, "utf8") })),
+  ...virtualSources,
+];
+
+for (const source of allSources) {
+  const lines = source.content.split("\n");
   for (let i = 0; i < lines.length; i++) {
     const line = stripComment(lines[i]).trimEnd();
     const t = line.trim();
@@ -137,7 +178,7 @@ for (const sprites of Object.values(actorSprites)) {
 
 // Speaker aliases for the shorthand/capitalized ids used in some scenes.
 // b/g are scene-local shorthands (Brandt in rmc_scene8, Gabe elsewhere).
-const speakerAlias = { c: "cyan", e: "eve", l: "lyrel", g: "gabe", b: "Brandt" };
+const speakerAlias = { c: "cyan", e: "eve", l: "lyrel", g: "gabe", b: "Brandt", ec: "eclia" };
 const resolveSpeaker = (tok) => {
   const id = speakerAlias[tok] ?? (defines[tok] ? tok : defines[tok.toLowerCase()] ? tok.toLowerCase() : tok);
   if (!defines[id] && !actorSprites[id]) {
@@ -150,16 +191,17 @@ const resolveSpeaker = (tok) => {
 // --------------------------------------------------- transform mapping
 
 const POSITION_AT = {
-  center: "center", center_pos: "center", truecenter: "center",
-  midleft: "centerLeft", mid_left: "centerLeft", near_left: "centerLeft",
-  midright: "centerRight", mid_right: "centerRight", near_right: "centerRight",
-  farleft: "left", far_left: "left", anne_small_left: "left", left: "left",
-  farright: "right", far_right: "right", anne_small_right: "right", right: "right",
-  anne_small_center: "center",
+  center: "center", center_pos: "center", truecenter: "center", ground_center: "center",
+  midleft: "centerLeft", mid_left: "centerLeft", near_left: "centerLeft", center_left: "centerLeft",
+  midright: "centerRight", mid_right: "centerRight", near_right: "centerRight", center_right: "centerRight",
+  farleft: "left", far_left: "left", anne_small_left: "left", left: "left", offscreenleft: "left",
+  farright: "right", far_right: "right", anne_small_right: "right", right: "right", offscreenright: "right",
+  anne_small_center: "center", bar: "centerRight",
 };
 const MOVE_END = { center: "center", midleft: "centerLeft", midright: "centerRight", farleft: "left", farright: "right" };
 const ANIM_AT = {
   startled: "startled",
+  alert: "startled",
   small_shake: "smallShake",
   shake: "moderateShake",
   moderate_shake: "moderateShake",
@@ -167,6 +209,7 @@ const ANIM_AT = {
   idle_breathe: "breathe",
   cat_float: "breathe",
   bg_slight_tilt: "tilt",
+  flash: "flash",
 };
 const ENTER_AT = {
   pop_from_up: { anim: "popFromTop" },
@@ -262,14 +305,14 @@ function musicName(file) {
 
 // ------------------------------------------------------ statement parsing
 
-/** Read a file into {indent, text, file, line} statements, skipping blanks. */
-function readStatements(file) {
+/** Parse source text into {indent, text, file, line} statements, skipping blanks. */
+function readStatements(name, content) {
   const out = [];
-  const raw = fs.readFileSync(file, "utf8").split("\n");
+  const raw = content.split("\n");
   for (let i = 0; i < raw.length; i++) {
     const noComment = stripComment(raw[i].replace(/\t/g, "    ")).trimEnd();
     if (!noComment.trim()) continue;
-    out.push({ indent: noComment.length - noComment.trimStart().length, text: noComment.trim(), file: path.basename(file), line: i + 1 });
+    out.push({ indent: noComment.length - noComment.trimStart().length, text: noComment.trim(), file: path.basename(name), line: i + 1 });
   }
   return out;
 }
@@ -449,8 +492,13 @@ function emitInto(stmts, sceneId) {
         at = a;
         return "";
       });
-      const tokens = rest.trim().split(/\s+/);
-      const fadeLike = transition && /fade|Fade|dissolve|Dissolve/.test(transition);
+      // Drop renpy clauses we don't model (layers, aliases, z-order).
+      let tokens = rest.trim().split(/\s+/);
+      for (const cut of ["as", "onlayer", "behind", "zorder"]) {
+        const idx = tokens.indexOf(cut);
+        if (idx > 0) tokens = tokens.slice(0, idx);
+      }
+      const fadeLike = transition && /fade|dissolve/i.test(transition);
 
       if (tokens[0] === "expression") {
         warn("skipped statement", `${t} (${ctx})`);
@@ -463,7 +511,7 @@ function emitInto(stmts, sceneId) {
       }
       if (tokens[0] === "bg" || tokens[0] === "cg" || tokens[0].startsWith("cg_")) {
         const bgName = tokens[0] === "bg" ? toId(tokens.slice(1).join(" ")) : toId(tokens.join(" "));
-        if (!bgImages[bgName]) warn("unknown background", `${bgName} (${ctx})`);
+        if (!bgImages[bgName]) placeholderBgs.add(bgName); // gets TODO placeholder art
         if (isScene) steps.push({ type: "clearAll" });
         steps.push({ type: "bg", name: bgName, transition: fadeLike ? "fade" : "none", ...(fadeLike ? { duration: 800 } : {}) });
         if (at) {
@@ -472,31 +520,70 @@ function emitInto(stmts, sceneId) {
         }
         continue;
       }
-      if (tokens[0] === "white_flash" || tokens[0] === "vignette") continue;
+      if (tokens[0] === "white_flash" || tokens[0] === "vignette" || tokens[0] === "effect") continue;
       if (isScene) {
+        // Story-repo code often writes `scene location_name` without the
+        // `bg` token; treat any non-actor scene target as a background.
+        const bgName = toId(tokens.join(" "));
+        if (!actorSprites[tokens[0]]) {
+          if (!bgImages[bgName]) placeholderBgs.add(bgName);
+          steps.push({ type: "clearAll" });
+          steps.push({ type: "bg", name: bgName, transition: fadeLike ? "fade" : "none", ...(fadeLike ? { duration: 800 } : {}) });
+          continue;
+        }
         warn("skipped statement", `${t} (${ctx})`);
         continue;
       }
       // sprite show
-      const rawActor = tokens[0].startsWith("char_") ? tokens[0].slice(5) : tokens[0];
+      let rawActor = tokens[0].startsWith("char_") ? tokens[0].slice(5) : tokens[0];
+      rawActor = speakerAlias[rawActor] ?? rawActor;
+      let variantEmotion;
       if (!actorSprites[rawActor]) {
-        warn("unknown sprite", `${tokens.join(" ")} (${ctx})`);
-        continue;
+        // Story code names variants like "eve_alert"/"cyan_shocked":
+        // map them onto the main actor with the suffix as emotion.
+        const variant = rawActor.match(/^(cyan|eve|lyrel|gabe|eclia|vera)_(.+)$/);
+        if (variant) {
+          rawActor = variant[1];
+          variantEmotion = variant[2];
+        }
       }
-      const emotion = tokens.slice(1).join("_") || undefined;
-      if (emotion && !actorSprites[rawActor][emotion]) warn("missing emotion", `${rawActor} ${emotion} (${ctx})`);
+      if (!actorSprites[rawActor]) {
+        // Unknown art: register a placeholder sprite so the scene still
+        // stages the character (TODO art listed in TODO-ASSETS.md).
+        const junk = /(^|_)(effect|effects|flash|fullscreen|closeup|overlay|vignette|bar|screen|window|text|image)(_|$)/;
+        if (/^[a-z][a-z0-9_]*$/.test(rawActor) && !junk.test(rawActor)) {
+          placeholderActors.add(rawActor);
+          actorSprites[rawActor] = { neutral: `__placeholder__/${rawActor}` };
+        } else {
+          warn("unknown sprite (skipped)", `${tokens.join(" ")} (${ctx})`);
+          continue;
+        }
+      }
+      const emotion = tokens.slice(1).join("_") || variantEmotion || undefined;
+      if (emotion && !actorSprites[rawActor][emotion]) {
+        missingEmotions.add(`${rawActor}: ${emotion}`);
+        warn("missing emotion", `${rawActor} ${emotion} (${ctx})`);
+      }
       const mapped = at ? mapAtClause(at, ctx) : {};
       const enter = { type: "enter", actor: rawActor };
       if (emotion) enter.emotion = emotion;
       if (mapped.pos) enter.pos = mapped.pos;
       if (mapped.enterAnim) enter.anim = mapped.enterAnim;
-      else if (transition && fadeLike) enter.anim = "fadeIn";
+      else if (transition && /movein/i.test(transition)) {
+        enter.anim = /right/i.test(transition) || mapped.pos === "centerRight" || mapped.pos === "right" ? "slideInRight" : "slideInLeft";
+      } else if (transition && fadeLike) enter.anim = "fadeIn";
       steps.push(enter);
       if (mapped.anim) steps.push({ type: "play", actor: rawActor, anim: mapped.anim });
+      else if (transition && /shake|punch/i.test(transition)) steps.push({ type: "play", actor: rawActor, anim: "moderateShake" });
+      else if (transition && /flash/i.test(transition)) steps.push({ type: "play", actor: rawActor, anim: "flash" });
       continue;
     }
     if ((m = t.match(/^hide\s+(.+?)(:)?$/))) {
-      let rest = m[1].replace(/\s+with\s+.+$/, "");
+      let hideTransition = null;
+      let rest = m[1].replace(/\s+with\s+(.+)$/, (_, w) => {
+        hideTransition = w;
+        return "";
+      });
       let at = null;
       rest = rest.replace(/\s+at\s+(.+)$/, (_, a) => {
         at = a;
@@ -507,7 +594,11 @@ function emitInto(stmts, sceneId) {
       const rawActor = tokens[0].startsWith("char_") ? tokens[0].slice(5) : tokens[0];
       if (!actorSprites[rawActor]) continue;
       const mapped = at ? mapAtClause(at, ctx) : {};
-      steps.push({ type: "exit", actor: rawActor, anim: mapped.exitAnim ?? "fadeOut" });
+      let anim = mapped.exitAnim;
+      if (!anim && hideTransition && /moveout/i.test(hideTransition)) {
+        anim = /left/i.test(hideTransition) ? "slideOutLeft" : "slideOutRight";
+      }
+      steps.push({ type: "exit", actor: rawActor, anim: anim ?? "fadeOut" });
       continue;
     }
 
@@ -547,6 +638,7 @@ function emitInto(stmts, sceneId) {
     }
     if ((m = t.match(/^with\s+(.+)$/))) {
       if (/punch|shake/i.test(m[1])) steps.push({ type: "play", actor: "*", anim: "moderateShake" });
+      else if (/flash/i.test(m[1])) steps.push({ type: "play", actor: "*", anim: "flash" });
       continue; // standalone transitions are pacing sugar; shows already animate
     }
     if ((m = t.match(/^\$\s*(\w+)\s*(\+=|-=|=)\s*(.+)$/))) {
@@ -587,14 +679,25 @@ function emitInto(stmts, sceneId) {
 
 // ----------------------------------------------------- split into labels
 
-for (const file of files) {
-  const stmts = readStatements(file);
+const chapters = []; // { id, title, group } for the in-game scene browser
+
+function processRpySource(source) {
+  const stmts = readStatements(source.name, source.content);
   let current = null;
   let bucket = [];
+  let firstInSource = true;
   const flush = () => {
     if (current) {
-      if (scenes[current]) warn("duplicate label", current);
-      emitInto(bucket, current);
+      if (scenes[current]) {
+        // First definition wins (game sources are parsed before story-repo code).
+        warn("duplicate label (skipped)", current);
+      } else {
+        emitInto(bucket, current);
+        if (source.group && firstInSource) {
+          chapters.push({ id: current, title: prettyTitle(source.name), group: source.group });
+          firstInSource = false;
+        }
+      }
     }
     bucket = [];
   };
@@ -606,6 +709,115 @@ for (const file of files) {
     } else if (current) bucket.push(s);
   }
   flush();
+}
+
+for (const source of allSources) processRpySource(source);
+
+function prettyTitle(name) {
+  return path
+    .basename(name)
+    .replace(/\.(md|rpy)$/, "")
+    .replace(/[—–-]+/g, " - ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// ------------------------------------------- prose scenes from story repo
+// Scene folders (04_..08_) contain full prose drafts without renpy code.
+// Dump each as a narration-only scene so the story is playable; staging,
+// art, and speaker attribution are follow-up work (see TODO-ASSETS.md).
+
+const slug = (s) =>
+  s
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
+function splitLongText(p) {
+  if (p.length <= 300) return [p];
+  const parts = [];
+  let cur = "";
+  for (const sentence of p.match(/[^.!?…]+[.!?…]+[”"']?\s*|.+$/g) ?? [p]) {
+    if ((cur + sentence).length > 300 && cur) {
+      parts.push(cur.trim());
+      cur = sentence;
+    } else cur += sentence;
+  }
+  if (cur.trim()) parts.push(cur.trim());
+  return parts;
+}
+
+let proseCount = 0;
+let outlineCount = 0;
+if (STORY) {
+  const codedTitles = new Set(chapters.map((c) => `${c.group}::${slug(c.title)}`));
+  const seen = new Set();
+  for (const md of storyMd) {
+    const rel = path.relative(STORY, md);
+    if (!/^0[4-8]_/.test(rel.split(path.sep).find((s) => s) ?? "")) continue;
+    const text = fs.readFileSync(md, "utf8");
+    if (/```renpy/.test(text)) continue; // already imported as code
+    const base = path.basename(md, ".md");
+    if (/^acts?$/i.test(base.trim())) continue;
+    const group = storyGroup(md);
+    const id = `${slug(group)}__${slug(base)}`;
+    if (seen.has(id) || scenes[id]) continue; // story/ subdirs duplicate root files
+    seen.add(id);
+    if (codedTitles.has(`${group}::${slug(prettyTitle(md))}`)) continue; // code version exists
+
+    const body = text.replace(/```[\s\S]*?```/g, "");
+    const rawLines = body.split("\n").map((l) => l.trim());
+    const textLines = rawLines.filter(Boolean);
+    if (!textLines.length) continue;
+
+    // Some story files contain *unfenced* Ren'Py code: route those through
+    // the rpy pipeline instead of dumping statements as narration.
+    const codeishLines = (body.match(/^\s*(scene|show|hide|play|stop|pause|label|jump|call|return|menu:|narrator\s+")/gm) ?? []).length;
+    if (codeishLines >= 5) {
+      const content = /^\s*label\s+\w+\s*:/m.test(body) ? body : `label ${id}:\n${body}`;
+      processRpySource({ name: path.basename(md), content, group });
+      proseCount++; // counted as imported either way
+      continue;
+    }
+
+    const bulletLines = textLines.filter((l) => /^[-*+]\s/.test(l)).length;
+    if (bulletLines / textLines.length > 0.5) {
+      outlineCount++;
+      warn("outline skipped (not a prose scene)", rel);
+      continue;
+    }
+
+    // Paragraphs → narration. Strip markdown decoration, keep the words.
+    const paras = [];
+    let buf = [];
+    for (const line of rawLines) {
+      if (!line) {
+        if (buf.length) paras.push(buf.join(" "));
+        buf = [];
+      } else buf.push(line);
+    }
+    if (buf.length) paras.push(buf.join(" "));
+
+    const steps = [];
+    for (let p of paras) {
+      p = p
+        .replace(/^#+\s*/, "")
+        .replace(/^[-*+>]\s+/, "")
+        .replace(/\*\*([^*]*)\*\*/g, "$1")
+        .replace(/\*([^*]*)\*/g, "$1")
+        .replace(/^_+|_+$/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (!p || /^[-—=*_~]{3,}$/.test(p)) continue;
+      for (const piece of splitLongText(p)) steps.push({ type: "say", text: piece });
+    }
+    if (!steps.length) continue;
+    steps.push({ type: "return" });
+    scenes[id] = { background: "black", steps };
+    chapters.push({ id, title: prettyTitle(md), group: `${group} (prose)` });
+    proseCount++;
+  }
 }
 
 // -------------------------------------- synthesized start / char select
@@ -693,6 +905,39 @@ function copyAsset(srcRel, destDir) {
   return `/assets/cyan/${destDir}/${path.basename(srcRel)}`;
 }
 
+// Placeholder art (TODO): generated SVGs so missing assets never break a scene.
+function writeSpritePlaceholder(actor) {
+  const label = actor.replace(/_/g, " ");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 900">
+  <rect x="8" y="8" width="384" height="884" rx="18" fill="#23233a" stroke="#5a5a8a" stroke-width="4" stroke-dasharray="14 10" opacity="0.92"/>
+  <circle cx="200" cy="200" r="95" fill="#3a3a5c"/>
+  <path d="M60 560 q140 -220 280 0 l0 332 l-280 0 Z" fill="#3a3a5c"/>
+  <text x="200" y="660" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="bold" fill="#b8b8e0">${label}</text>
+  <text x="200" y="716" text-anchor="middle" font-family="sans-serif" font-size="30" fill="#8888bb">TODO: sprite art</text>
+</svg>\n`;
+  const dest = path.join(ASSET_OUT, "placeholders", `sprite-${actor}.svg`);
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.writeFileSync(dest, svg);
+  return `/assets/cyan/placeholders/sprite-${actor}.svg`;
+}
+
+function writeBgPlaceholder(name) {
+  const label = name.replace(/_/g, " ");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1c2138"/><stop offset="100%" stop-color="#2e2440"/>
+  </linearGradient></defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <rect x="24" y="24" width="1552" height="852" fill="none" stroke="#6a6aa0" stroke-width="6" stroke-dasharray="26 18" opacity="0.6"/>
+  <text x="800" y="430" text-anchor="middle" font-family="sans-serif" font-size="88" font-weight="bold" fill="#aab" opacity="0.9">${label}</text>
+  <text x="800" y="520" text-anchor="middle" font-family="sans-serif" font-size="44" fill="#889" opacity="0.8">TODO: background art</text>
+</svg>\n`;
+  const dest = path.join(ASSET_OUT, "placeholders", `bg-${name}.svg`);
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.writeFileSync(dest, svg);
+  return `/assets/cyan/placeholders/bg-${name}.svg`;
+}
+
 // Characters: only actors that are actually shown or speak.
 const usedActors = new Set(["cyan"]);
 const usedBgs = new Set(["black"]);
@@ -715,18 +960,24 @@ for (const actor of [...usedActors].sort()) {
   if (actorSprites[actor]) {
     const sprites = {};
     for (const [emotion, src] of Object.entries(actorSprites[actor])) {
-      const web = copyAsset(src, `sprites/${actor}`);
+      const web = src.startsWith("__placeholder__/") ? writeSpritePlaceholder(actor) : copyAsset(src, `sprites/${actor}`);
       if (web) sprites[emotion] = web;
     }
     if (Object.keys(sprites).length) charactersOut[actor].sprites = sprites;
+    if (placeholderActors.has(actor)) charactersOut[actor].fixedHeight = 78; // placeholder SVGs are drawn full-frame
   }
 }
 
 const backgroundsOut = { black: { color: "#000000" } };
+placeholderBgs.delete("black");
 for (const bg of [...usedBgs].sort()) {
   if (bg === "black") continue;
   const src = bgImages[bg];
-  if (!src) continue;
+  if (!src) {
+    backgroundsOut[bg] = writeBgPlaceholder(bg);
+    placeholderBgs.add(bg);
+    continue;
+  }
   const web = copyAsset(src, src.includes("/cg/") ? "cg" : "backgrounds");
   if (web) backgroundsOut[bg] = web;
 }
@@ -742,11 +993,39 @@ for (const [name, src] of Object.entries(usedMusic)) {
 
 const scriptOut = { title: "Cyan Adventure", start: "start", scenes };
 
+// Scene browser data: main story entry + every imported chapter, grouped.
+const validChapters = chapters.filter((c) => scenes[c.id]);
+validChapters.sort((a, b) => a.group.localeCompare(b.group) || a.title.localeCompare(b.title, undefined, { numeric: true }));
+const chaptersOut = [{ id: "start", title: "Cyan Adventure - Main Story", group: "Main" }, ...validChapters];
+
+// TODO-ASSETS.md: everything currently running on placeholders.
+const todoMd = [
+  "# TODO: missing assets",
+  "",
+  "Generated by tools/convert-renpy.mjs. These are referenced by the script",
+  "but have no real asset yet — placeholder art/silence is used in game.",
+  "",
+  `## Backgrounds (${placeholderBgs.size}) — placeholder SVGs in public/assets/cyan/placeholders/`,
+  ...[...placeholderBgs].sort().map((b) => `- [ ] \`${b}\``),
+  "",
+  `## Character sprites (${placeholderActors.size}) — placeholder SVGs`,
+  ...[...placeholderActors].sort().map((a) => `- [ ] \`${a}\``),
+  "",
+  `## Missing emotions (${missingEmotions.size}) — fall back to the character's neutral sprite`,
+  ...[...missingEmotions].sort().map((e) => `- [ ] \`${e}\``),
+  "",
+  `## Audio (${new Set((warnings["missing audio"] ?? []).map((a) => a.split(" (")[0])).size}) — skipped (no file, no synth match)`,
+  ...[...new Set((warnings["missing audio"] ?? []).map((a) => a.split(" (")[0]))].sort().map((a) => `- [ ] \`${a}\``),
+  "",
+].join("\n");
+
 fs.mkdirSync(DATA_OUT, { recursive: true });
 fs.writeFileSync(path.join(DATA_OUT, "script.json"), JSON.stringify(scriptOut, null, 1));
 fs.writeFileSync(path.join(DATA_OUT, "characters.json"), JSON.stringify(charactersOut, null, 1));
 fs.writeFileSync(path.join(DATA_OUT, "backgrounds.json"), JSON.stringify(backgroundsOut, null, 1));
 fs.writeFileSync(path.join(DATA_OUT, "audio.json"), JSON.stringify(audioOut, null, 1));
+fs.writeFileSync(path.join(DATA_OUT, "chapters.json"), JSON.stringify(chaptersOut, null, 1));
+fs.writeFileSync(path.join(ROOT, "TODO-ASSETS.md"), todoMd);
 
 // ----------------------------------------------------------- reporting
 
@@ -756,6 +1035,10 @@ console.log(`Scenes: ${Object.keys(scenes).length} (${stubs} stubs for missing l
 console.log(`Steps: ${stepCount} (${sayCount} dialogue lines)`);
 console.log(`Characters: ${Object.keys(charactersOut).length}, backgrounds: ${Object.keys(backgroundsOut).length}, music: ${Object.keys(audioOut.music).length}, sfx: ${Object.keys(audioOut.sfx).length}`);
 console.log(`Assets copied: ${copied.size}`);
+if (STORY) {
+  console.log(`Story repo: ${virtualSources.length} code files, ${proseCount} prose scenes, ${outlineCount} outlines skipped`);
+  console.log(`Chapters: ${chaptersOut.length} | placeholder bgs: ${placeholderBgs.size} | placeholder sprites: ${placeholderActors.size}`);
+}
 for (const [kind, items] of Object.entries(warnings)) {
   const uniq = [...new Set(items)];
   console.log(`\n[${kind}] ${items.length} (${uniq.length} unique)`);

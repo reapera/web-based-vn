@@ -202,6 +202,17 @@
     "vars": { "height": 5 },
     "options": { "duration": 4000, "easing": "ease-in-out", "iterations": "infinite" }
   },
+  "flash": {
+    "keyframes": [
+      { "filter": "brightness(1)" },
+      { "filter": "brightness({intensity})", "offset": 0.25 },
+      { "filter": "brightness(1)", "offset": 0.5 },
+      { "filter": "brightness({intensity2})", "offset": 0.7 },
+      { "filter": "brightness(1)" }
+    ],
+    "vars": { "intensity": 2.6, "intensity2": 1.8 },
+    "options": { "duration": 360, "easing": "linear" }
+  },
   "tilt": {
     "keyframes": [
       { "transform": "rotate(0deg) scale(1)" },

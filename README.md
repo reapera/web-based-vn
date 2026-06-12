@@ -178,12 +178,13 @@ tool whenever sprite images change. Non-humanoid characters can opt out with
 `"fixedHeight": <percent>` in `characters.json` (the converter sets this for
 the cat and the worm).
 
-## Ren'Py converter
+## Ren'Py / story converter
 
-`tools/convert-renpy.mjs` ports a Ren'Py game into this engine:
+`tools/convert-renpy.mjs` ports a Ren'Py game — and optionally a story
+repo of markdown drafts — into this engine:
 
 ```bash
-node tools/convert-renpy.mjs /path/to/renpy/game
+node tools/convert-renpy.mjs /path/to/renpy/game [/path/to/story-repo]
 ```
 
 It parses `script.rpy` + `arcs/**/*.rpy`, translates labels into scenes
@@ -193,6 +194,17 @@ scenes), maps `image`/`define` statements into `characters.json` /
 presets, copies only the referenced images/audio into `public/assets/cyan/`,
 and prints a warning report for anything it had to skip or stub (missing
 labels become non-crashing placeholder scenes).
+
+From the story repo it additionally imports:
+- ` ```renpy ` fenced blocks and unfenced code-like files → normal scenes
+- full prose drafts → narration-only scenes (staging is follow-up work)
+- bullet-point outlines are skipped
+
+Missing art never blocks a scene: unknown backgrounds and characters get
+generated **placeholder SVGs** (labelled "TODO"), and everything running on
+placeholders is listed in `TODO-ASSETS.md`. All imported chapters are
+playable from the **Scenes** browser on the title screen / toolbar
+(`src/data/chapters.json`).
 
 ## Art credits
 
