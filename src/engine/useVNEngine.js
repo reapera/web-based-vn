@@ -264,6 +264,28 @@ export function useVNEngine() {
     run(script.start, 0);
   }
 
+  // Jump straight into any scene (chapter browser). Seeds the variables the
+  // intro normally sets so mid-story interpolation and conditions work.
+  function startAt(sceneId) {
+    audio.unlock();
+    runToken.current++;
+    stateRef.current = {
+      ...initialState,
+      status: "playing",
+      vars: {
+        player_name: "Cyan",
+        player_gender: "male",
+        player_pronoun_subj: "he",
+        player_pronoun_subj_cap: "He",
+        player_pronoun_obj: "him",
+        player_pronoun_poss: "his",
+        player_appearance: "spiky blonde hair that stood out in a crowd",
+      },
+    };
+    setState(stateRef.current);
+    run(sceneId, 0);
+  }
+
   function advance() {
     const s = stateRef.current;
     audio.unlock();
@@ -338,5 +360,5 @@ export function useVNEngine() {
     return true;
   }
 
-  return { state, bus, start, advance, choose, submitInput, notifyExited, save, load, title: script.title };
+  return { state, bus, start, startAt, advance, choose, submitInput, notifyExited, save, load, title: script.title };
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Background } from "./components/Background";
+import { ChapterMenu } from "./components/ChapterMenu";
 import { CharacterSprite } from "./components/CharacterSprite";
 import { ChoiceMenu } from "./components/ChoiceMenu";
 import { DialogueBox } from "./components/DialogueBox";
@@ -36,6 +37,7 @@ export default function App() {
             <div className="vn-toolbar" onClick={(e) => e.stopPropagation()}>
               <button className="vn-button" onClick={() => setMenu("save")}>Save</button>
               <button className="vn-button" onClick={() => setMenu("load")}>Load</button>
+              <button className="vn-button" onClick={() => setMenu("chapters")}>Scenes</button>
               <button className="vn-button" onClick={toggleMute}>{muted ? "Unmute" : "Mute"}</button>
             </div>
           </>
@@ -47,6 +49,7 @@ export default function App() {
             <div className="vn-title-buttons">
               <button className="vn-button vn-button-big" onClick={engine.start}>New Game</button>
               <button className="vn-button vn-button-big" onClick={() => setMenu("load")}>Load Game</button>
+              <button className="vn-button vn-button-big" onClick={() => setMenu("chapters")}>Scenes</button>
             </div>
           </div>
         )}
@@ -60,9 +63,10 @@ export default function App() {
           </div>
         )}
 
-        {menu && (
+        {(menu === "save" || menu === "load") && (
           <SaveLoadMenu mode={menu} onSave={engine.save} onLoad={engine.load} onClose={() => setMenu(null)} />
         )}
+        {menu === "chapters" && <ChapterMenu onPlay={engine.startAt} onClose={() => setMenu(null)} />}
       </div>
     </div>
   );
