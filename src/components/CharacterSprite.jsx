@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import characters from "../data/characters.json";
+import { characters } from "../data/registry";
 import metrics from "../data/sprite-metrics.json";
 import { playAnimation } from "../engine/animations";
 

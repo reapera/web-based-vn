@@ -75,6 +75,7 @@ export default function App() {
               <button className="vn-button vn-button-big" onClick={engine.start}>New Game</button>
               <button className="vn-button vn-button-big" onClick={() => setMenu("load")}>Load Game</button>
               <button className="vn-button vn-button-big" onClick={() => setMenu("chapters")}>Scenes</button>
+              <button className="vn-button vn-button-big" onClick={() => engine.startAt("test_scene")}>Test Scene</button>
             </div>
             <button className="vn-button vn-title-fullscreen" onClick={toggleFullscreen}>
               {fullscreen ? "Exit Fullscreen" : "⛶ Fullscreen"}

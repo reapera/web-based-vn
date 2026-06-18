@@ -1,4 +1,4 @@
-import characters from "../data/characters.json";
+import { characters } from "../data/registry";
 import { useTypewriter } from "../engine/useTypewriter";
 import { interpolate } from "../engine/vars";
 

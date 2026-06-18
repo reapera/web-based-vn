@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import script from "../data/script.json";
+import { scenes as sceneTable, scriptMeta as script } from "../data/registry";
 import { createAnimationBus } from "./animations";
 import { audio } from "./audio";
 import { loadFromSlot, saveToSlot } from "./saves";
@@ -66,7 +66,7 @@ export function useVNEngine() {
   async function run(sceneId, stepIndex) {
     const token = ++runToken.current;
     const alive = () => runToken.current === token;
-    const scene = script.scenes[sceneId];
+    const scene = sceneTable[sceneId];
     if (!scene) {
       console.error(`Unknown scene: "${sceneId}"`);
       // Pop the call stack if possible so a missing scene doesn't dead-end.
