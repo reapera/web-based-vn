@@ -43,6 +43,14 @@ body {
   box-shadow: none;
 }
 
+/* Camera layer: holds the background + sprites so a single transform can
+   shake/zoom the whole view (the UI lives outside it and stays steady). */
+.vn-camera {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
 /* ---- Background layers & transitions ---- */
 .vn-background,
 .vn-bg-layer {

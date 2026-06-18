@@ -90,7 +90,11 @@ export function CharacterSprite({ actor, sprite, bus, onExited }) {
 
   return (
     <div className="vn-sprite" style={{ left: POSITIONS[sprite.pos] ?? POSITIONS.center, ...layout.wrapper }}>
-      <div ref={animTarget} className="vn-sprite-anim">
+      <div
+        ref={animTarget}
+        className="vn-sprite-anim"
+        style={def.origin ? { transformOrigin: def.origin } : undefined}
+      >
         <img
           src={src}
           alt={def.name}

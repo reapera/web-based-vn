@@ -215,11 +215,60 @@
   },
   "creepIn": {
     "keyframes": [
-      { "opacity": 0, "transform": "translateY(-12px) scale(1.12)" },
-      { "opacity": 0.12, "transform": "translateY(-6px) scale(1.08)", "offset": 0.55 },
-      { "opacity": 1, "transform": "translateY(0) scale(1)" }
+      { "opacity": 0, "transform": "translateY(-10px) scale(0.66)" },
+      { "opacity": 0.08, "transform": "translateY(-5px) scale(0.62)", "offset": 0.55 },
+      { "opacity": 0.9, "transform": "translateY(0) scale(0.6)" }
     ],
-    "options": { "duration": 2600, "easing": "ease-out", "fill": "both" }
+    "options": { "duration": 2400, "easing": "ease-out", "fill": "forwards" }
+  },
+  "dread": {
+    "keyframes": [
+      { "opacity": 0.9, "transform": "translateY(0) scale(0.6) rotate(-0.5deg)" },
+      { "opacity": 0.97, "transform": "translateY(-4px) scale(0.612) rotate(0deg)", "offset": 0.5 },
+      { "opacity": 0.9, "transform": "translateY(0) scale(0.6) rotate(0.5deg)" }
+    ],
+    "options": { "duration": 5000, "easing": "ease-in-out", "iterations": "infinite" }
+  },
+  "creepCloser": {
+    "keyframes": [
+      { "opacity": 1, "transform": "translateY(0) scale({from})" },
+      { "opacity": 1, "transform": "translateY(-6px) scale({to})" }
+    ],
+    "vars": { "from": 0.6, "to": 0.9 },
+    "options": { "duration": 2000, "easing": "ease-in", "fill": "forwards" }
+  },
+  "rushCamera": {
+    "keyframes": [
+      { "opacity": 1, "transform": "scale({from})" },
+      { "opacity": 1, "transform": "scale({to})" }
+    ],
+    "vars": { "from": 0.9, "to": 11 },
+    "options": { "duration": 240, "easing": "cubic-bezier(0.3, 0.85, 0.4, 1)", "fill": "forwards" }
+  },
+  "snuffOut": {
+    "keyframes": [{ "opacity": 1 }, { "opacity": 0 }],
+    "options": { "duration": 70, "easing": "linear", "fill": "forwards" }
+  },
+  "ghostIn": {
+    "keyframes": [
+      { "opacity": 0, "transform": "scale(0.6)" },
+      { "opacity": 0.12, "transform": "scale(0.6)" }
+    ],
+    "options": { "duration": 2600, "easing": "ease-out", "fill": "forwards" }
+  },
+  "quake": {
+    "keyframes": [
+      { "transform": "translate(0, 0) scale(1.07)" },
+      { "transform": "translate(-{x}px, {y}px) scale(1.07)" },
+      { "transform": "translate({x}px, -{y}px) scale(1.07)" },
+      { "transform": "translate(-{x2}px, -{y}px) scale(1.07)" },
+      { "transform": "translate({x2}px, {y2}px) scale(1.07)" },
+      { "transform": "translate(-{x3}px, {y3}px) scale(1.05)" },
+      { "transform": "translate({x3}px, -{y3}px) scale(1.03)" },
+      { "transform": "translate(0, 0) scale(1)" }
+    ],
+    "vars": { "x": 26, "y": 20, "x2": 18, "y2": 14, "x3": 9, "y3": 7 },
+    "options": { "duration": 600, "easing": "cubic-bezier(0.36, 0.07, 0.19, 0.97)" }
   },
   "loom": {
     "keyframes": [

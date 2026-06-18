@@ -222,6 +222,58 @@ class AudioManager {
         tone(now, 0.9, 68, 0.5, "sine");
         noiseBurst(now, 0.3, 1100, 0.22);
         break;
+      case "riser": {
+        // Tension build: hiss sweeping up in pitch + a detuned drone glide,
+        // both crescendoing. Meant to peak right as the scare hits (~2.2s).
+        const dur = 2.2;
+        const buffer = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        const src = ctx.createBufferSource();
+        src.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.Q.value = 0.7;
+        filter.frequency.setValueAtTime(160, now);
+        filter.frequency.exponentialRampToValueAtTime(3800, now + dur);
+        const hiss = ctx.createGain();
+        hiss.gain.setValueAtTime(0.0001, now);
+        hiss.gain.exponentialRampToValueAtTime(0.45, now + dur);
+        src.connect(filter).connect(hiss).connect(out);
+        src.start(now);
+        src.stop(now + dur);
+        const glide = ctx.createOscillator();
+        glide.type = "sawtooth";
+        glide.frequency.setValueAtTime(48, now);
+        glide.frequency.exponentialRampToValueAtTime(360, now + dur);
+        const gg = ctx.createGain();
+        gg.gain.setValueAtTime(0.0001, now);
+        gg.gain.exponentialRampToValueAtTime(0.2, now + dur);
+        glide.connect(gg).connect(out);
+        glide.start(now);
+        glide.stop(now + dur);
+        break;
+      }
+      case "boom": {
+        // The jump-scare hit: a sub-bass impact, a broadband crash, and a
+        // dissonant high shriek all at once — loud and ugly on purpose.
+        const sub = ctx.createOscillator();
+        sub.type = "sine";
+        sub.frequency.setValueAtTime(180, now);
+        sub.frequency.exponentialRampToValueAtTime(36, now + 0.6);
+        const sg = ctx.createGain();
+        sg.gain.setValueAtTime(0.95, now);
+        sg.gain.exponentialRampToValueAtTime(0.001, now + 0.95);
+        sub.connect(sg).connect(out);
+        sub.start(now);
+        sub.stop(now + 1);
+        noiseBurst(now, 0.5, 1300, 0.6);
+        noiseBurst(now, 0.22, 280, 0.55);
+        tone(now, 0.8, 1760, 0.18, "sawtooth");
+        tone(now, 0.8, 1900, 0.16, "sawtooth");
+        tone(now, 0.65, 2350, 0.12, "square");
+        break;
+      }
       default:
         tone(now, 0.2, 600, 0.3);
     }
