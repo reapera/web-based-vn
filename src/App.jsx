@@ -6,6 +6,7 @@ import { ChoiceMenu } from "./components/ChoiceMenu";
 import { DialogueBox } from "./components/DialogueBox";
 import { InputPrompt } from "./components/InputPrompt";
 import { SaveLoadMenu } from "./components/SaveLoadMenu";
+import { playAnimation } from "./engine/animations";
 import { audio } from "./engine/audio";
 import { useVNEngine } from "./engine/useVNEngine";
 
@@ -16,12 +17,22 @@ export default function App() {
   const [muted, setMuted] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const appRef = useRef(null);
+  const cameraRef = useRef(null);
 
   useEffect(() => {
     const onChange = () => setFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
+
+  // The "camera" is a reserved actor on the animation bus: scripts can
+  // `play` an effect (e.g. quake) on it to animate the whole stage view —
+  // screen shake for impacts, jump scares, earthquakes.
+  useEffect(() => {
+    return engine.bus.subscribe("camera", (anim, params) =>
+      playAnimation(cameraRef.current, anim, params)
+    );
+  }, [engine.bus]);
 
   const toggleFullscreen = async () => {
     try {
@@ -45,11 +56,13 @@ export default function App() {
   return (
     <div className="vn-app" ref={appRef}>
       <div className="vn-stage" onClick={engine.advance}>
-        <Background background={state.background} />
+        <div className="vn-camera" ref={cameraRef}>
+          <Background background={state.background} />
 
-        {Object.entries(state.sprites).map(([actor, sprite]) => (
-          <CharacterSprite key={actor} actor={actor} sprite={sprite} bus={engine.bus} onExited={engine.notifyExited} />
-        ))}
+          {Object.entries(state.sprites).map(([actor, sprite]) => (
+            <CharacterSprite key={actor} actor={actor} sprite={sprite} bus={engine.bus} onExited={engine.notifyExited} />
+          ))}
+        </div>
 
         {state.status === "playing" && (
           <>
