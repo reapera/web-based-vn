@@ -1,4 +1,4 @@
-import audioData from "../data/audio.json";
+import { audioData } from "../data/registry";
 
 // Audio manager supporting two source types per entry in data/audio.json:
 //   { "type": "file", "src": "/audio/foo.mp3" }  — drop files in public/audio
@@ -213,6 +213,14 @@ class AudioManager {
       case "thud":
         tone(now, 0.25, 90, 0.7, "sine");
         noiseBurst(now, 0.06, 200, 0.3);
+        break;
+      case "sting":
+        // Horror sting: detuned high cluster (dissonant) over a low boom.
+        tone(now, 0.7, 1760, 0.16, "sawtooth");
+        tone(now, 0.7, 1865, 0.14, "sawtooth");
+        tone(now, 0.55, 2490, 0.1, "square");
+        tone(now, 0.9, 68, 0.5, "sine");
+        noiseBurst(now, 0.3, 1100, 0.22);
         break;
       default:
         tone(now, 0.2, 600, 0.3);

@@ -213,6 +213,62 @@
     "vars": { "intensity": 2.6, "intensity2": 1.8 },
     "options": { "duration": 360, "easing": "linear" }
   },
+  "creepIn": {
+    "keyframes": [
+      { "opacity": 0, "transform": "translateY(-12px) scale(1.12)" },
+      { "opacity": 0.12, "transform": "translateY(-6px) scale(1.08)", "offset": 0.55 },
+      { "opacity": 1, "transform": "translateY(0) scale(1)" }
+    ],
+    "options": { "duration": 2600, "easing": "ease-out", "fill": "both" }
+  },
+  "loom": {
+    "keyframes": [
+      { "transform": "translateY(0) scale(1)" },
+      { "transform": "translateY({drop}px) scale({scale})" }
+    ],
+    "vars": { "drop": 14, "scale": 1.16 },
+    "options": { "duration": 1900, "easing": "ease-in", "fill": "forwards" }
+  },
+  "flicker": {
+    "keyframes": [
+      { "opacity": 1 },
+      { "opacity": 0.1, "offset": 0.15 },
+      { "opacity": 1, "offset": 0.3 },
+      { "opacity": 0.35, "offset": 0.5 },
+      { "opacity": 1, "offset": 0.66 },
+      { "opacity": 0.55, "offset": 0.82 },
+      { "opacity": 1 }
+    ],
+    "options": { "duration": 440, "easing": "linear" }
+  },
+  "vanish": {
+    "keyframes": [
+      { "opacity": 1, "transform": "scale(1)" },
+      { "opacity": 0, "transform": "scale({scale})" }
+    ],
+    "vars": { "scale": 1.08 },
+    "options": { "duration": 200, "easing": "ease-in", "fill": "both" }
+  },
+  "droop": {
+    "keyframes": [
+      { "transform": "translateY(0) rotate(0deg)" },
+      { "transform": "translateY({sink}px) rotate(-{angle}deg)", "offset": 0.4 },
+      { "transform": "translateY({sink}px) rotate(-{angle}deg)", "offset": 0.7 },
+      { "transform": "translateY(0) rotate(0deg)" }
+    ],
+    "vars": { "sink": 14, "angle": 2 },
+    "options": { "duration": 1100, "easing": "ease-in-out" }
+  },
+  "lunge": {
+    "keyframes": [
+      { "transform": "translateX(0) scale(1)" },
+      { "transform": "translateX(-{windup}px) scale(0.98)", "offset": 0.25 },
+      { "transform": "translateX({dx}px) scale({scale})", "offset": 0.55 },
+      { "transform": "translateX(0) scale(1)" }
+    ],
+    "vars": { "windup": 14, "dx": 46, "scale": 1.04 },
+    "options": { "duration": 480, "easing": "ease-out" }
+  },
   "tilt": {
     "keyframes": [
       { "transform": "rotate(0deg) scale(1)" },

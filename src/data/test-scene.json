@@ -1,0 +1,57 @@
+{
+ "characters": {
+  "silhouette": {
+   "name": "???",
+   "color": "#8a0000",
+   "fixedHeight": 92,
+   "sprites": {
+    "neutral": "/assets/test/silhouette.svg"
+   }
+  }
+ },
+ "backgrounds": {
+  "test_void": "/assets/test/void.svg",
+  "test_flash": { "color": "#8b0000" }
+ },
+ "audio": {
+  "music": {
+   "test_drone": { "type": "synth", "tempo": 40, "wave": "sine", "volume": 0.13, "notes": [[31, 4], [32, 4], [31, 4], [29, 4]] }
+  },
+  "sfx": {
+   "test_sting": { "type": "synth", "preset": "sting" }
+  }
+ },
+ "scenes": {
+  "test_scene": {
+   "background": "test_void",
+   "music": "test_drone",
+   "steps": [
+    { "type": "wait", "ms": 700 },
+    { "type": "say", "text": "The cold here has a texture. It presses against your skin like a held breath." },
+    { "type": "say", "text": "You are alone." },
+    { "type": "say", "text": "...Aren't you?" },
+    { "type": "wait", "ms": 500 },
+    { "type": "enter", "actor": "silhouette", "pos": "center", "anim": "creepIn" },
+    { "type": "wait", "ms": 1300 },
+    { "type": "play", "actor": "silhouette", "anim": "breathe", "duration": 4200, "iterations": "infinite" },
+    { "type": "say", "text": "Something stands where nothing stood." },
+    { "type": "play", "actor": "silhouette", "anim": "loom" },
+    { "type": "say", "text": "It has no face. Only two red embers, fixed on you, unblinking." },
+    { "type": "sfx", "name": "test_sting" },
+    { "type": "play", "actor": "silhouette", "anim": "flicker" },
+    { "type": "say", "actor": "silhouette", "anim": "flicker", "text": "You are not here to judge." },
+    { "type": "wait", "ms": 700 },
+    { "type": "sfx", "name": "test_sting" },
+    { "type": "bg", "name": "test_flash", "transition": "none" },
+    { "type": "exit", "actor": "silhouette", "anim": "vanish" },
+    { "type": "wait", "ms": 220 },
+    { "type": "bg", "name": "test_void", "transition": "none" },
+    { "type": "music", "name": null, "fade": 300 },
+    { "type": "wait", "ms": 1000 },
+    { "type": "say", "text": "The space where it stood still remembers its shape." },
+    { "type": "say", "text": "You did not imagine that." },
+    { "type": "end" }
+   ]
+  }
+ }
+}

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 900">
+  <defs>
+    <radialGradient id="eye" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ff5a4a"/>
+      <stop offset="35%" stop-color="#ff1010"/>
+      <stop offset="100%" stop-color="#3a0000"/>
+    </radialGradient>
+    <filter id="eyeglow" x="-300%" y="-300%" width="700%" height="700%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="cloak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#020203"/>
+    </linearGradient>
+  </defs>
+  <!-- hooded cloaked body: broad shoulders tapering to a ragged hem -->
+  <path d="M200 70
+           C150 70 120 110 116 165
+           C95 175 70 215 64 280
+           C150 250 250 250 336 280
+           C330 215 305 175 284 165
+           C280 110 250 70 200 70 Z" fill="url(#cloak)"/>
+  <path d="M70 270
+           C60 430 40 650 30 900
+           L370 900
+           C360 650 340 430 330 270
+           C250 245 150 245 70 270 Z" fill="url(#cloak)"/>
+  <!-- inner hood shadow (pure black void where the face should be) -->
+  <path d="M200 110 C168 110 146 140 145 180 C145 230 170 270 200 280
+           C230 270 255 230 255 180 C254 140 232 110 200 110 Z" fill="#000"/>
+  <!-- two red ember eyes -->
+  <g filter="url(#eyeglow)">
+    <circle cx="178" cy="188" r="11" fill="url(#eye)"/>
+    <circle cx="222" cy="188" r="11" fill="url(#eye)"/>
+  </g>
+</svg>

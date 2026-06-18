@@ -750,6 +750,7 @@ function splitLongText(p) {
 
 let proseCount = 0;
 let outlineCount = 0;
+const proseSceneIds = new Set();
 if (STORY) {
   const codedTitles = new Set(chapters.map((c) => `${c.group}::${slug(c.title)}`));
   const seen = new Set();
@@ -815,9 +816,121 @@ if (STORY) {
     if (!steps.length) continue;
     steps.push({ type: "return" });
     scenes[id] = { background: "black", steps };
+    proseSceneIds.add(id);
     chapters.push({ id, title: prettyTitle(md), group: `${group} (prose)` });
     proseCount++;
   }
+}
+
+// --------------------------------------------------- animation director
+// Most imported scenes have no stage direction. Read every line, detect
+// emotional/action cues, and apply matching animation presets. Prose
+// scenes additionally get characters staged on first mention and quoted
+// dialogue attributed to its speaker where the prose makes it clear.
+
+// Cues matched against spoken dialogue.
+const DIALOGUE_CUES = [
+  { re: /\?!|!\?/, anim: "startled" },
+  { re: /\b(ha ?ha|haha+|heh ?heh)\b/i, anim: "bounce" },
+  { re: /(^|\s)[A-Z]{4,}[\s.!?,]/, anim: "moderateShake" }, // SHOUTED words
+  { re: /\b(i'?m trembling|i'?m shaking)\b/i, anim: "smallShake" },
+];
+// Cues matched against narration (past-tense action verbs).
+const NARRATION_CUES = [
+  { re: /\b(froze|jolted|gasped|startled|flinched|stunned|recoiled)\b/i, anim: "startled" },
+  { re: /\b(slammed|snapped|snarled|growled|shouted|yelled|roared|barked|screamed)\b/i, anim: "moderateShake" },
+  { re: /\b(trembled|trembling|shivered|shuddered|quivered)\b/i, anim: "smallShake" },
+  { re: /\b(laughed|laughing|giggled|giggling|chuckled|grinned|beamed)\b/i, anim: "bounce" },
+  { re: /\b(jumped|hopped|leapt|leaped|bounced|sprang)\b/i, anim: "hop" },
+  { re: /\b(nodded|nodding)\b/i, anim: "nod" },
+  { re: /\b(sighed|slumped|sagged|sobbed|wept|drooped)\b/i, anim: "droop" },
+  { re: /\b(lunged|charged|struck|attacked|swung|slashed|stabbed|pounced)\b/i, anim: "lunge" },
+  { re: /\b(swayed|wobbled|staggered|stumbled)\b/i, anim: "sway" },
+];
+const ATTRIBUTION_VERBS = "said|asked|whispered|replied|murmured|called|answered|shouted|snapped|muttered|added|offered|admitted|breathed|managed";
+
+// Actor lookup by display name (single-word, capitalized names only, and
+// only for actors that have art — real or placeholder — to stage).
+const nameToActor = {};
+for (const actor of Object.keys(actorSprites)) {
+  const display = actor === "cyan" ? "Cyan" : (defines[actor]?.name ?? actor.charAt(0).toUpperCase() + actor.slice(1));
+  if (/^[A-Z][a-z]+$/.test(display)) nameToActor[display] = actor;
+}
+
+const matchCue = (cues, text) => cues.find((c) => c.re.test(text))?.anim;
+const findNames = (text) => {
+  const found = [];
+  for (const [name, actor] of Object.entries(nameToActor)) {
+    if (new RegExp(`\\b${name}\\b`).test(text) && !found.includes(actor)) found.push(actor);
+  }
+  return found;
+};
+
+let animsApplied = 0;
+let stagedInserted = 0;
+let attributed = 0;
+
+for (const [sceneId, scene] of Object.entries(scenes)) {
+  const isProse = proseSceneIds.has(sceneId);
+  const out = [];
+  const staged = new Set();
+  for (const step of scene.steps) {
+    if (step.type === "enter") staged.add(step.actor);
+    if (step.type === "exit" || step.type === "clearAll") {
+      if (step.type === "exit") staged.delete(step.actor);
+      else staged.clear();
+    }
+    if (step.type !== "say") {
+      out.push(step);
+      continue;
+    }
+    const text = step.text;
+    const mentioned = findNames(text);
+
+    if (isProse) {
+      // Stage characters as the story introduces them (up to 4 on stage).
+      for (const actor of mentioned) {
+        if (!staged.has(actor) && staged.size < 4) {
+          staged.add(actor);
+          out.push({ type: "enter", actor, anim: "fadeIn" });
+          stagedInserted++;
+        }
+      }
+      // Attribute clearly-tagged quotes: «"...," Eclia said» / «Eclia asked, "..."»
+      if (!step.actor && /["“”]/.test(text)) {
+        for (const actor of mentioned) {
+          const name = Object.keys(nameToActor).find((n) => nameToActor[n] === actor);
+          if (new RegExp(`["“”][^"“”]{0,40}\\b${name}\\b[^"“”]{0,20}\\b(${ATTRIBUTION_VERBS})\\b`).test(text) ||
+              new RegExp(`\\b${name}\\b[^"“”]{0,30}\\b(${ATTRIBUTION_VERBS})\\b[^"“”]{0,10}[,:]?\\s*["“”]`).test(text)) {
+            step.actor = actor;
+            attributed++;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!step.anim) {
+      if (step.actor) {
+        // Spoken line: react to how it's written.
+        const anim = matchCue(DIALOGUE_CUES, text) ?? matchCue(NARRATION_CUES, text);
+        if (anim) {
+          step.anim = anim;
+          animsApplied++;
+        }
+      } else {
+        // Narration: animate the actor the sentence is about.
+        const anim = matchCue(NARRATION_CUES, text);
+        const target = mentioned.filter((a) => staged.has(a));
+        if (anim && target.length === 1) {
+          out.push({ type: "play", actor: target[0], anim });
+          animsApplied++;
+        }
+      }
+    }
+    out.push(step);
+  }
+  scene.steps = out;
 }
 
 // -------------------------------------- synthesized start / char select
@@ -1035,6 +1148,7 @@ console.log(`Scenes: ${Object.keys(scenes).length} (${stubs} stubs for missing l
 console.log(`Steps: ${stepCount} (${sayCount} dialogue lines)`);
 console.log(`Characters: ${Object.keys(charactersOut).length}, backgrounds: ${Object.keys(backgroundsOut).length}, music: ${Object.keys(audioOut.music).length}, sfx: ${Object.keys(audioOut.sfx).length}`);
 console.log(`Assets copied: ${copied.size}`);
+console.log(`Director: ${animsApplied} animations applied, ${stagedInserted} sprites staged from prose, ${attributed} quotes attributed`);
 if (STORY) {
   console.log(`Story repo: ${virtualSources.length} code files, ${proseCount} prose scenes, ${outlineCount} outlines skipped`);
   console.log(`Chapters: ${chaptersOut.length} | placeholder bgs: ${placeholderBgs.size} | placeholder sprites: ${placeholderActors.size}`);

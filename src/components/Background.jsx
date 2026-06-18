@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import backgrounds from "../data/backgrounds.json";
+import { backgrounds } from "../data/registry";
 
 /**
  * Renders the current background and transitions between them.

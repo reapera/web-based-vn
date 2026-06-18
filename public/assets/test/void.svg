@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <radialGradient id="void" cx="0.5" cy="0.46" r="0.72">
+      <stop offset="0%" stop-color="#181820"/>
+      <stop offset="45%" stop-color="#0d0d12"/>
+      <stop offset="100%" stop-color="#040406"/>
+    </radialGradient>
+    <radialGradient id="fog" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#2a2a36" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#2a2a36" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="40"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#void)"/>
+  <!-- faint drifting fog wisps for texture -->
+  <g filter="url(#blur)" opacity="0.55">
+    <ellipse cx="430" cy="560" rx="260" ry="120" fill="url(#fog)"/>
+    <ellipse cx="1180" cy="470" rx="300" ry="140" fill="url(#fog)"/>
+    <ellipse cx="800" cy="720" rx="360" ry="120" fill="url(#fog)"/>
+  </g>
+  <!-- heavy vignette -->
+  <rect width="1600" height="900" fill="#000" opacity="0"/>
+  <radialGradient id="vig" cx="0.5" cy="0.5" r="0.6">
+    <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0.85"/>
+  </radialGradient>
+  <rect width="1600" height="900" fill="url(#vig)"/>
+</svg>
